@@ -1,0 +1,135 @@
+/* ─────────────────────────────────────────
+   Logo Section
+───────────────────────────────────────── */
+.logoSection {
+  background: var(--bg-page);
+  padding: 60px 40px;
+}
+
+.logoContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  opacity: 0.8;
+}
+
+.logoItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
+}
+
+.logoText {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--logo-text-color);
+  letter-spacing: -0.01em;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  filter: grayscale(1);
+}
+
+.logoText:hover {
+  color: var(--logo-text-hover);
+  filter: grayscale(0);
+  transform: translateY(-1px);
+}
+
+/* Individual logo styles */
+.logoText.vercel {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.logoText.cursor {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.logoText.oscar {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.logoText.openai {
+  font-weight: 500;
+}
+
+.logoText.coinbase {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.logoText.cashapp {
+  font-weight: 600;
+}
+
+.logoText.boom {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.logoText.ramp {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Section divider */
+.sectionDivider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--divider-start) 0%,
+    var(--divider-mid) 15%,
+    var(--divider-peak) 50%,
+    var(--divider-mid) 85%,
+    var(--divider-start) 100%
+  );
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .logoContainer {
+    gap: 36px;
+  }
+
+  .logoText {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .logoSection {
+    padding: 60px 24px;
+  }
+
+  .logoContainer {
+    gap: 28px;
+    justify-content: center;
+  }
+
+  .logoText {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoSection {
+    padding: 50px 20px;
+  }
+
+  .logoContainer {
+    gap: 20px;
+  }
+
+  .logoText {
+    font-size: 0.875rem;
+  }
+}

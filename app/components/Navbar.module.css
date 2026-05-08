@@ -1,0 +1,305 @@
+/* ─────────────────────────────────────────
+   Navbar
+───────────────────────────────────────── */
+.navbarRoot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border-bottom);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.navbarInner {
+  display: flex;
+  align-items: center;
+  height: var(--nav-height);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  gap: 0;
+}
+
+/* ── Logo ── */
+.navbarLogo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-right: auto;
+}
+
+.navbarLogo svg {
+  display: block;
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+.navbarLogoText {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* ── Center nav links ── */
+.navbarLinks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navbarLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--nav-text);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.navbarLink:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-overlay-hover);
+}
+
+/* ── Auth actions (right side) ── */
+.navbarActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* Loading skeleton for auth state */
+.loadingSkeleton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-overlay-strong);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.navbarDivider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--nav-divider);
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
+/* "Log in" text link */
+.navbarLogin {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: var(--nav-font-size);
+  font-weight: 400;
+  color: var(--nav-text);
+  text-decoration: none;
+  letter-spacing: var(--nav-letter-spacing);
+  white-space: nowrap;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.navbarLogin:hover {
+  color: var(--nav-text-hover);
+  background-color: var(--bg-overlay-hover);
+}
+
+/* "Sign up" outlined pill button */
+.navbarSignup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--nav-signup-border);
+  font-size: var(--nav-font-size);
+  font-weight: 400;
+  color: var(--text-primary);
+  text-decoration: none;
+  letter-spacing: var(--nav-letter-spacing);
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.navbarSignup:hover {
+  background-color: var(--nav-signup-hover-bg);
+  border-color: var(--border-emphasis);
+}
+
+/* ── Mobile hamburger ── */
+.navbarHamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.navbarHamburger:hover {
+  background-color: var(--bg-overlay-active);
+}
+
+.hamburgerLine {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background-color: var(--text-secondary);
+  border-radius: 2px;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+  transform-origin: center;
+}
+
+.hamburgerLine.openTop {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.hamburgerLine.openMid {
+  opacity: 0;
+}
+
+.hamburgerLine.openBot {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ── Mobile dropdown menu ── */
+.navbarMobileMenu {
+  display: none;
+  flex-direction: column;
+  padding: 8px 16px 16px;
+  border-top: 1px solid var(--nav-border-bottom);
+  background-color: var(--bg-surface);
+}
+
+.navbarMobileMenu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navbarMobileLink {
+  display: block;
+  padding: 10px 8px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--nav-text);
+  text-decoration: none;
+  border-radius: 6px;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.navbarMobileLink:hover {
+  color: var(--nav-text-hover);
+  background-color: var(--bg-overlay-hover);
+}
+
+.navbarMobileAuth {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--nav-border-bottom);
+}
+
+.navbarMobileDivider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 4px 0;
+}
+
+.navbarMobileSignOut {
+  color: rgba(239, 68, 68, 0.9) !important;
+}
+
+.navbarMobileSignOut:hover {
+  color: rgba(239, 68, 68, 1) !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* ── Responsive breakpoints ── */
+@media (max-width: 1200px) {
+  .navbarInner {
+    padding: 0 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbarInner {
+    padding: 0 24px;
+  }
+
+  .navbarLinks {
+    display: none;
+  }
+
+  .navbarActions {
+    display: none;
+  }
+
+  .navbarHamburger {
+    display: flex;
+  }
+
+  .navbarMobileMenu {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbarInner {
+    padding: 0 20px;
+  }
+}
+
+/* Page content offset (account for fixed navbar) */
+.pageContent {
+  padding-top: var(--nav-height);
+}

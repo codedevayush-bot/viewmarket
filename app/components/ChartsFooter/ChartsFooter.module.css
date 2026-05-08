@@ -1,0 +1,86 @@
+.footer {
+  height: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-page);
+  width: 100%;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.timeContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 4px 12px;
+  border-radius: 6px;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.liveIndicator {
+  width: 6px;
+  height: 6px;
+  background-color: var(--text-primary);
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+}
+
+.timeContainer:hover {
+  border-color: var(--border-medium);
+  background-color: var(--bg-overlay-hover);
+}
+
+.timeLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+  padding-top: 1px;
+}
+
+.timestamp {
+  font-family: "SF Mono", "Monaco", "Menlo", "Consolas", monospace;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  min-width: 72px;
+  text-align: right;
+}

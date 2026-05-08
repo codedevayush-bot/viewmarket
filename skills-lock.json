@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "skills": {
+    "aws-cli": {
+      "source": "oldwinter/skills",
+      "sourceType": "github",
+      "computedHash": "b1dbadc2a823e674ac876d883cffa1340e148aae5cb206bb29315812c182a24b"
+    },
+    "battle-plan": {
+      "source": "adityapeshave-sophos/cursorskills",
+      "sourceType": "github",
+      "computedHash": "951cc0d45ef5ebd06959555cf5b4e68e8336ac3d89dc8a4b9695742e90391779"
+    },
+    "charting": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "computedHash": "73b9071c1fc6e881b8cf8b7011e90a874591f28b35b2724c5f1f5a0ad6df4cf5"
+    },
+    "context7-mcp": {
+      "source": "upstash/context7",
+      "sourceType": "github",
+      "computedHash": "98e0681c9874790530a67b958570b985ad15250c62e700accaace5b39676a094"
+    },
+    "devops-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "computedHash": "6d40f1befd55d5b300acbc86685b97983f145bc246b28609872a08ffd39237e9"
+    },
+    "firecrawl": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "computedHash": "6af4f31bba6a86cbfa691c352a4803c3facd87b79ed9cc8388ce54e4a602b8f9"
+    },
+    "neon-drizzle": {
+      "source": "neondatabase/ai-rules",
+      "sourceType": "github",
+      "computedHash": "0482bc2eb4cd2a93f005843800969eb3d76f5ef32c781efab4f194b03edbd431"
+    },
+    "neon-postgres": {
+      "source": "neondatabase/agent-skills",
+      "sourceType": "github",
+      "computedHash": "574cf4b7c901ebc7d88d34e2c3e3d08fdec127bd0047f888de148ff0af787d4e"
+    },
+    "next-best-practices": {
+      "source": "vercel-labs/next-skills",
+      "sourceType": "github",
+      "computedHash": "db85045827ebeb83ac8dbc992b69188755eeb74dcf01cbf5e694d58aa494a106"
+    },
+    "planning-setup": {
+      "source": "syntheticrecon/synthetic-skills",
+      "sourceType": "github",
+      "computedHash": "6951936d8921e477ccecf1e2d5333925b5a14158320c907ce89e0f8349bf7b50"
+    },
+    "scalability-playbook": {
+      "source": "patricio0312rev/skills",
+      "sourceType": "github",
+      "computedHash": "03d5a8c44ebcc1de3273e75e951740ac9ddac122e2c3abededa7af58979f492a"
+    },
+    "tailwind-design-system": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "f54f39ce967af3a4bba1f662c3600f0253467508d5fbbc7c545c67e102da2253"
+    },
+    "typescript-advanced-types": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "ee8377c523a911be41c31037b477805773ca5ab5ade181e44ca7dd3cd8df6692"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "ca7b0c0c6e5f2750043f7f0cd72d16ac4e2abc48f9b5500d047a4b77a2506212"
+    },
+    "vercel-react-view-transitions": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "c8952fc9127fa0564d0cb71dccb4215a5608ac933b5831104f09173a97a46f85"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "f3bc47f890f42a44db1007ab390709ec368e4b8c089baee6b0007182236ac474"
+    },
+    "webapp-testing": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "3f14af7f5690695209c22fbf8c8d133769a86d64892602c09bb13f135e14e857"
+    }
+  }
+}

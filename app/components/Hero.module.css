@@ -1,0 +1,630 @@
+/* ─────────────────────────────────────────
+   Hero Section - View Market Style
+───────────────────────────────────────── */
+.heroWrapper {
+  background: var(--bg-page);
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+}
+
+.heroHeader {
+  padding: 80px 40px 60px;
+  position: relative;
+  background: var(--bg-page);
+}
+
+.heroHeaderContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.heroTextContent {
+  flex: 1;
+  max-width: 900px;
+}
+
+.heroMainTitle {
+  font-size: 4rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin: 0 0 24px 0;
+}
+
+.heroMainSubtitle {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  letter-spacing: -0.01em;
+  max-width: 600px;
+}
+
+.heroNotificationBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.heroNotificationBadge:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-medium);
+}
+
+.notificationIndicator {
+  width: 6px;
+  height: 6px;
+  background: var(--text-emphasis);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.notificationLabel {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.notificationCta {
+  color: var(--text-faint);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.notificationCta:hover {
+  color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────
+   App Mockup Interface
+───────────────────────────────────────── */
+.appMockup {
+  padding: 0 40px 80px;
+}
+
+.appContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  height: 720px;
+  box-shadow: 
+    0 24px 64px -12px rgba(0, 0, 0, 0.7), 
+    0 0 1px 1px var(--border-subtle);
+  position: relative;
+}
+
+/* Sidebar */
+.appSidebar {
+  width: 240px;
+  background: var(--bg-surface-alt);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface-alt);
+}
+
+.sidebarWorkspace {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text-emphasis);
+}
+
+.workspaceIcon {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.workspaceName {
+  font-weight: 500;
+}
+
+.workspaceDropdown {
+  font-size: 0.625rem;
+  opacity: 0.5;
+}
+
+.sidebarSearch,
+.sidebarNew {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-ghost);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.sidebarSearch:hover,
+.sidebarNew:hover {
+  background: var(--bg-overlay-hover);
+  color: var(--text-secondary);
+}
+
+.sidebarNav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  background: var(--bg-surface-alt);
+}
+
+.navSection {
+  margin-bottom: 16px;
+}
+
+.navSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-placeholder);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sectionToggle {
+  font-size: 0.625rem;
+  opacity: 0.5;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+}
+
+.navItem:hover {
+  background: var(--bg-overlay-hover);
+  color: var(--text-emphasis);
+}
+
+.navItem.active {
+  background: var(--bg-overlay-active);
+  color: var(--text-full);
+}
+
+.navIcon {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* Main Content */
+.appMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.issueHeader {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+
+.issueTitleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.issueBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.issueBadge.starred {
+  color: var(--text-full);
+}
+
+.issueMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--text-ghost);
+}
+
+.issueId {
+  font-weight: 500;
+}
+
+.issueCode {
+  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  color: var(--text-subtle);
+}
+
+.iconBtn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-placeholder);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.iconBtn:hover {
+  background: var(--bg-overlay-hover);
+  color: var(--text-muted);
+}
+
+.issueContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  padding-right: 280px;
+  background: var(--bg-surface);
+}
+
+.issueHeading {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  letter-spacing: -0.02em;
+}
+
+.issueDescription {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 0 32px 0;
+}
+
+.inlineCode {
+  padding: 2px 6px;
+  background: var(--bg-overlay-active);
+  border-radius: 4px;
+  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.issueSection {
+  margin-top: 32px;
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-emphasis);
+  margin: 0 0 16px 0;
+}
+
+.activityFeed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activityItem {
+  display: flex;
+  gap: 12px;
+}
+
+.activityIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-overlay-active);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityText {
+  font-size: 0.8125rem;
+  color: var(--text-subtle);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.activityText strong {
+  color: var(--text-emphasis);
+  font-weight: 500;
+}
+
+.activityTime {
+  font-size: 0.75rem;
+  color: var(--text-placeholder);
+  margin-left: 8px;
+}
+
+.activityComment {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-ghost);
+  margin: 8px 0 0 0;
+}
+
+/* Issue Sidebar */
+.issueSidebar {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 260px;
+  padding: 20px;
+  border-left: 1px solid var(--border-subtle);
+  background: var(--bg-surface-alt);
+  height: calc(100% - 60px);
+  overflow-y: auto;
+}
+
+.issueProperties {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.propertyItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: var(--bg-overlay-md);
+  border-radius: 6px;
+  font-size: 0.8125rem;
+}
+
+.propertyIcon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.propertyIcon.status {
+  color: var(--text-emphasis);
+}
+
+.propertyIcon.priority {
+  color: var(--text-muted);
+}
+
+.propertyLabel {
+  color: var(--text-secondary);
+}
+
+.sidebarSectionTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-ghost);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 12px 0;
+}
+
+.labelsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.labelTag {
+  padding: 4px 8px;
+  background: var(--bg-overlay-active);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Code Panel */
+.codePanel {
+  position: absolute;
+  bottom: 20px;
+  right: 280px;
+  width: 420px;
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-emphasis);
+  border-radius: 8px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border-subtle);
+}
+
+.codePanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.codePanelTitle {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-emphasis);
+}
+
+.codePanelClose {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-ghost);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1.25rem;
+}
+
+.codePanelClose:hover {
+  background: var(--bg-overlay-hover);
+  color: var(--text-secondary);
+}
+
+.codePanelContent {
+  padding: 16px;
+}
+
+.codeBlock {
+  background: var(--bg-overlay-md);
+  border-radius: 6px;
+  padding: 12px;
+  margin: 0 0 12px 0;
+  overflow-x: auto;
+}
+
+.codeBlock code {
+  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.codeHighlight {
+  color: var(--text-full);
+  font-weight: 500;
+}
+
+.codeChanges {
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+}
+
+.changesSummary {
+  margin: 0 0 8px 0;
+  color: var(--text-ghost);
+}
+
+.changesFile {
+  margin: 0 0 4px 0;
+  color: var(--text-muted);
+}
+
+.fileIcon {
+  margin-right: 4px;
+  opacity: 0.5;
+}
+
+.changesDetail {
+  margin: 0;
+  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  color: var(--text-ghost);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .heroMainTitle {
+    font-size: 2.5rem;
+  }
+
+  .appContainer {
+    height: 600px;
+  }
+
+  .codePanel {
+    width: 360px;
+  }
+
+  .heroHeader {
+    padding: 60px 32px 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroHeader {
+    padding: 40px 24px 40px;
+  }
+
+  .heroHeaderContent {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .heroMainTitle {
+    font-size: 1.75rem;
+  }
+
+  .heroMainSubtitle {
+    font-size: 0.875rem;
+  }
+
+  .heroNotificationBadge {
+    align-self: flex-start;
+  }
+
+  .appSidebar {
+    display: none;
+  }
+
+  .issueContent {
+    padding-right: 20px;
+  }
+
+  .issueSidebar {
+    display: none;
+  }
+
+  .codePanel {
+    right: 20px;
+    width: calc(100% - 40px);
+  }
+
+  .appMockup {
+    padding: 0 20px 60px;
+  }
+}

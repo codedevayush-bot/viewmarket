@@ -1,0 +1,138 @@
+.header {
+  height: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 24px;
+  border-bottom: 4px solid var(--border-subtle);
+  background-color: var(--bg-page);
+  width: 100%;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.settingsButton {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settingsButton:hover {
+  background-color: var(--bg-overlay-hover);
+}
+
+.redirectButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  margin-right: 4px;
+}
+
+.redirectButton:hover {
+  background-color: var(--bg-overlay-hover);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 48px;
+}
+
+.symbolButton {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 40px;
+}
+
+.symbolButton:hover {
+  background-color: var(--bg-overlay-hover);
+}
+
+.symbolText {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.toolbarButton {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 40px;
+  font-family: inherit;
+}
+
+.toolbarButton:hover {
+  background-color: var(--bg-overlay-active);
+  color: var(--text-primary);
+}
+
+.divider {
+  width: 2px;
+  height: 24px;
+  background-color: var(--border-subtle);
+}
+
+.toolbarButton span {
+  letter-spacing: -0.01em;
+}
+
+.dropdownAnchor {
+  position: relative;
+}
+
+.buttonActive {
+  background-color: var(--bg-overlay-active);
+}

@@ -1,0 +1,198 @@
+/* ─────────────────────────────────────────
+My Tickets - Light/Dark Theme Compatible
+───────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  padding: 32px 40px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.newTicketBtn {
+  background: var(--text-primary);
+  color: var(--bg-page);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.newTicketBtn:hover {
+  opacity: 0.9;
+}
+
+.tableContainer {
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th {
+  text-align: left;
+  padding: 16px 24px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.td {
+  padding: 16px 24px;
+  font-size: 0.875rem;
+  color: var(--text-full);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.row {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.row:hover {
+  background: var(--bg-overlay-hover);
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Hardcoded status colors for better contrast logic */
+.statusOpen {
+  background: rgba(14, 165, 233, 0.1);
+  color: rgb(14, 165, 233);
+}
+
+.statusInProgress {
+  background: rgba(245, 158, 11, 0.1);
+  color: rgb(245, 158, 11);
+}
+
+.statusResolved {
+  background: transparent;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: rgb(16, 185, 129);
+}
+
+.statusClosed {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+/* ── Loading State ── */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  width: 100%;
+  gap: 16px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--border-subtle);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ── Search Experience ── */
+.searchContainer {
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 600px;
+}
+
+.searchInput {
+  width: 100%;
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 12px 16px 12px 40px;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  transition: all 0.2s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--border-emphasis);
+  background: var(--bg-overlay-hover);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.emptyState {
+  padding: 48px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .container {
+    padding: 24px 16px;
+  }
+}

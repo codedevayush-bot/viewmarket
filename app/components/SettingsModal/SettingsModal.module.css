@@ -1,0 +1,238 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-overlay-strong);
+  backdrop-filter: blur(2px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  width: 800px;
+  max-width: 95vw;
+  height: 600px;
+  max-height: 90vh;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-2xl);
+}
+
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  cursor: grab;
+  user-select: none;
+  border-bottom: 1px solid var(--border-ghost);
+}
+
+.dragHandle:active,
+.dragging {
+  cursor: grabbing;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.headerIcon {
+  color: var(--text-muted);
+}
+
+.heading {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  color: var(--text-faint);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: var(--bg-overlay-hover);
+  color: var(--text-emphasis);
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 200px;
+  border-right: 1px solid var(--border-ghost);
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: var(--bg-page);
+}
+
+.tabButton {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.tabButton:hover {
+  background-color: var(--bg-overlay-hover);
+  color: var(--text-primary);
+}
+
+.tabButton.active {
+  background-color: var(--bg-overlay-active);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  background-color: var(--bg-surface);
+}
+
+.placeholder {
+  max-width: 500px;
+}
+
+.tabTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.tabDescription {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 32px 0;
+}
+
+.mockOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mockOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-ghost);
+}
+
+.optionLabel {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.optionControl {
+  width: 40px;
+  height: 20px;
+  background-color: var(--bg-overlay-emphasis);
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+}
+
+.footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-ghost);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-surface);
+}
+
+.resetButton {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.resetButton:hover {
+  color: var(--text-secondary);
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cancelButton {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelButton:hover {
+  background-color: var(--bg-overlay-hover);
+}
+
+.saveButton {
+  background-color: var(--text-primary);
+  color: var(--bg-page);
+  border: 1px solid var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 8px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saveButton:hover {
+  opacity: 0.9;
+}

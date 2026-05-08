@@ -1,0 +1,180 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-overlay-strong);
+  backdrop-filter: blur(2px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  width: 720px;
+  max-width: 90vw;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-2xl);
+}
+
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 14px;
+  cursor: grab;
+  user-select: none;
+}
+
+.dragHandle:active,
+.dragging {
+  cursor: grabbing;
+}
+
+.heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  pointer-events: none;
+}
+
+.shortcutHint {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  border: 1px solid var(--border-subtle);
+  padding: 2px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.searchContainer {
+  padding: 0;
+}
+
+.searchLines {
+  border-top: 1px solid var(--border-ghost);
+  border-bottom: 1px solid var(--border-ghost);
+  padding: 8px 24px;
+}
+
+.searchInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  font-weight: 500;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+}
+
+.searchInput::placeholder {
+  color: var(--text-placeholder);
+}
+
+.filterRow {
+  display: flex;
+  padding: 10px 20px;
+  gap: 4px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border-ghost);
+}
+
+.filterRow::-webkit-scrollbar {
+  display: none;
+}
+
+.filterButton {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.filterButton:hover {
+  color: var(--text-secondary);
+  background-color: var(--bg-overlay-hover);
+}
+
+.filterButton.active {
+  color: var(--text-primary);
+  font-weight: 600;
+  background-color: var(--bg-overlay-active);
+  border-color: var(--border-subtle);
+}
+
+.strategyList {
+  height: 460px;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+
+.strategyList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.strategyList::-webkit-scrollbar-thumb {
+  background: var(--bg-overlay-strong);
+}
+
+.strategyItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.strategyItem:hover,
+.strategyItem.highlighted {
+  background-color: var(--bg-overlay-hover);
+}
+
+.strategyMain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.strategyName {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+}
+
+.strategyDescription {
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 600px;
+}
+
+.noResults {
+  padding: 60px;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 0.875rem;
+}

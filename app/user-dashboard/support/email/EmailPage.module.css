@@ -1,0 +1,157 @@
+.listContainer {
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 24px;
+}
+
+.categorySection {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.categorySection:last-child {
+  border-bottom: none;
+}
+
+.categoryHeader {
+  background: var(--bg-overlay-md);
+  padding: 10px 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background 0.15s ease;
+  gap: 16px;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: var(--bg-overlay-hover);
+}
+
+.labelColumn {
+  width: 220px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.emailColumn {
+  flex: 1;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  letter-spacing: -0.01em;
+}
+
+.actionsColumn {
+  display: flex;
+  gap: 8px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.copyButton {
+  background: var(--bg-overlay-md);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.copyButton:hover {
+  background: var(--bg-overlay-active);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+.sendButton {
+  background: var(--text-primary);
+  border: 1px solid var(--text-primary);
+  color: var(--bg-page);
+}
+
+.sendButton:hover {
+  opacity: 0.9;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--text-primary);
+  color: var(--bg-page);
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 800px) {
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 14px 20px;
+  }
+
+  .labelColumn {
+    width: 100%;
+  }
+
+  .emailColumn {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  .actionsColumn {
+    width: 100%;
+  }
+
+  .actionButton {
+    flex: 1;
+  }
+}

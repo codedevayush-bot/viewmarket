@@ -1,0 +1,149 @@
+/* ─────────────────────────────────────────
+   Session Timeout Warning
+   Enterprise-grade security modal
+   ───────────────────────────────────────── */
+
+.warningOverlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay-strong);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.warningCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-2xl);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.warningIcon {
+  width: 56px;
+  height: 56px;
+  background: rgba(234, 179, 8, 0.1);
+  border: 2px solid rgba(234, 179, 8, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #eab308;
+}
+
+.warningTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-full);
+  margin: 0 0 12px 0;
+}
+
+.warningMessage {
+  font-size: 0.9375rem;
+  color: var(--text-faint);
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+.timeRemaining {
+  color: #eab308;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.warningActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.extendButton {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--text-primary);
+  border: none;
+  border-radius: 8px;
+  color: var(--bg-page);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.extendButton:hover {
+  background: var(--text-emphasis);
+}
+
+.extendButton:focus-visible {
+  outline: 2px solid var(--border-strong);
+  outline-offset: 2px;
+}
+
+.logoutButton {
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: var(--bg-overlay-hover);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+.logoutButton:focus-visible {
+  outline: 2px solid var(--border-subtle);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .warningCard {
+    padding: 24px;
+  }
+
+  .warningTitle {
+    font-size: 1.125rem;
+  }
+
+  .warningMessage {
+    font-size: 0.875rem;
+  }
+}

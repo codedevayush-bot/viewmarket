@@ -1,0 +1,212 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+  /* Prevent horizontal shift when scrollbar appears/disappears */
+  scrollbar-gutter: stable;
+  /* Fix container width to prevent any jumping */
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.searchWrapper {
+  position: relative;
+  margin-top: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 14px 20px 14px 48px;
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--border-strong);
+  background: var(--bg-overlay-hover);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Categories ── */
+.categories {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 40px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+  /* Use a stable alignment that won't shift when content changes */
+  justify-content: center;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryBtn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  min-width: 100px;
+  text-align: center;
+  /* Remove 'all' transition to prevent jitter during state changes */
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.categoryBtn:hover {
+  background: var(--bg-overlay-hover);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+.activeCategory {
+  background: var(--text-primary) !important;
+  border-color: var(--text-primary) !important;
+  color: var(--bg-page) !important;
+}
+
+/* Prevent the active button from "fading out" on hover in light mode */
+.activeCategory:hover {
+  opacity: 0.9;
+  background: var(--text-primary) !important;
+  color: var(--bg-page) !important;
+}
+
+/* ── FAQ Items ── */
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  /* Reserve space to prevent the page height from collapsing */
+  min-height: 500px;
+}
+
+.faqItem {
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  /* Avoid broad 'all' transitions that cause element resize jitter */
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+  width: 100%;
+}
+
+.faqItem:hover {
+  border-color: var(--border-medium);
+}
+
+.itemHeader {
+  width: 100%;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-primary);
+  gap: 16px;
+}
+
+.question {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: var(--text-primary);
+}
+
+.itemContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contentOpen {
+  max-height: 500px;
+}
+
+.answer {
+  padding: 0 24px 24px 24px;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ── Empty State ── */
+.emptyState {
+  text-align: center;
+  padding: 80px 0;
+  color: var(--text-muted);
+}
+
+@media (max-width: 900px) {
+  .categories {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 24px 16px;
+  }
+
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .itemHeader {
+    padding: 16px 20px;
+  }
+
+  .answer {
+    padding: 0 20px 20px 20px;
+  }
+}

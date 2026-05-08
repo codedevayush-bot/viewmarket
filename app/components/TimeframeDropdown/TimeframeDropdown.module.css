@@ -1,0 +1,93 @@
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: -8px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 8px 0;
+  min-width: 230px;
+  max-height: 440px;
+  overflow-y: auto;
+  z-index: 9000;
+  box-shadow: var(--shadow-lg);
+}
+
+.dropdown::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+  background: var(--bg-overlay-strong);
+}
+
+.section {
+  border-bottom: 1px solid var(--border-ghost);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 18px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 0.1s ease;
+}
+
+.sectionHeader:hover {
+  color: var(--text-secondary);
+}
+
+.chevron {
+  transition: transform 0.15s ease;
+  transform: rotate(-90deg);
+}
+
+.chevron.open {
+  transform: rotate(0deg);
+}
+
+.sectionValues {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 4px;
+}
+
+.valueButton {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  padding: 7px 18px 7px 36px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  text-align: left;
+  width: 100%;
+  border-radius: 0;
+}
+
+.valueButton:hover {
+  background-color: var(--bg-overlay-hover);
+  color: var(--text-primary);
+}
+
+.valueButton.active {
+  color: var(--text-primary);
+  font-weight: 600;
+  background-color: var(--bg-overlay-active);
+}
