@@ -1,0 +1,34 @@
+{
+  "family": "viewmarket-task",
+  "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::387075079074:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::387075079074:role/ecsTaskRole",
+  "cpu": "512",
+  "memory": "1024",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "containerDefinitions": [
+    {
+      "name": "viewmarket-container",
+      "image": "387075079074.dkr.ecr.us-east-1.amazonaws.com/viewmarket-app:latest",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:DATABASE_URL::"
+        },
+        {
+          "name": "AUTH_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_SECRET::"
+        }
+      ]
+    }
+  ]
+}
