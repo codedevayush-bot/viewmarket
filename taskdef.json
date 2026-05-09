@@ -21,12 +21,64 @@
       ],
       "secrets": [
         {
+          "name": "AUTH_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_SECRET::"
+        },
+        {
           "name": "DATABASE_URL",
           "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:DATABASE_URL::"
         },
         {
-          "name": "AUTH_SECRET",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_SECRET::"
+          "name": "AUTH_GOOGLE_ID",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_GOOGLE_ID::"
+        },
+        {
+          "name": "AUTH_GOOGLE_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_GOOGLE_SECRET::"
+        },
+        {
+          "name": "AUTH_GITHUB_ID",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_GITHUB_ID::"
+        },
+        {
+          "name": "AUTH_GITHUB_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_GITHUB_SECRET::"
+        },
+        {
+          "name": "NEON_PROJECT_ID",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:NEON_PROJECT_ID::"
+        },
+        {
+          "name": "NEON_PROJECT_NAME",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:NEON_PROJECT_NAME::"
+        },
+        {
+          "name": "NEON_REGION",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:NEON_REGION::"
+        },
+        {
+          "name": "AWS_REGION",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AWS_REGION::"
+        },
+        {
+          "name": "AWS_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AWS_ACCESS_KEY_ID::"
+        },
+        {
+          "name": "AWS_SECRET_ACCESS_KEY",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AWS_SECRET_ACCESS_KEY::"
+        },
+        {
+          "name": "AWS_S3_TICKETS_BUCKET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AWS_S3_TICKETS_BUCKET::"
+        },
+        {
+          "name": "AUTH_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_URL::"
+        },
+        {
+          "name": "NEXTAUTH_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:NEXTAUTH_URL::"
         }
       ]
     }
