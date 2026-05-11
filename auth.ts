@@ -18,6 +18,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Google({
       clientId: process.env.AUTH_GOOGLE_ID || "dummy",
       clientSecret: process.env.AUTH_GOOGLE_SECRET || "dummy",
+      allowDangerousEmailAccountLinking: true,
       authorization: {
         params: {
           prompt: "consent",
@@ -29,6 +30,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID || "dummy",
       clientSecret: process.env.AUTH_GITHUB_SECRET || "dummy",
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   pages: {

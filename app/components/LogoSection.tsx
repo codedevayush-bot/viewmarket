@@ -39,9 +39,7 @@ export default function LogoSection() {
             </span>
           </div>
           <div className={styles.logoItem}>
-            <span className={`${styles.logoText} ${styles.plaid}`}>
-              plaid
-            </span>
+            <span className={`${styles.logoText} ${styles.plaid}`}>plaid</span>
           </div>
           <div className={styles.logoItem}>
             <span className={`${styles.logoText} ${styles.kraken}`}>

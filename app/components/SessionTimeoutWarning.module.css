@@ -58,7 +58,7 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  color: #eab308;
+  color: var(--status-warning);
 }
 
 .warningTitle {
@@ -76,7 +76,7 @@
 }
 
 .timeRemaining {
-  color: #eab308;
+  color: var(--status-warning);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }

@@ -148,21 +148,27 @@
 }
 
 .avatar1 {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--bg-overlay-strong) 0%,
+    var(--bg-overlay-hover) 100%
+  );
 }
 
 .avatar2 {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0.04) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--bg-overlay-active) 0%,
+    var(--bg-overlay-md) 100%
+  );
 }
 
 .avatar3 {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.02) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--border-subtle) 0%,
+    var(--bg-overlay) 100%
+  );
 }
 
 .messageContent {

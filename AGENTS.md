@@ -43,9 +43,24 @@ _System Directive:_ Think step-by-step. Identify the domain -> Consult the relev
 
 ## 6. UI & Typography Standards
 
-- **Strict Monochrome Theme:** The entire platform uses a highly professional, clean, monochrome aesthetic (strictly black `#000000`, white `#ffffff`, and varying alpha opacities `rgba(255, 255, 255, X)`). NEVER introduce arbitrary colors, gradients, or non-standard brand colors.
-- **Global Typography:** The standard font family is `Inter`. All pages must adhere strictly to the established text styling (e.g., titles with `-0.03em` to `-0.01em` letter spacing, `font-weight: 500`, and secondary text using white opacity such as `0.45` or `0.6`).
-- **Component Consistency:** Card components must maintain a `16px` border-radius, `1px solid rgba(255, 255, 255, 0.08)` borders, and consistent hover states (`rgba(255, 255, 255, 0.04)` background). The global max-width for containers is `1400px`.
+### 1. The Monochrome Layer System (Softer Redesign)
+
+#### Dark Theme (Premium Off-Black)
+
+- **Darkest (Page Background):** `#1c1c1c`
+- **Surface Level 1 (Containers/Sections):** `#242424`
+- **Surface Level 2 (Cards/Active Rows):** `#2d2d2d`
+- **Hover/Interactive:** `#383838` or `rgba(255, 255, 255, 0.08)`
+- **Borders:** `1px solid rgba(255, 255, 255, 0.08)` (subtle) or `0.15` (strong)
+
+#### Light Theme (Eye-Friendly Zinc)
+
+- **Page Background:** `#e4e4e7` (Zinc 200 - Distinctly gray base)
+- **Surface Level 1 (Containers/Sections):** `#fafafa` (Zinc 50 - Lighter cards to pop)
+- **Surface Level 2 (Cards/Active Rows):** `#d4d4d8` (Zinc 300 - Darker sidebars for depth)
+- **Hover/Interactive:** `#c0c0c4` (Zinc 400)
+- **Borders:** `1px solid rgba(24, 24, 27, 0.08)` (subtle)
+- **Primary Text:** `#18181b` (Zinc 950 - softer than black)
 
 ## 7. ViewMarket Component Philosophy
 

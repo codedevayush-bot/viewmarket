@@ -342,7 +342,7 @@ Ticket Detail - Enterprise Monochrome Redesign
 .error {
   width: 100%;
   margin: 8px 0 0;
-  color: #d92d20;
+  color: var(--status-error-critical);
   font-size: 0.8125rem;
   font-weight: 500;
 }
@@ -353,7 +353,7 @@ Ticket Detail - Enterprise Monochrome Redesign
 }
 
 .error {
-  color: #d92d20;
+  color: var(--status-error-critical);
   font-size: 0.8125rem;
   font-weight: 500;
 }

@@ -4,7 +4,7 @@ Sign In Page - Black & White Theme
 
 .signinPage {
   min-height: 100vh;
-  background: #000000;
+  background: var(--bg-page);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +28,7 @@ Sign In Page - Black & White Theme
 .logoText {
   font-size: 1.25rem;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--text-primary);
   letter-spacing: -0.01em;
 }
 
@@ -36,8 +36,8 @@ Sign In Page - Black & White Theme
 .signinCard {
   width: 100%;
   max-width: 420px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
   border-radius: 16px;
   padding: 48px 40px;
   text-align: center;
@@ -46,7 +46,7 @@ Sign In Page - Black & White Theme
 .title {
   font-size: 1.75rem;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 12px 0;
   letter-spacing: -0.02em;
 }
@@ -73,10 +73,10 @@ Sign In Page - Black & White Theme
   gap: 12px;
   width: 100%;
   padding: 14px 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   font-size: 0.9375rem;
   font-weight: 500;
   cursor: pointer;
@@ -84,8 +84,8 @@ Sign In Page - Black & White Theme
 }
 
 .socialButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--bg-overlay-active);
+  border-color: var(--border-medium);
   transform: translateY(-1px);
 }
 
@@ -98,7 +98,7 @@ Sign In Page - Black & White Theme
 /* ── Footer ── */
 .footer {
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .footerText {
@@ -115,7 +115,7 @@ Sign In Page - Black & White Theme
 }
 
 .footerLink:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* ── Back Link ── */
@@ -134,14 +134,14 @@ Sign In Page - Black & White Theme
 }
 
 .backLink:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary);
 }
 
 /* ── Error Message ── */
 .errorMessage {
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #fca5a5;
+  color: var(--status-error-soft);
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 24px;

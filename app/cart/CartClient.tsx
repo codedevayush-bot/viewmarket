@@ -127,7 +127,10 @@ function CartContent() {
           </div>
 
           {billingCycle === "yearly" && (
-            <div className={styles.summaryItem} style={{ color: "#22c55e" }}>
+            <div
+              className={styles.summaryItem}
+              style={{ color: "var(--text-primary)" }}
+            >
               <span className={styles.label}>Annual Discount</span>
               <span>-20% included</span>
             </div>

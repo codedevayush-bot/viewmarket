@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
         <div className={styles.statCard}>
           <div
             className={styles.statNumber}
-            style={{ color: "#00ff00", fontSize: "1.2rem" }}
+            style={{ color: "var(--text-primary)", fontSize: "1.2rem" }}
           >
             {stats.systemHealth}
           </div>

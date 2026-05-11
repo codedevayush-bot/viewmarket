@@ -47,6 +47,25 @@ const defaultData: CandlestickData<Time>[] = [
   { time: "2024-04-30", open: 186.8, high: 188.0, low: 186.5, close: 187.5 },
 ];
 
+function getThemeValue(name: string) {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(name)
+    .trim();
+}
+
+function getChartTheme() {
+  return {
+    background: getThemeValue("--bg-page"),
+    textColor: getThemeValue("--text-secondary"),
+    gridColor: getThemeValue("--border-medium"),
+    crosshairColor: getThemeValue("--border-strong"),
+    borderColor: getThemeValue("--border-medium"),
+    upColor: getThemeValue("--chart-up"),
+    downColor: getThemeValue("--chart-down"),
+    lineColor: getThemeValue("--chart-line"),
+  };
+}
+
 const TradingViewChart: React.FC<TradingViewChartProps> = ({
   data,
   chartType = "candlestick",
@@ -59,8 +78,7 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
   useEffect(() => {
     if (!chartContainerRef.current) return;
 
-    const isDark =
-      document.documentElement.getAttribute("data-theme") !== "light";
+    const initialTheme = getChartTheme();
 
     // Create Chart
     const chart = createChart(chartContainerRef.current, {
@@ -68,42 +86,38 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
       layout: {
         background: {
           type: ColorType.Solid,
-          color: isDark ? "#000000" : "#ffffff",
+          color: initialTheme.background,
         },
-        textColor: isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
+        textColor: initialTheme.textColor,
         fontFamily: "Inter, sans-serif",
         attributionLogo: false,
       },
       grid: {
         vertLines: {
-          color: isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.08)",
+          color: initialTheme.gridColor,
           style: LineStyle.Solid,
         },
         horzLines: {
-          color: isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.08)",
+          color: initialTheme.gridColor,
           style: LineStyle.Solid,
         },
       },
       crosshair: {
         mode: 1, // Normal crosshair
         vertLine: {
-          color: isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.3)",
-          labelBackgroundColor: isDark ? "#000000" : "#ffffff",
+          color: initialTheme.crosshairColor,
+          labelBackgroundColor: initialTheme.background,
         },
         horzLine: {
-          color: isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.3)",
-          labelBackgroundColor: isDark ? "#000000" : "#ffffff",
+          color: initialTheme.crosshairColor,
+          labelBackgroundColor: initialTheme.background,
         },
       },
       rightPriceScale: {
-        borderColor: isDark
-          ? "rgba(255, 255, 255, 0.2)"
-          : "rgba(0, 0, 0, 0.15)",
+        borderColor: initialTheme.borderColor,
       },
       timeScale: {
-        borderColor: isDark
-          ? "rgba(255, 255, 255, 0.2)"
-          : "rgba(0, 0, 0, 0.15)",
+        borderColor: initialTheme.borderColor,
       },
       handleScroll: true,
       handleScale: true,
@@ -111,43 +125,39 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
 
     // Theme Observer
     const observer = new MutationObserver(() => {
-      const isNewDark =
-        document.documentElement.getAttribute("data-theme") !== "light";
+      const theme = getChartTheme();
+
       chart.applyOptions({
         layout: {
           background: {
             type: ColorType.Solid,
-            color: isNewDark ? "#000000" : "#ffffff",
+            color: theme.background,
           },
-          textColor: isNewDark
-            ? "rgba(255, 255, 255, 0.7)"
-            : "rgba(0, 0, 0, 0.7)",
+          textColor: theme.textColor,
         },
         grid: {
           vertLines: {
-            color: isNewDark
-              ? "rgba(255, 255, 255, 0.12)"
-              : "rgba(0, 0, 0, 0.08)",
+            color: theme.gridColor,
           },
           horzLines: {
-            color: isNewDark
-              ? "rgba(255, 255, 255, 0.12)"
-              : "rgba(0, 0, 0, 0.08)",
+            color: theme.gridColor,
           },
         },
         crosshair: {
-          vertLine: { labelBackgroundColor: isNewDark ? "#000000" : "#ffffff" },
-          horzLine: { labelBackgroundColor: isNewDark ? "#000000" : "#ffffff" },
+          vertLine: {
+            color: theme.crosshairColor,
+            labelBackgroundColor: theme.background,
+          },
+          horzLine: {
+            color: theme.crosshairColor,
+            labelBackgroundColor: theme.background,
+          },
         },
         rightPriceScale: {
-          borderColor: isNewDark
-            ? "rgba(255, 255, 255, 0.2)"
-            : "rgba(0, 0, 0, 0.15)",
+          borderColor: theme.borderColor,
         },
         timeScale: {
-          borderColor: isNewDark
-            ? "rgba(255, 255, 255, 0.2)"
-            : "rgba(0, 0, 0, 0.15)",
+          borderColor: theme.borderColor,
         },
       });
     });
@@ -161,27 +171,27 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     switch (chartType) {
       case "candlestick": {
         const series = chart.addSeries(CandlestickSeries, {
-          upColor: "#26a69a",
-          downColor: "#ef5350",
-          borderUpColor: "#26a69a",
-          borderDownColor: "#ef5350",
-          wickUpColor: "#26a69a",
-          wickDownColor: "#ef5350",
+          upColor: initialTheme.upColor,
+          downColor: initialTheme.downColor,
+          borderUpColor: initialTheme.upColor,
+          borderDownColor: initialTheme.downColor,
+          wickUpColor: initialTheme.upColor,
+          wickDownColor: initialTheme.downColor,
         });
         series.setData(chartData);
         break;
       }
       case "bars": {
         const series = chart.addSeries(BarSeries, {
-          upColor: "#26a69a",
-          downColor: "#ef5350",
+          upColor: initialTheme.upColor,
+          downColor: initialTheme.downColor,
         });
         series.setData(chartData);
         break;
       }
       case "line": {
         const series = chart.addSeries(LineSeries, {
-          color: "#2962FF",
+          color: initialTheme.lineColor,
           lineWidth: 2,
         });
         series.setData(
@@ -191,7 +201,7 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
       }
       case "line-breaks": {
         const series = chart.addSeries(LineSeries, {
-          color: "#2962FF",
+          color: initialTheme.lineColor,
           lineWidth: 2,
           lineStyle: LineStyle.Dashed,
         });

@@ -7,7 +7,8 @@ import { useSession } from "next-auth/react";
 import styles from "./Sidebar.module.css";
 import {
   type DashboardIcon,
-  dashboardNavSections,
+  type DashboardNavSection,
+  dashboardNav,
 } from "../../user-dashboard/navigation";
 
 function SidebarIcon({
@@ -293,7 +294,12 @@ export default function Sidebar() {
   const isChartsPage = pathname === "/user-dashboard/charts";
   const [isCollapsed, setIsCollapsed] = useState(isChartsPage);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set([...dashboardNavSections.map((s) => s.title), "Support"]),
+    new Set(
+      dashboardNav
+        .filter((item): item is DashboardNavSection => "title" in item)
+        .map((s) => s.title)
+        .concat(["Support"]),
+    ),
   );
   const { data: session, status } = useSession();
 
@@ -448,50 +454,65 @@ export default function Sidebar() {
         </div>
 
         <div className={styles.scrollArea}>
-          {dashboardNavSections.map((section) => {
-            const isExpanded = expandedSections.has(section.title);
-            return (
-              <div key={section.title} className={styles.section}>
-                <div
-                  className={styles.sectionHeader}
-                  onClick={() => toggleSection(section.title)}
-                >
-                  <div className={styles.sectionTitleContent}>
-                    <SidebarIcon
-                      icon={section.icon}
-                      className={styles.sectionIcon}
-                    />
-                    <span>{section.title}</span>
-                  </div>
-                  <svg
-                    className={`${styles.chevronIcon} ${!isExpanded ? styles.rotated : ""}`}
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+          {dashboardNav.map((item) => {
+            if ("title" in item) {
+              const isExpanded = expandedSections.has(item.title);
+              return (
+                <div key={item.title} className={styles.section}>
+                  <div
+                    className={styles.sectionHeader}
+                    onClick={() => toggleSection(item.title)}
                   >
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </div>
-                {(isExpanded || isCollapsed) &&
-                  section.items.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`${styles.navItem} ${pathname === item.href ? styles.active : ""}`}
+                    <div className={styles.sectionTitleContent}>
+                      <SidebarIcon
+                        icon={item.icon}
+                        className={styles.sectionIcon}
+                      />
+                      <span>{item.title}</span>
+                    </div>
+                    <svg
+                      className={`${styles.chevronIcon} ${!isExpanded ? styles.rotated : ""}`}
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <div className={styles.navItemContent}>
-                        <SidebarIcon icon={item.icon} />
-                        <span>{item.label}</span>
-                      </div>
-                    </Link>
-                  ))}
-              </div>
-            );
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </div>
+                  {(isExpanded || isCollapsed) &&
+                    item.items.map((subItem) => (
+                      <Link
+                        key={subItem.href}
+                        href={subItem.href}
+                        className={`${styles.navItem} ${pathname === subItem.href ? styles.active : ""}`}
+                      >
+                        <div className={styles.navItemContent}>
+                          <SidebarIcon icon={subItem.icon} />
+                          <span>{subItem.label}</span>
+                        </div>
+                      </Link>
+                    ))}
+                </div>
+              );
+            } else {
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`${styles.navItem} ${pathname === item.href ? styles.active : ""}`}
+                >
+                  <div className={styles.navItemContent}>
+                    <SidebarIcon icon={item.icon} />
+                    <span>{item.label}</span>
+                  </div>
+                </Link>
+              );
+            }
           })}
         </div>
       </div>

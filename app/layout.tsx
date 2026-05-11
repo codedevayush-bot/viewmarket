@@ -12,8 +12,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "ViewMarket",
-    template: "%s | ViewMarket",
+    default: "View Market",
+    template: "View Market | %s",
   },
   description:
     "ViewMarket — Algorithmic trading platform with 30+ broker integrations",

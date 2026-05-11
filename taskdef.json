@@ -5,9 +5,7 @@
   "taskRoleArn": "arn:aws:iam::387075079074:role/ecsTaskRole",
   "cpu": "512",
   "memory": "1024",
-  "requiresCompatibilities": [
-    "FARGATE"
-  ],
+  "requiresCompatibilities": ["FARGATE"],
   "containerDefinitions": [
     {
       "name": "viewmarket-container",

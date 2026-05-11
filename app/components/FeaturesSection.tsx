@@ -9,8 +9,9 @@ export default function FeaturesSection() {
           <h2 className={styles.featuresTitle}>
             A new species of trading tool.{" "}
             <span className={styles.featuresTitleMuted}>
-              Purpose-built for modern traders with algorithmic workflows at its core, View
-              Market sets a new standard for automated strategy execution.
+              Purpose-built for modern traders with algorithmic workflows at its
+              core, View Market sets a new standard for automated strategy
+              execution.
             </span>
           </h2>
         </div>
@@ -88,7 +89,8 @@ export default function FeaturesSection() {
             </div>
             <h3 className={styles.featureTitle}>Multi-broker architecture</h3>
             <p className={styles.featureDescription}>
-              View Market integrates with 30+ brokers using high-fidelity adapters for seamless multi-tenant execution.
+              View Market integrates with 30+ brokers using high-fidelity
+              adapters for seamless multi-tenant execution.
             </p>
           </div>
 
@@ -135,7 +137,8 @@ export default function FeaturesSection() {
             </div>
             <h3 className={styles.featureTitle}>Algorithmic intelligence</h3>
             <p className={styles.featureDescription}>
-              Designed for workflows shared by traders and algo-agents. From backtesting strategies to live execution.
+              Designed for workflows shared by traders and algo-agents. From
+              backtesting strategies to live execution.
             </p>
           </div>
 
@@ -222,7 +225,8 @@ export default function FeaturesSection() {
             </div>
             <h3 className={styles.featureTitle}>Engineered for latency</h3>
             <p className={styles.featureDescription}>
-              Built on a low-latency stack to ensure your orders hit the market with millisecond precision and reliability.
+              Built on a low-latency stack to ensure your orders hit the market
+              with millisecond precision and reliability.
             </p>
           </div>
         </div>

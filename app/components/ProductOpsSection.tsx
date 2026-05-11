@@ -47,7 +47,8 @@ export default function ProductOpsSection() {
                         <span className={styles.messageTime}>3:45 PM</span>
                       </div>
                       <p className={styles.messageText}>
-                        Anyone else noticing the Zerodha adapter is lagging during the pre-market open?
+                        Anyone else noticing the Zerodha adapter is lagging
+                        during the pre-market open?
                       </p>
                     </div>
                   </div>
@@ -64,8 +65,8 @@ export default function ProductOpsSection() {
                         <span className={styles.messageTime}>3:45 PM</span>
                       </div>
                       <p className={styles.messageText}>
-                        Yea, we&apos;re still blocking the execution thread on a full
-                        WebSocket sync every time...
+                        Yea, we&apos;re still blocking the execution thread on a
+                        full WebSocket sync every time...
                       </p>
                     </div>
                   </div>
@@ -82,9 +83,10 @@ export default function ProductOpsSection() {
                         <span className={styles.messageTime}>3:45 PM</span>
                       </div>
                       <p className={styles.messageText}>
-                        Feels like we could optimize the order routing and load balance
-                        across multiple instances. Probably worth tracking latency
-                        pikes so we know how often this happens!
+                        Feels like we could optimize the order routing and load
+                        balance across multiple instances. Probably worth
+                        tracking latency pikes so we know how often this
+                        happens!
                       </p>
                     </div>
                   </div>
@@ -355,8 +357,8 @@ export default function ProductOpsSection() {
                         <span className={styles.messageTime}>2:32 PM</span>
                       </div>
                       <p className={styles.messageText}>
-                        Good idea! We should also make sure it supports multi-tenant
-                        credential encryption.
+                        Good idea! We should also make sure it supports
+                        multi-tenant credential encryption.
                       </p>
                     </div>
                   </div>

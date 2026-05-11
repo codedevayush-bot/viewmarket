@@ -47,7 +47,10 @@ export default function Hero() {
                     style={{ display: "inline-block", verticalAlign: "middle" }}
                   >
                     <path d="M50 8 L92 50 L50 92 L8 50 Z" fill="white" />
-                    <path d="M50 28 L72 50 L50 72 L28 50 Z" fill="#0d0d0d" />
+                    <path
+                      d="M50 28 L72 50 L50 72 L28 50 Z"
+                      fill="var(--bg-page)"
+                    />
                   </svg>
                 </span>
                 <span className={styles.workspaceName}>View Market</span>
@@ -144,9 +147,14 @@ export default function Hero() {
             </div>
 
             <div className={styles.issueContent}>
-              <h2 className={styles.issueHeading}>Optimize WebSocket execution</h2>
+              <h2 className={styles.issueHeading}>
+                Optimize WebSocket execution
+              </h2>
               <p className={styles.issueDescription}>
-                Reduce latency in the <code className={styles.inlineCode}>OrderManager</code> by implementing a priority queue for high-frequency broker updates during peak market volatility.
+                Reduce latency in the{" "}
+                <code className={styles.inlineCode}>OrderManager</code> by
+                implementing a priority queue for high-frequency broker updates
+                during peak market volatility.
               </p>
 
               <div className={styles.issueSection}>
@@ -271,19 +279,19 @@ export default function Hero() {
               <div className={styles.codePanelContent}>
                 <pre className={styles.codeBlock}>
                   <code>
-                    const order = orders.find(o =&gt; o.id === orderId);
-                    if (!order) return null; // Locating order logic
-                    for market_volatility // Optimized in 12ms Summary Replaced{" "}
+                    const order = orders.find(o =&gt; o.id === orderId); if
+                    (!order) return null; // Locating order logic for
+                    market_volatility // Optimized in 12ms Summary Replaced{" "}
                     <span className={styles.codeHighlight}>sequentialSync</span>{" "}
                     with{" "}
-                    <span className={styles.codeHighlight}>priorityQueue</span> and
-                    gated the execution on{" "}
+                    <span className={styles.codeHighlight}>priorityQueue</span>{" "}
+                    and gated the execution on{" "}
                     <span className={styles.codeHighlight}>
                       OrderState.READY
                     </span>
                     . Passed validation and{" "}
-                    <span className={styles.codeHighlight}>backtestStatus</span> to
-                    ensure low-latency routing.
+                    <span className={styles.codeHighlight}>backtestStatus</span>{" "}
+                    to ensure low-latency routing.
                   </code>
                 </pre>
                 <div className={styles.codeChanges}>

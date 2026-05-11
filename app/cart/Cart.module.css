@@ -4,20 +4,20 @@
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
-  background: #000000;
-  color: #ffffff;
+  background: var(--bg-page);
+  color: var(--text-primary);
 }
 
 [data-theme="light"] .container {
-  background: #ffffff;
-  color: #000000;
+  background: var(--bg-page);
+  color: var(--text-primary);
 }
 
 .checkoutCard {
   width: 100%;
   max-width: 1000px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 24px;
   overflow: hidden;
   display: grid;
@@ -27,9 +27,9 @@
 }
 
 [data-theme="light"] .checkoutCard {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.05);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  box-shadow: 0 50px 100px -20px rgba(24, 24, 27, 0.05);
 }
 
 @media (max-width: 900px) {
@@ -42,17 +42,17 @@
 /* Left Section: Info */
 .infoSection {
   padding: 60px;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid var(--border-subtle);
 }
 
 [data-theme="light"] .infoSection {
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  border-right: 1px solid var(--border-subtle);
 }
 
 @media (max-width: 900px) {
   .infoSection {
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
     padding: 40px;
   }
 }
@@ -67,12 +67,12 @@
 .logo {
   width: 32px;
   height: 32px;
-  background: #ffffff;
+  background: var(--text-primary);
   border-radius: 8px;
 }
 
 [data-theme="light"] .logo {
-  background: #000000;
+  background: var(--text-primary);
 }
 
 .brandName {
@@ -94,22 +94,14 @@
 
 .subtitle {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-[data-theme="light"] .subtitle {
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--text-muted);
 }
 
 .planDisplay {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-overlay-md);
   padding: 24px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-[data-theme="light"] .planDisplay {
-  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border-subtle);
 }
 
 .planName {
@@ -120,17 +112,13 @@
 
 .planDesc {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-[data-theme="light"] .planDesc {
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--text-muted);
 }
 
 /* Right Section: Payment */
 .paymentSection {
   padding: 60px 40px;
-  background: rgba(255, 255, 255, 0.01);
+  background: var(--bg-overlay);
   display: flex;
   flex-direction: column;
 }
@@ -163,12 +151,12 @@
 
 .divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border-subtle);
   margin: 24px 0;
 }
 
 [data-theme="light"] .divider {
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--border-subtle);
 }
 
 .totalRow {
@@ -192,8 +180,8 @@
 .payButton {
   width: 100%;
   padding: 16px;
-  background: #ffffff;
-  color: #000000;
+  background: var(--text-primary);
+  color: var(--bg-page);
   border: none;
   border-radius: 12px;
   font-size: 15px;
@@ -208,34 +196,30 @@
 
 .payButton:hover {
   transform: scale(1.02);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--text-emphasis);
 }
 
 [data-theme="light"] .payButton {
-  background: #000000;
-  color: #ffffff;
+  background: var(--text-primary);
+  color: var(--bg-surface);
 }
 
 .backLink {
   margin-top: auto;
   text-align: center;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-ghost);
   text-decoration: none;
   transition: color 0.2s;
   padding-top: 32px;
 }
 
 .backLink:hover {
-  color: #ffffff;
-}
-
-[data-theme="light"] .backLink {
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--text-primary);
 }
 
 [data-theme="light"] .backLink:hover {
-  color: #000000;
+  color: var(--text-primary);
 }
 
 .secureNote {

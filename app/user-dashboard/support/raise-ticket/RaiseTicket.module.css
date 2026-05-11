@@ -151,7 +151,7 @@ Raise Ticket - Light/Dark Theme Compatible
 }
 
 .error {
-  color: #ef4444; /* Standard readable red */
+  color: var(--status-error-strong);
   font-size: 0.875rem;
   margin-top: 8px;
 }

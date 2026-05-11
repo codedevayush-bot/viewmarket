@@ -3,9 +3,11 @@ import Navbar from "../components/Navbar";
 import ThemeSwitcher from "../components/ThemeSwitcher/ThemeSwitcher";
 
 export const metadata: Metadata = {
-  title: "View Market — Project management for high-performance teams",
+  title: {
+    absolute: "View Market",
+  },
   description:
-    "View Market is a better way to build products. Streamline issues, sprints, and product roadmaps.",
+    "View Market — Algorithmic trading platform with 30+ broker integrations",
   icons: {
     icon: "/icon.svg",
   },

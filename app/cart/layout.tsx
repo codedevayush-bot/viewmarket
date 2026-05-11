@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ThemeSwitcher from "../components/ThemeSwitcher/ThemeSwitcher";
 
 export const metadata: Metadata = {
-  title: "Checkout | ViewMarket",
+  title: "Checkout",
   description: "Securely complete your subscription.",
 };
 

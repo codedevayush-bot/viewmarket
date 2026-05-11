@@ -1,8 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import styles from "./SignIn.module.css";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to your ViewMarket account.",
 };
 
 export default function SignInLayout({
