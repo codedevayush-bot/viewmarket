@@ -1,74 +1,74 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "../TradingWorkspace.module.css";
+import { useState } from 'react';
+import styles from '../TradingWorkspace.module.css';
 
-type StrategyTab = "visual" | "webhook" | "chartink" | "python" | "flow";
+type StrategyTab = 'visual' | 'webhook' | 'chartink' | 'python' | 'flow';
 
 interface Strategy {
   id: string;
   name: string;
   type: StrategyTab;
-  status: "active" | "paused" | "draft";
+  status: 'active' | 'paused' | 'draft';
   lastRun: string;
   description: string;
 }
 
 const strategyTabs: { id: StrategyTab; label: string }[] = [
-  { id: "visual", label: "Visual" },
-  { id: "webhook", label: "Webhook" },
-  { id: "chartink", label: "Chartink" },
-  { id: "python", label: "Python" },
-  { id: "flow", label: "Flow Builder" },
+  { id: 'visual', label: 'Visual' },
+  { id: 'webhook', label: 'Webhook' },
+  { id: 'chartink', label: 'Chartink' },
+  { id: 'python', label: 'Python' },
+  { id: 'flow', label: 'Flow Builder' },
 ];
 
 const mockStrategies: Strategy[] = [
   {
-    id: "1",
-    name: "RSI Mean Reversion",
-    type: "visual",
-    status: "active",
-    lastRun: "2 mins ago",
-    description: "Buy when RSI < 30, sell when RSI > 70",
+    id: '1',
+    name: 'RSI Mean Reversion',
+    type: 'visual',
+    status: 'active',
+    lastRun: '2 mins ago',
+    description: 'Buy when RSI < 30, sell when RSI > 70',
   },
   {
-    id: "2",
-    name: "Trend Follower",
-    type: "visual",
-    status: "paused",
-    lastRun: "1 hour ago",
-    description: "EMA crossover with volume confirmation",
+    id: '2',
+    name: 'Trend Follower',
+    type: 'visual',
+    status: 'paused',
+    lastRun: '1 hour ago',
+    description: 'EMA crossover with volume confirmation',
   },
   {
-    id: "3",
-    name: "Alert Bot",
-    type: "webhook",
-    status: "draft",
-    lastRun: "Never",
-    description: "Trigger trades from external signals",
+    id: '3',
+    name: 'Alert Bot',
+    type: 'webhook',
+    status: 'draft',
+    lastRun: 'Never',
+    description: 'Trigger trades from external signals',
   },
   {
-    id: "4",
-    name: "Breakout Scanner",
-    type: "python",
-    status: "active",
-    lastRun: "5 mins ago",
-    description: "Detect price breakouts with custom logic",
+    id: '4',
+    name: 'Breakout Scanner',
+    type: 'python',
+    status: 'active',
+    lastRun: '5 mins ago',
+    description: 'Detect price breakouts with custom logic',
   },
 ];
 
 export default function StrategyStudioPage() {
-  const [activeTab, setActiveTab] = useState<StrategyTab>("visual");
+  const [activeTab, setActiveTab] = useState<StrategyTab>('visual');
 
   const filteredStrategies = mockStrategies.filter((s) => s.type === activeTab);
 
-  const getStatusBadgeClass = (status: Strategy["status"]) => {
+  const getStatusBadgeClass = (status: Strategy['status']) => {
     switch (status) {
-      case "active":
+      case 'active':
         return styles.statusActive;
-      case "paused":
+      case 'paused':
         return styles.statusPaused;
-      case "draft":
+      case 'draft':
         return styles.statusDraft;
     }
   };
@@ -91,10 +91,10 @@ export default function StrategyStudioPage() {
           <button
             key={tab.id}
             className={`${styles.tabButton} ${
-              activeTab === tab.id ? styles.tabButtonActive : ""
+              activeTab === tab.id ? styles.tabButtonActive : ''
             }`}
             onClick={() => setActiveTab(tab.id)}
-            aria-current={activeTab === tab.id ? "page" : undefined}
+            aria-current={activeTab === tab.id ? 'page' : undefined}
           >
             {tab.label}
           </button>
@@ -109,11 +109,11 @@ export default function StrategyStudioPage() {
                 {strategyTabs.find((t) => t.id === activeTab)?.label} Strategies
               </p>
               <h2 className={styles.panelTitle}>
-                {activeTab === "visual" && "Visual Strategy Builder"}
-                {activeTab === "webhook" && "Webhook Triggers"}
-                {activeTab === "chartink" && "Chartink Integration"}
-                {activeTab === "python" && "Python Scripts"}
-                {activeTab === "flow" && "Flow Automation"}
+                {activeTab === 'visual' && 'Visual Strategy Builder'}
+                {activeTab === 'webhook' && 'Webhook Triggers'}
+                {activeTab === 'chartink' && 'Chartink Integration'}
+                {activeTab === 'python' && 'Python Scripts'}
+                {activeTab === 'flow' && 'Flow Automation'}
               </h2>
             </div>
             <span className={styles.badge}>

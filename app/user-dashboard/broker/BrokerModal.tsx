@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "./Broker.module.css";
+import { useState } from 'react';
+import styles from './Broker.module.css';
 
 interface FormField {
   name: string;
@@ -29,14 +29,14 @@ export default function BrokerModal({
   onSuccess,
 }: BrokerModalProps) {
   const [formData, setFormData] = useState<Record<string, string | boolean>>(
-    {},
+    {}
   );
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   // Handle both array and object { fields: [...] } schema
   const rawSchema =
-    typeof broker.form_schema === "string"
+    typeof broker.form_schema === 'string'
       ? JSON.parse(broker.form_schema)
       : broker.form_schema || {};
 
@@ -48,14 +48,14 @@ export default function BrokerModal({
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setError('');
 
     try {
       // Find the account_id from common field names if not explicitly provided
@@ -71,7 +71,7 @@ export default function BrokerModal({
 
       if (!accountId) {
         throw new Error(
-          "Could not determine Account ID from provided fields. Please ensure identifying fields are filled.",
+          'Could not determine Account ID from provided fields. Please ensure identifying fields are filled.'
         );
       }
 
@@ -81,21 +81,21 @@ export default function BrokerModal({
         credentials: { ...formData },
       };
 
-      const res = await fetch("/api/user/brokers/connect", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/user/brokers/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Failed to connect broker");
+        throw new Error(data.error || 'Failed to connect broker');
       }
 
       onSuccess();
     } catch (err: unknown) {
       setError(
-        err instanceof Error ? err.message : "An unknown error occurred",
+        err instanceof Error ? err.message : 'An unknown error occurred'
       );
     } finally {
       setLoading(false);
@@ -150,9 +150,9 @@ export default function BrokerModal({
             {formFields.map((field) => (
               <div
                 key={field.name}
-                className={`${styles.formGroup} ${field.type === "checkbox" ? styles.checkboxGroup : ""}`}
+                className={`${styles.formGroup} ${field.type === 'checkbox' ? styles.checkboxGroup : ''}`}
               >
-                {field.type === "checkbox" ? (
+                {field.type === 'checkbox' ? (
                   <div className={styles.checkboxWrapper}>
                     <input
                       type="checkbox"
@@ -187,7 +187,7 @@ export default function BrokerModal({
                       placeholder={
                         field.placeholder || `Your ${field.label.toLowerCase()}`
                       }
-                      value={(formData[field.name] as string) || ""}
+                      value={(formData[field.name] as string) || ''}
                       onChange={handleChange}
                       className={styles.inputField}
                     />
@@ -236,7 +236,7 @@ export default function BrokerModal({
               className={styles.submitBtn}
               disabled={loading}
             >
-              {loading ? "Connecting..." : "Connect Account"}
+              {loading ? 'Connecting...' : 'Connect Account'}
             </button>
           </div>
         </div>

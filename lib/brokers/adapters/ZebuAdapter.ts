@@ -6,14 +6,14 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { createHash } from "crypto";
+} from '../types';
+import { createHash } from 'crypto';
 
 export class ZebuAdapter implements IBrokerAdapter {
   private clientId: string;
   private secretKey: string;
   private accessToken?: string;
-  private baseUrl: string = "https://go.mynt.in";
+  private baseUrl: string = 'https://go.mynt.in';
 
   constructor(credentials: BrokerCredentials) {
     this.clientId = credentials.api_key;
@@ -32,9 +32,9 @@ export class ZebuAdapter implements IBrokerAdapter {
 
   async handleOAuthCallback(code: string): Promise<AuthResponse> {
     try {
-      const checksum = createHash("sha256")
+      const checksum = createHash('sha256')
         .update(`${this.clientId}${this.secretKey}${code}`)
-        .digest("hex");
+        .digest('hex');
 
       const payload = {
         code,
@@ -44,17 +44,17 @@ export class ZebuAdapter implements IBrokerAdapter {
       const response = await fetch(
         `${this.baseUrl}/NorenWClientAPI/GenAcsTok`,
         {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: "jData=" + JSON.stringify(payload),
-        },
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: 'jData=' + JSON.stringify(payload),
+        }
       );
 
       const data = await response.json();
-      if (data.stat !== "Ok" || !data.access_token) {
+      if (data.stat !== 'Ok' || !data.access_token) {
         return {
           success: false,
-          message: data.emsg || "Authentication failed",
+          message: data.emsg || 'Authentication failed',
         };
       }
 
@@ -72,16 +72,16 @@ export class ZebuAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("POST", "/NorenWClientAPI/UserDetails", {});
+    const data = await this.request('POST', '/NorenWClientAPI/UserDetails', {});
     return {
-      id: data.actid || "",
-      name: data.uname || "Zebu User",
-      brokerName: "Zebu",
+      id: data.actid || '',
+      name: data.uname || 'Zebu User',
+      brokerName: 'Zebu',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("POST", "/NorenWClientAPI/Limits", {});
+    const data = await this.request('POST', '/NorenWClientAPI/Limits', {});
     return {
       availableCash: parseFloat(data.cash || 0),
       utilizedMargin: parseFloat(data.margin_used || 0),
@@ -94,22 +94,22 @@ export class ZebuAdapter implements IBrokerAdapter {
     try {
       const payload = {
         tsym: order.symbol,
-        exch: order.exchange || "NSE",
-        trantype: order.transactionType === "BUY" ? "B" : "S",
-        prctyp: order.orderType === "MARKET" ? "MKT" : "LMT",
+        exch: order.exchange || 'NSE',
+        trantype: order.transactionType === 'BUY' ? 'B' : 'S',
+        prctyp: order.orderType === 'MARKET' ? 'MKT' : 'LMT',
         qty: order.quantity.toString(),
-        prd: order.product === "CNC" ? "C" : "M",
-        ret: "DAY",
-        prc: order.price?.toString() || "0",
+        prd: order.product === 'CNC' ? 'C' : 'M',
+        ret: 'DAY',
+        prc: order.price?.toString() || '0',
       };
 
       const data = await this.request(
-        "POST",
-        "/NorenWClientAPI/PlaceOrder",
-        payload,
+        'POST',
+        '/NorenWClientAPI/PlaceOrder',
+        payload
       );
       return {
-        success: data.stat === "Ok",
+        success: data.stat === 'Ok',
         orderId: data.norenordno,
         message: data.emsg,
       };
@@ -124,15 +124,15 @@ export class ZebuAdapter implements IBrokerAdapter {
   private async request(
     method: string,
     endpoint: string,
-    body: BrokerCredentials,
+    body: BrokerCredentials
   ) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
-      headers: { "Content-Type": "text/plain" },
+      headers: { 'Content-Type': 'text/plain' },
       body:
-        "jData=" +
+        'jData=' +
         JSON.stringify({
           ...body,
           uid: this.clientId,
@@ -141,8 +141,8 @@ export class ZebuAdapter implements IBrokerAdapter {
     });
 
     const data = await response.json();
-    if (data.stat !== "Ok") {
-      throw new Error(data.emsg || "Request failed");
+    if (data.stat !== 'Ok') {
+      throw new Error(data.emsg || 'Request failed');
     }
     return data;
   }

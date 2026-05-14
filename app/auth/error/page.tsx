@@ -1,36 +1,36 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
-import styles from "./error.module.css";
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+import styles from './error.module.css';
 
 function ErrorMessage() {
   const searchParams = useSearchParams();
-  const error = searchParams.get("error");
+  const error = searchParams.get('error');
 
   const getErrorMessage = (error: string | null) => {
     switch (error) {
-      case "OAuthSignin":
-        return "An error occurred during sign in. Please try again.";
-      case "OAuthCallback":
-        return "An error occurred during authentication. Please try again.";
-      case "OAuthCreateAccount":
+      case 'OAuthSignin':
+        return 'An error occurred during sign in. Please try again.';
+      case 'OAuthCallback':
+        return 'An error occurred during authentication. Please try again.';
+      case 'OAuthCreateAccount':
         return "We couldn't create your account. Please try again.";
-      case "EmailCreateAccount":
+      case 'EmailCreateAccount':
         return "We couldn't create your account. Please try again.";
-      case "Callback":
-        return "An error occurred during callback. Please try again.";
-      case "OAuthAccountNotLinked":
-        return "This email is already associated with another account. Please sign in using the same method you used originally.";
-      case "EmailSignin":
-        return "Check your email address.";
-      case "CredentialsSignin":
-        return "Sign in failed. Check your details.";
-      case "SessionRequired":
-        return "Please sign in to access this page.";
+      case 'Callback':
+        return 'An error occurred during callback. Please try again.';
+      case 'OAuthAccountNotLinked':
+        return 'This email is already associated with another account. Please sign in using the same method you used originally.';
+      case 'EmailSignin':
+        return 'Check your email address.';
+      case 'CredentialsSignin':
+        return 'Sign in failed. Check your details.';
+      case 'SessionRequired':
+        return 'Please sign in to access this page.';
       default:
-        return "An authentication error occurred. Please try again.";
+        return 'An authentication error occurred. Please try again.';
     }
   };
 

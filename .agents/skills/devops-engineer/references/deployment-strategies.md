@@ -65,7 +65,7 @@ spec:
     - match:
         - headers:
             canary:
-              exact: "true"
+              exact: 'true'
       route:
         - destination:
             host: app-canary
@@ -210,7 +210,7 @@ spec:
         timeout: 5s
         metadata:
           type: bash
-          cmd: "hey -z 1m -q 10 http://api-canary:8080/"
+          cmd: 'hey -z 1m -q 10 http://api-canary:8080/'
 ```
 
 ## Shadow Deployment
@@ -228,7 +228,7 @@ spec:
     - match:
         - headers:
             x-test-version:
-              exact: "v2"
+              exact: 'v2'
       route:
         - destination:
             host: api

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useCallback } from "react";
-import { useSession, signOut } from "next-auth/react";
-import styles from "./SessionTimeoutWarning.module.css";
+import { useEffect, useState, useCallback } from 'react';
+import { useSession, signOut } from 'next-auth/react';
+import styles from './SessionTimeoutWarning.module.css';
 
 const SESSION_WARNING_THRESHOLD = 5 * 60 * 1000; // Show warning 5 minutes before expiry
 const SESSION_CHECK_INTERVAL = 30 * 1000; // Check every 30 seconds
@@ -46,7 +46,7 @@ export default function SessionTimeoutWarning() {
 
       // Auto logout when session expires
       if (remaining <= 0) {
-        signOut({ callbackUrl: "/sign-in?error=SessionExpired" });
+        signOut({ callbackUrl: '/sign-in?error=SessionExpired' });
       }
     };
 
@@ -63,7 +63,7 @@ export default function SessionTimeoutWarning() {
   };
 
   const handleLogout = () => {
-    signOut({ callbackUrl: "/" });
+    signOut({ callbackUrl: '/' });
   };
 
   if (!showWarning || timeLeft === null) return null;
@@ -93,11 +93,11 @@ export default function SessionTimeoutWarning() {
 
         <h3 className={styles.warningTitle}>Session Expiring Soon</h3>
         <p className={styles.warningMessage}>
-          Your session will expire in{" "}
+          Your session will expire in{' '}
           <span className={styles.timeRemaining}>
-            {minutes}:{seconds.toString().padStart(2, "0")}
+            {minutes}:{seconds.toString().padStart(2, '0')}
           </span>
-          {". "}For security reasons, you will be automatically logged out.
+          {'. '}For security reasons, you will be automatically logged out.
         </p>
 
         <div className={styles.warningActions}>

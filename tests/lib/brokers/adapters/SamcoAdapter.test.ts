@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { SamcoAdapter } from "@/lib/brokers/adapters/SamcoAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { SamcoAdapter } from '@/lib/brokers/adapters/SamcoAdapter';
 
-describe("SamcoAdapter", () => {
+describe('SamcoAdapter', () => {
   const mockConfig = {
-    api_key: "SAM123",
-    password: "sam_password",
-    secret_api_key: "sam_sec",
+    api_key: 'SAM123',
+    password: 'sam_password',
+    secret_api_key: 'sam_sec',
   };
 
   beforeEach(() => {
@@ -13,15 +13,15 @@ describe("SamcoAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should authenticate successfully", async () => {
+  it('should authenticate successfully', async () => {
     const mockAccessTokenResponse = {
-      status: "Success",
-      accessToken: "sam_access_token",
+      status: 'Success',
+      accessToken: 'sam_access_token',
     };
 
     const mockLoginResponse = {
-      status: "Success",
-      sessionToken: "sam_session_token",
+      status: 'Success',
+      sessionToken: 'sam_session_token',
     };
 
     vi.mocked(fetch)
@@ -38,13 +38,13 @@ describe("SamcoAdapter", () => {
     const result = await adapter.authenticate();
 
     expect(result.success).toBe(true);
-    expect(result.accessToken).toBe("sam_session_token");
+    expect(result.accessToken).toBe('sam_session_token');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
-      status: "Success",
-      clientName: "Samco Tester",
+      status: 'Success',
+      clientName: 'Samco Tester',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -54,19 +54,19 @@ describe("SamcoAdapter", () => {
 
     const adapter = new SamcoAdapter({
       ...mockConfig,
-      access_token: "valid_token",
+      access_token: 'valid_token',
     });
     const profile = await adapter.getProfile();
 
-    expect(profile.id).toBe("SAM123");
-    expect(profile.name).toBe("Samco Tester");
+    expect(profile.id).toBe('SAM123');
+    expect(profile.name).toBe('Samco Tester');
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      status: "Success",
-      orderNumber: "SAM_ORD_1313",
-      statusMessage: "Success",
+      status: 'Success',
+      orderNumber: 'SAM_ORD_1313',
+      statusMessage: 'Success',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -76,18 +76,18 @@ describe("SamcoAdapter", () => {
 
     const adapter = new SamcoAdapter({
       ...mockConfig,
-      access_token: "valid_token",
+      access_token: 'valid_token',
     });
     const result = await adapter.placeOrder({
-      symbol: "ITC",
-      exchange: "NSE",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: 'ITC',
+      exchange: 'NSE',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 1,
-      product: "MIS",
+      product: 'MIS',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("SAM_ORD_1313");
+    expect(result.orderId).toBe('SAM_ORD_1313');
   });
 });

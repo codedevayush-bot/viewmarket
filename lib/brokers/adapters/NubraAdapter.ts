@@ -6,8 +6,8 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { generateTOTP } from "../utils/totp";
+} from '../types';
+import { generateTOTP } from '../utils/totp';
 
 export class NubraAdapter implements IBrokerAdapter {
   private phone: string;
@@ -15,7 +15,7 @@ export class NubraAdapter implements IBrokerAdapter {
   private totpSecret?: string;
   private useUat: boolean;
   private accessToken?: string;
-  private deviceId: string = "VIEW_MARKET_WEB";
+  private deviceId: string = 'VIEW_MARKET_WEB';
 
   constructor(credentials: BrokerCredentials) {
     this.phone = credentials.phone;
@@ -26,7 +26,7 @@ export class NubraAdapter implements IBrokerAdapter {
   }
 
   private getBaseUrl() {
-    return this.useUat ? "https://uatapi.nubra.io" : "https://api.nubra.io";
+    return this.useUat ? 'https://uatapi.nubra.io' : 'https://api.nubra.io';
   }
 
   async authenticate(authPayload?: BrokerCredentials): Promise<AuthResponse> {
@@ -39,16 +39,16 @@ export class NubraAdapter implements IBrokerAdapter {
       if (!otp) {
         return {
           success: true,
-          message: "Please enter your TOTP from authenticator app",
+          message: 'Please enter your TOTP from authenticator app',
         };
       }
 
       // Step 1: Login via TOTP
       const totpResponse = await fetch(`${baseUrl}/totp/login`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "x-device-id": this.deviceId,
+          'Content-Type': 'application/json',
+          'x-device-id': this.deviceId,
         },
         body: JSON.stringify({ phone: this.phone, totp: parseInt(otp) }),
       });
@@ -59,16 +59,16 @@ export class NubraAdapter implements IBrokerAdapter {
       if (!tempAuthToken) {
         return {
           success: false,
-          message: totpData.message || "TOTP login failed",
+          message: totpData.message || 'TOTP login failed',
         };
       }
 
       // Step 2: Verify PIN
       const pinResponse = await fetch(`${baseUrl}/verifypin`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "x-device-id": this.deviceId,
+          'Content-Type': 'application/json',
+          'x-device-id': this.deviceId,
           Authorization: `Bearer ${tempAuthToken}`,
         },
         body: JSON.stringify({ pin: this.mpin }),
@@ -78,7 +78,7 @@ export class NubraAdapter implements IBrokerAdapter {
       if (!pinData.session_token) {
         return {
           success: false,
-          message: pinData.message || "PIN verification failed",
+          message: pinData.message || 'PIN verification failed',
         };
       }
 
@@ -96,16 +96,16 @@ export class NubraAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("GET", "/user/profile");
+    const data = await this.request('GET', '/user/profile');
     return {
-      id: data.client_id || "",
-      name: data.full_name || "Nubra User",
-      brokerName: "Nubra",
+      id: data.client_id || '',
+      name: data.full_name || 'Nubra User',
+      brokerName: 'Nubra',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/user/limits");
+    const data = await this.request('GET', '/user/limits');
     return {
       availableCash: parseFloat(data.available_margin || 0),
       utilizedMargin: parseFloat(data.utilized_margin || 0),
@@ -117,16 +117,16 @@ export class NubraAdapter implements IBrokerAdapter {
     try {
       const payload = {
         symbol: order.symbol,
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         transaction_type: order.transactionType,
         order_type: order.orderType,
         quantity: order.quantity,
         price: order.price || 0,
         product: order.product,
-        validity: "DAY",
+        validity: 'DAY',
       };
 
-      const data = await this.request("POST", "/order/place", payload);
+      const data = await this.request('POST', '/order/place', payload);
       return {
         success: true,
         orderId: data.order_id,
@@ -141,13 +141,13 @@ export class NubraAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`${this.getBaseUrl()}${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
-        "x-device-id": this.deviceId,
+        'Content-Type': 'application/json',
+        'x-device-id': this.deviceId,
         Authorization: `Bearer ${this.accessToken}`,
       },
       body: body ? JSON.stringify(body) : undefined,
@@ -155,7 +155,7 @@ export class NubraAdapter implements IBrokerAdapter {
 
     const data = await response.json();
     if (response.status !== 200) {
-      throw new Error(data.message || "Request failed");
+      throw new Error(data.message || 'Request failed');
     }
     return data;
   }

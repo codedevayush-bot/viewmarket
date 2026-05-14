@@ -1,9 +1,9 @@
-import LegalLayout from "../../components/LegalLayout";
-import styles from "../../components/LegalLayout.module.css";
+import LegalLayout from '../../components/LegalLayout';
+import styles from '../../components/LegalLayout.module.css';
 
 export const metadata = {
-  title: "Terms of Service",
-  description: "Terms of Service for ViewMarket algorithmic trading platform",
+  title: 'Terms of Service',
+  description: 'Terms of Service for ViewMarket algorithmic trading platform',
 };
 
 export default function TermsOfServicePage() {

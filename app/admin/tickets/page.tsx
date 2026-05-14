@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import useSWR from "swr";
-import styles from "./AdminTickets.module.css";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import useSWR from 'swr';
+import styles from './AdminTickets.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -18,27 +18,27 @@ interface Ticket {
 
 export default function AdminTicketsPage() {
   const router = useRouter();
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const {
     data: tickets,
     error,
     isLoading,
   } = useSWR<Ticket[]>(
-    `/api/tickets${statusFilter !== "all" ? `?status=${statusFilter}` : ""}`,
+    `/api/tickets${statusFilter !== 'all' ? `?status=${statusFilter}` : ''}`,
     fetcher,
-    { refreshInterval: 10000 },
+    { refreshInterval: 10000 }
   );
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case "open":
+      case 'open':
         return styles.statusOpen;
-      case "in_progress":
+      case 'in_progress':
         return styles.statusInProgress;
-      case "resolved":
+      case 'resolved':
         return styles.statusResolved;
-      case "closed":
+      case 'closed':
         return styles.statusClosed;
       default:
         return styles.statusOpen;
@@ -46,7 +46,7 @@ export default function AdminTicketsPage() {
   };
 
   const formatStatus = (status: string) => {
-    return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase());
+    return status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
   if (error)
@@ -107,13 +107,13 @@ export default function AdminTicketsPage() {
                   <td className={styles.td}>{ticket.title}</td>
                   <td
                     className={styles.td}
-                    style={{ color: "rgba(255,255,255,0.6)", fontSize: "12px" }}
+                    style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}
                   >
                     {ticket.user_id}
                   </td>
                   <td
                     className={styles.td}
-                    style={{ color: "rgba(255,255,255,0.6)" }}
+                    style={{ color: 'rgba(255,255,255,0.6)' }}
                   >
                     {ticket.category}
                   </td>
@@ -126,7 +126,7 @@ export default function AdminTicketsPage() {
                   </td>
                   <td
                     className={styles.td}
-                    style={{ color: "rgba(255,255,255,0.6)" }}
+                    style={{ color: 'rgba(255,255,255,0.6)' }}
                   >
                     {new Date(ticket.created_at).toLocaleDateString()}
                   </td>

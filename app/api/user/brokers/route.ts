@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { auth } from "@/auth";
+import { NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+import { auth } from '@/auth';
 
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -14,7 +14,7 @@ export async function GET() {
        FROM broker_connections bc
        JOIN brokers b ON bc."brokerId" = b.id
        WHERE bc."userId" = $1`,
-      [session.user.id],
+      [session.user.id]
     );
 
     // Filter out the actual encrypted secrets and just return presence or masked values
@@ -36,10 +36,10 @@ export async function GET() {
 
     return NextResponse.json({ connections: safeConnections });
   } catch (error) {
-    console.error("Failed to fetch user brokers:", error);
+    console.error('Failed to fetch user brokers:', error);
     return NextResponse.json(
-      { error: "Failed to fetch user brokers" },
-      { status: 500 },
+      { error: 'Failed to fetch user brokers' },
+      { status: 500 }
     );
   }
 }

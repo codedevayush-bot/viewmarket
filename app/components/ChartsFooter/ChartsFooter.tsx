@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import styles from "./ChartsFooter.module.css";
+import React, { useState, useEffect } from 'react';
+import styles from './ChartsFooter.module.css';
 
 export default function ChartsFooter() {
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState('');
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const istTime = new Intl.DateTimeFormat("en-IN", {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
+      const istTime = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
         hour12: false,
       }).format(now);
       setTime(istTime);

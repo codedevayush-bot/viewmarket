@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { auth } from "@/auth";
-import { encrypt } from "@/lib/encryption";
+import { NextRequest, NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+import { auth } from '@/auth';
+import { encrypt } from '@/lib/encryption';
 
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -21,15 +21,15 @@ export async function POST(req: NextRequest) {
 
     if (!broker_id || !account_id || Object.keys(credentials).length === 0) {
       return NextResponse.json(
-        { error: "Missing broker_id, account_id, or credentials" },
-        { status: 400 },
+        { error: 'Missing broker_id, account_id, or credentials' },
+        { status: 400 }
       );
     }
 
     // Encrypt all sensitive data in the credentials object
     const encryptedCredentials: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(credentials)) {
-      if (typeof value === "string") {
+      if (typeof value === 'string') {
         encryptedCredentials[key] = encrypt(value);
       } else {
         encryptedCredentials[key] = value;
@@ -37,8 +37,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Legacy fields for backward compatibility during migration
-    const legacyKey = encryptedCredentials.api_key || "";
-    const legacySecret = encryptedCredentials.api_secret || "";
+    const legacyKey = encryptedCredentials.api_key || '';
+    const legacySecret = encryptedCredentials.api_secret || '';
 
     // Upsert the connection for the user and broker
     const res = await query(
@@ -59,19 +59,19 @@ export async function POST(req: NextRequest) {
         legacyKey,
         legacySecret,
         encryptedCredentials,
-      ],
+      ]
     );
 
     return NextResponse.json({
       success: true,
       connectionId: res.rows[0].id,
-      message: "Broker credentials saved successfully.",
+      message: 'Broker credentials saved successfully.',
     });
   } catch (error) {
-    console.error("Failed to connect broker:", error);
+    console.error('Failed to connect broker:', error);
     return NextResponse.json(
-      { error: "Failed to connect broker" },
-      { status: 500 },
+      { error: 'Failed to connect broker' },
+      { status: 500 }
     );
   }
 }

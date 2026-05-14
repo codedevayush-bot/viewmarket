@@ -1,63 +1,63 @@
-"use client";
+'use client';
 
-import React from "react";
-import dynamic from "next/dynamic";
-import ChartsHeader from "../../components/ChartsHeader/ChartsHeader";
-import ChartsFooter from "../../components/ChartsFooter/ChartsFooter";
-import ChartsRightPanel from "../../components/ChartsRightPanel/ChartsRightPanel";
-import SymbolSearchModal from "../../components/SymbolSearchModal/SymbolSearchModal";
-import StrategyModal from "../../components/StrategyModal/StrategyModal";
-import SettingsModal from "../../components/SettingsModal/SettingsModal";
-import type { ChartType } from "../../components/ChartTypeDropdown/ChartTypeDropdown";
-import styles from "./ChartsPage.module.css";
+import React from 'react';
+import dynamic from 'next/dynamic';
+import ChartsHeader from '../../components/ChartsHeader/ChartsHeader';
+import ChartsFooter from '../../components/ChartsFooter/ChartsFooter';
+import ChartsRightPanel from '../../components/ChartsRightPanel/ChartsRightPanel';
+import SymbolSearchModal from '../../components/SymbolSearchModal/SymbolSearchModal';
+import StrategyModal from '../../components/StrategyModal/StrategyModal';
+import SettingsModal from '../../components/SettingsModal/SettingsModal';
+import type { ChartType } from '../../components/ChartTypeDropdown/ChartTypeDropdown';
+import styles from './ChartsPage.module.css';
 
 // Dynamic import with SSR disabled for Lightweight Charts compatibility
 const TradingViewChart = dynamic(
-  () => import("../../components/TradingViewChart/TradingViewChart"),
+  () => import('../../components/TradingViewChart/TradingViewChart'),
   {
     ssr: false,
     loading: () => (
       <div className={styles.chartArea}>
         <div
           style={{
-            height: "100%",
-            width: "100%",
-            background: "var(--bg-page)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "var(--text-faint)",
-            fontFamily: "Inter, sans-serif",
+            height: '100%',
+            width: '100%',
+            background: 'var(--bg-page)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--text-faint)',
+            fontFamily: 'Inter, sans-serif',
           }}
         >
           Initializing Charts...
         </div>
       </div>
     ),
-  },
+  }
 );
 
 export default function ChartsClient() {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [isStrategyOpen, setIsStrategyOpen] = React.useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
-  const [chartType, setChartType] = React.useState<ChartType>("candlestick");
-  const [timeframe, setTimeframe] = React.useState("1m");
+  const [chartType, setChartType] = React.useState<ChartType>('candlestick');
+  const [timeframe, setTimeframe] = React.useState('1m');
 
   React.useEffect(() => {
     const handleGlobalKey = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey) {
-        if (e.key === "k") {
+        if (e.key === 'k') {
           e.preventDefault();
           setIsSearchOpen((prev) => !prev);
           setIsStrategyOpen(false);
           setIsSettingsOpen(false);
-        } else if (e.key === "j") {
+        } else if (e.key === 'j') {
           e.preventDefault();
           setIsStrategyOpen((prev) => !prev);
           setIsSearchOpen(false);
           setIsSettingsOpen(false);
-        } else if (e.key === ",") {
+        } else if (e.key === ',') {
           e.preventDefault();
           setIsSettingsOpen((prev) => !prev);
           setIsSearchOpen(false);
@@ -65,8 +65,8 @@ export default function ChartsClient() {
         }
       }
     };
-    window.addEventListener("keydown", handleGlobalKey);
-    return () => window.removeEventListener("keydown", handleGlobalKey);
+    window.addEventListener('keydown', handleGlobalKey);
+    return () => window.removeEventListener('keydown', handleGlobalKey);
   }, []);
 
   return (
@@ -88,7 +88,7 @@ export default function ChartsClient() {
           setIsStrategyOpen(false);
         }}
         onRedirectClick={() => {
-          window.open("/user-dashboard/charts?popout=true", "_blank");
+          window.open('/user-dashboard/charts?popout=true', '_blank');
         }}
         chartType={chartType}
         onChartTypeChange={setChartType}

@@ -6,8 +6,8 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { createHash } from "crypto";
+} from '../types';
+import { createHash } from 'crypto';
 
 export class DefinedgeAdapter implements IBrokerAdapter {
   private apiToken: string;
@@ -30,9 +30,9 @@ export class DefinedgeAdapter implements IBrokerAdapter {
         const response = await fetch(
           `https://signin.definedgesecurities.com/auth/realms/debroking/dsbpkc/login/${this.apiToken}`,
           {
-            method: "GET",
+            method: 'GET',
             headers: { api_secret: this.apiSecret },
-          },
+          }
         );
         const data = await response.json();
         return {
@@ -41,32 +41,32 @@ export class DefinedgeAdapter implements IBrokerAdapter {
             requiresOtp: true,
             otpToken: data.otp_token,
           },
-          message: "OTP sent successfully",
+          message: 'OTP sent successfully',
         };
       }
 
       // Step 2: Verify OTP
       const authString = `${otpToken}${otp}${this.apiSecret}`;
-      const authCode = createHash("sha256").update(authString).digest("hex");
+      const authCode = createHash('sha256').update(authString).digest('hex');
 
       const response = await fetch(
-        "https://signin.definedgesecurities.com/auth/realms/debroking/dsbpkc/token",
+        'https://signin.definedgesecurities.com/auth/realms/debroking/dsbpkc/token',
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ otp_token: otpToken, otp, ac: authCode }),
-        },
+        }
       );
 
       const data = await response.json();
-      if (data.stat !== "Ok") {
+      if (data.stat !== 'Ok') {
         return {
           success: false,
-          message: data.emsg || "OTP verification failed",
+          message: data.emsg || 'OTP verification failed',
         };
       }
 
-      const sessionToken = `${data.api_session_key}:::${data.susertoken || ""}:::${this.apiToken}`;
+      const sessionToken = `${data.api_session_key}:::${data.susertoken || ''}:::${this.apiToken}`;
 
       return {
         success: true,
@@ -82,16 +82,16 @@ export class DefinedgeAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("POST", "/UserDetails", {});
+    const data = await this.request('POST', '/UserDetails', {});
     return {
-      id: data.uid || "",
-      name: data.uname || "Definedge User",
-      brokerName: "Definedge",
+      id: data.uid || '',
+      name: data.uname || 'Definedge User',
+      brokerName: 'Definedge',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("POST", "/Limits", {});
+    const data = await this.request('POST', '/Limits', {});
     return {
       availableCash: parseFloat(data.cash || 0),
       utilizedMargin: 0,
@@ -103,18 +103,18 @@ export class DefinedgeAdapter implements IBrokerAdapter {
     try {
       const payload = {
         tsym: order.symbol,
-        exch: order.exchange || "NSE",
+        exch: order.exchange || 'NSE',
         trantype: order.transactionType,
         prctyp: order.orderType,
         qty: order.quantity.toString(),
         prd: order.product,
-        ret: "DAY",
-        prc: order.price?.toString() || "0",
+        ret: 'DAY',
+        prc: order.price?.toString() || '0',
       };
 
-      const data = await this.request("POST", "/PlaceOrder", payload);
+      const data = await this.request('POST', '/PlaceOrder', payload);
       return {
-        success: data.stat === "Ok",
+        success: data.stat === 'Ok',
         orderId: data.norenordno,
         message: data.emsg || data.stat,
       };
@@ -129,18 +129,18 @@ export class DefinedgeAdapter implements IBrokerAdapter {
   private async request(
     method: string,
     endpoint: string,
-    body: BrokerCredentials,
+    body: BrokerCredentials
   ) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
-    const [, susertoken] = this.accessToken.split(":::");
-    const baseUrl = "https://api.definedgesecurities.com/NorenWClientAPI";
+    const [, susertoken] = this.accessToken.split(':::');
+    const baseUrl = 'https://api.definedgesecurities.com/NorenWClientAPI';
 
     const response = await fetch(`${baseUrl}${endpoint}`, {
       method,
-      headers: { "Content-Type": "text/plain" },
+      headers: { 'Content-Type': 'text/plain' },
       body:
-        "jData=" +
+        'jData=' +
         JSON.stringify({
           ...body,
           uid: this.apiToken,
@@ -153,8 +153,8 @@ export class DefinedgeAdapter implements IBrokerAdapter {
     }
 
     const data = await response.json();
-    if (data.stat !== "Ok") {
-      throw new Error(data.emsg || "Request failed");
+    if (data.stat !== 'Ok') {
+      throw new Error(data.emsg || 'Request failed');
     }
     return data;
   }

@@ -61,8 +61,8 @@ npm add -D drizzle-kit
 **Connection:**
 
 ```typescript
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
 
 const sql = neon(process.env.DATABASE_URL!);
 export const db = drizzle(sql);
@@ -106,20 +106,20 @@ export const db = drizzle(sql);
 
 ```typescript
 await db.batch([
-  db.insert(users).values({ email: "test@example.com" }),
-  db.insert(posts).values({ title: "Test" }),
+  db.insert(users).values({ email: 'test@example.com' }),
+  db.insert(posts).values({ title: 'Test' }),
 ]);
 ```
 
 **2. Cache query results:**
 
 ```typescript
-import { unstable_cache } from "next/cache";
+import { unstable_cache } from 'next/cache';
 
 const getUsers = unstable_cache(
   async () => db.select().from(users),
-  ["users"],
-  { revalidate: 60 },
+  ['users'],
+  { revalidate: 60 }
 );
 ```
 
@@ -162,9 +162,9 @@ npm add -D drizzle-kit @types/ws
 **Connection:**
 
 ```typescript
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { Pool, neonConfig } from "@neondatabase/serverless";
-import ws from "ws";
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import ws from 'ws';
 
 neonConfig.webSocketConstructor = ws;
 
@@ -225,12 +225,12 @@ const pool = new Pool({
 **2. Graceful shutdown:**
 
 ```typescript
-process.on("SIGTERM", async () => {
+process.on('SIGTERM', async () => {
   await pool.end();
   process.exit(0);
 });
 
-process.on("SIGINT", async () => {
+process.on('SIGINT', async () => {
   await pool.end();
   process.exit(0);
 });
@@ -242,22 +242,22 @@ process.on("SIGINT", async () => {
 await db.transaction(async (tx) => {
   const user = await tx
     .insert(users)
-    .values({ email: "test@example.com" })
+    .values({ email: 'test@example.com' })
     .returning();
 
-  await tx.insert(posts).values({ userId: user[0].id, title: "First post" });
+  await tx.insert(posts).values({ userId: user[0].id, title: 'First post' });
 });
 ```
 
 **4. Handle connection errors:**
 
 ```typescript
-pool.on("error", (err) => {
-  console.error("Unexpected pool error:", err);
+pool.on('error', (err) => {
+  console.error('Unexpected pool error:', err);
 });
 
-pool.on("connect", () => {
-  console.log("Pool connection established");
+pool.on('connect', () => {
+  console.log('Pool connection established');
 });
 ```
 
@@ -280,10 +280,10 @@ pool.on("connect", () => {
 
 ```typescript
 // app/actions/users.ts
-"use server";
+'use server';
 
-import { db } from "@/db"; // HTTP adapter
-import { users } from "@/db/schema";
+import { db } from '@/db'; // HTTP adapter
+import { users } from '@/db/schema';
 
 export async function createUser(email: string) {
   return db.insert(users).values({ email }).returning();
@@ -301,18 +301,18 @@ export async function createUser(email: string) {
 **Example:**
 
 ```typescript
-import express from "express";
-import { db } from "./db"; // WebSocket adapter
-import { users } from "./db/schema";
+import express from 'express';
+import { db } from './db'; // WebSocket adapter
+import { users } from './db/schema';
 
 const app = express();
 
-app.get("/health", async (req, res) => {
+app.get('/health', async (req, res) => {
   try {
     await db.select().from(users).limit(1);
-    res.json({ status: "healthy" });
+    res.json({ status: 'healthy' });
   } catch (err) {
-    res.status(500).json({ status: "unhealthy", error: err.message });
+    res.status(500).json({ status: 'unhealthy', error: err.message });
   }
 });
 
@@ -344,8 +344,8 @@ app.listen(3000);
 **Setup:**
 
 ```typescript
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { Pool } from "@neondatabase/serverless";
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { Pool } from '@neondatabase/serverless';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL! });
 export const db = drizzle(pool);
@@ -371,8 +371,8 @@ src/
 
 ```typescript
 // src/db/http.ts
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
 
 const sql = neon(process.env.DATABASE_URL!);
 export const httpDb = drizzle(sql);
@@ -382,9 +382,9 @@ export const httpDb = drizzle(sql);
 
 ```typescript
 // src/db/ws.ts
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { Pool, neonConfig } from "@neondatabase/serverless";
-import ws from "ws";
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import ws from 'ws';
 
 neonConfig.webSocketConstructor = ws;
 const pool = new Pool({ connectionString: process.env.DATABASE_URL! });
@@ -395,10 +395,10 @@ export const wsDb = drizzle(pool);
 
 ```typescript
 // Vercel Edge Function
-import { httpDb as db } from "@/db/http";
+import { httpDb as db } from '@/db/http';
 
 // Express route
-import { wsDb as db } from "@/db/ws";
+import { wsDb as db } from '@/db/ws';
 ```
 
 ## Feature Comparison Table

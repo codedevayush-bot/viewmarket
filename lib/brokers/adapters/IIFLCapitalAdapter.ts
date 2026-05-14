@@ -6,14 +6,14 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { createHash } from "crypto";
+} from '../types';
+import { createHash } from 'crypto';
 
 export class IIFLCapitalAdapter implements IBrokerAdapter {
   private apiKey: string;
   private apiSecret: string;
   private accessToken?: string;
-  private baseUrl: string = "https://api.iiflcapital.com";
+  private baseUrl: string = 'https://api.iiflcapital.com';
 
   constructor(credentials: BrokerCredentials) {
     this.apiKey = credentials.api_key;
@@ -38,19 +38,19 @@ export class IIFLCapitalAdapter implements IBrokerAdapter {
       // For this implementation, we follow the previous checksum logic but adapted for callback.
 
       const checksumStr = `${this.apiKey}${code}${this.apiSecret}`;
-      const checksum = createHash("sha256").update(checksumStr).digest("hex");
+      const checksum = createHash('sha256').update(checksumStr).digest('hex');
 
       const response = await fetch(`${this.baseUrl}/getusersession`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ checkSum: checksum, apiKey: this.apiKey, code }),
       });
 
       const data = await response.json();
-      if (data.status?.toLowerCase() !== "ok" || !data.userSession) {
+      if (data.status?.toLowerCase() !== 'ok' || !data.userSession) {
         return {
           success: false,
-          message: data.message || "Authentication failed",
+          message: data.message || 'Authentication failed',
         };
       }
 
@@ -68,16 +68,16 @@ export class IIFLCapitalAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("GET", "/profile");
+    const data = await this.request('GET', '/profile');
     return {
-      id: data.clientCode || "",
-      name: data.clientName || "IIFL User",
-      brokerName: "IIFL Capital",
+      id: data.clientCode || '',
+      name: data.clientName || 'IIFL User',
+      brokerName: 'IIFL Capital',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/limits");
+    const data = await this.request('GET', '/limits');
     return {
       availableCash: parseFloat(data.availableMargin || 0),
       utilizedMargin: parseFloat(data.utilizedMargin || 0),
@@ -89,20 +89,20 @@ export class IIFLCapitalAdapter implements IBrokerAdapter {
     try {
       const payload = {
         symbol: order.symbol,
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         transactionType: order.transactionType,
         orderType: order.orderType,
         quantity: order.quantity,
         price: order.price || 0,
-        productType: order.product || "MIS",
-        duration: "DAY",
+        productType: order.product || 'MIS',
+        duration: 'DAY',
       };
 
-      const data = await this.request("POST", "/placeorder", payload);
+      const data = await this.request('POST', '/placeorder', payload);
       return {
-        success: data.status?.toLowerCase() === "ok",
+        success: data.status?.toLowerCase() === 'ok',
         orderId: data.orderId,
-        message: data.message || "Order placed successfully",
+        message: data.message || 'Order placed successfully',
       };
     } catch (error: unknown) {
       return {
@@ -113,20 +113,20 @@ export class IIFLCapitalAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.accessToken}`,
       },
       body: body ? JSON.stringify(body) : undefined,
     });
 
     const data = await response.json();
-    if (data.status?.toLowerCase() !== "ok") {
-      throw new Error(data.message || "Request failed");
+    if (data.status?.toLowerCase() !== 'ok') {
+      throw new Error(data.message || 'Request failed');
     }
     return data;
   }

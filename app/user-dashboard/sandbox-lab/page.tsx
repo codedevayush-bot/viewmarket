@@ -1,131 +1,131 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "../TradingWorkspace.module.css";
+import { useState } from 'react';
+import styles from '../TradingWorkspace.module.css';
 
-type SandboxTab = "sandbox" | "analyzer" | "playground" | "websocket";
+type SandboxTab = 'sandbox' | 'analyzer' | 'playground' | 'websocket';
 
 interface TestResult {
   id: string;
   name: string;
-  status: "passed" | "failed" | "pending";
+  status: 'passed' | 'failed' | 'pending';
   duration: string;
   timestamp: string;
 }
 
 interface LogEntry {
   timestamp: string;
-  level: "info" | "warn" | "error" | "success";
+  level: 'info' | 'warn' | 'error' | 'success';
   message: string;
 }
 
 const tabConfig: { id: SandboxTab; label: string; description: string }[] = [
-  { id: "sandbox", label: "Sandbox", description: "Safe testing environment" },
+  { id: 'sandbox', label: 'Sandbox', description: 'Safe testing environment' },
   {
-    id: "analyzer",
-    label: "Analyzer",
-    description: "Backtest & strategy analysis",
+    id: 'analyzer',
+    label: 'Analyzer',
+    description: 'Backtest & strategy analysis',
   },
-  { id: "playground", label: "Playground", description: "Interactive testing" },
-  { id: "websocket", label: "WebSocket", description: "WebSocket testing" },
+  { id: 'playground', label: 'Playground', description: 'Interactive testing' },
+  { id: 'websocket', label: 'WebSocket', description: 'WebSocket testing' },
 ];
 
 const mockTests: TestResult[] = [
   {
-    id: "1",
-    name: "Order Placement",
-    status: "passed",
-    duration: "245ms",
-    timestamp: "2 mins ago",
+    id: '1',
+    name: 'Order Placement',
+    status: 'passed',
+    duration: '245ms',
+    timestamp: '2 mins ago',
   },
   {
-    id: "2",
-    name: "Position Update",
-    status: "passed",
-    duration: "189ms",
-    timestamp: "5 mins ago",
+    id: '2',
+    name: 'Position Update',
+    status: 'passed',
+    duration: '189ms',
+    timestamp: '5 mins ago',
   },
   {
-    id: "3",
-    name: "WebSocket Connection",
-    status: "passed",
-    duration: "52ms",
-    timestamp: "8 mins ago",
+    id: '3',
+    name: 'WebSocket Connection',
+    status: 'passed',
+    duration: '52ms',
+    timestamp: '8 mins ago',
   },
   {
-    id: "4",
-    name: "API Authentication",
-    status: "failed",
-    duration: "1200ms",
-    timestamp: "12 mins ago",
+    id: '4',
+    name: 'API Authentication',
+    status: 'failed',
+    duration: '1200ms',
+    timestamp: '12 mins ago',
   },
   {
-    id: "5",
-    name: "Data Fetch",
-    status: "pending",
-    duration: "-",
-    timestamp: "Pending",
+    id: '5',
+    name: 'Data Fetch',
+    status: 'pending',
+    duration: '-',
+    timestamp: 'Pending',
   },
 ];
 
 const mockLogs: LogEntry[] = [
   {
-    timestamp: "14:32:15",
-    level: "info",
-    message: "Sandbox environment initialized",
+    timestamp: '14:32:15',
+    level: 'info',
+    message: 'Sandbox environment initialized',
   },
   {
-    timestamp: "14:32:16",
-    level: "success",
-    message: "Connected to test broker",
+    timestamp: '14:32:16',
+    level: 'success',
+    message: 'Connected to test broker',
   },
-  { timestamp: "14:32:18", level: "info", message: "Loading test data..." },
+  { timestamp: '14:32:18', level: 'info', message: 'Loading test data...' },
   {
-    timestamp: "14:32:20",
-    level: "warn",
-    message: "Rate limit approaching threshold",
+    timestamp: '14:32:20',
+    level: 'warn',
+    message: 'Rate limit approaching threshold',
   },
   {
-    timestamp: "14:32:22",
-    level: "info",
-    message: "Test scenario loaded successfully",
+    timestamp: '14:32:22',
+    level: 'info',
+    message: 'Test scenario loaded successfully',
   },
 ];
 
 export default function SandboxLabPage() {
-  const [activeTab, setActiveTab] = useState<SandboxTab>("sandbox");
+  const [activeTab, setActiveTab] = useState<SandboxTab>('sandbox');
 
-  const getStatusIcon = (status: TestResult["status"]) => {
+  const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
-      case "passed":
-        return "✓";
-      case "failed":
-        return "✗";
-      case "pending":
-        return "○";
+      case 'passed':
+        return '✓';
+      case 'failed':
+        return '✗';
+      case 'pending':
+        return '○';
     }
   };
 
-  const getStatusClass = (status: TestResult["status"]) => {
+  const getStatusClass = (status: TestResult['status']) => {
     switch (status) {
-      case "passed":
+      case 'passed':
         return styles.statusActive;
-      case "failed":
+      case 'failed':
         return styles.statusPaused;
-      case "pending":
+      case 'pending':
         return styles.statusDraft;
     }
   };
 
-  const getLogClass = (level: LogEntry["level"]) => {
+  const getLogClass = (level: LogEntry['level']) => {
     switch (level) {
-      case "info":
+      case 'info':
         return styles.logInfo;
-      case "warn":
+      case 'warn':
         return styles.logWarn;
-      case "error":
+      case 'error':
         return styles.logError;
-      case "success":
+      case 'success':
         return styles.logSuccess;
     }
   };
@@ -151,7 +151,7 @@ export default function SandboxLabPage() {
           <button
             key={tab.id}
             className={`${styles.tabButton} ${
-              activeTab === tab.id ? styles.tabButtonActive : ""
+              activeTab === tab.id ? styles.tabButtonActive : ''
             }`}
             onClick={() => setActiveTab(tab.id)}
           >
@@ -172,15 +172,15 @@ export default function SandboxLabPage() {
               </h2>
             </div>
             <span className={styles.badge}>
-              {activeTab === "sandbox" && "Active"}
-              {activeTab === "analyzer" && "5 tests"}
-              {activeTab === "playground" && "Ready"}
-              {activeTab === "websocket" && "Connected"}
+              {activeTab === 'sandbox' && 'Active'}
+              {activeTab === 'analyzer' && '5 tests'}
+              {activeTab === 'playground' && 'Ready'}
+              {activeTab === 'websocket' && 'Connected'}
             </span>
           </div>
 
           <div className={styles.list}>
-            {activeTab === "sandbox" && (
+            {activeTab === 'sandbox' && (
               <>
                 <div className={styles.sandboxHeader}>
                   <div className={styles.sandboxStatus}>
@@ -219,7 +219,7 @@ export default function SandboxLabPage() {
               </>
             )}
 
-            {activeTab === "analyzer" && (
+            {activeTab === 'analyzer' && (
               <>
                 <div className={styles.testListHeader}>
                   <span>Test Name</span>
@@ -245,7 +245,7 @@ export default function SandboxLabPage() {
               </>
             )}
 
-            {activeTab === "playground" && (
+            {activeTab === 'playground' && (
               <div className={styles.playgroundArea}>
                 <div className={styles.codeEditor}>
                   <div className={styles.codeEditorHeader}>
@@ -272,7 +272,7 @@ if (signal === 'BUY') {
               </div>
             )}
 
-            {activeTab === "websocket" && (
+            {activeTab === 'websocket' && (
               <div className={styles.wsSetup}>
                 <div className={styles.wsConfig}>
                   <div className={styles.configItem}>
@@ -328,7 +328,7 @@ if (signal === 'BUY') {
               </svg>
               New {tabConfig.find((t) => t.id === activeTab)?.label} Test
             </button>
-            {activeTab === "analyzer" && (
+            {activeTab === 'analyzer' && (
               <button className={styles.secondaryButton}>Run All Tests</button>
             )}
           </div>

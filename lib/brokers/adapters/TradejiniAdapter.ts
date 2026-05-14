@@ -6,8 +6,8 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { generateTOTP } from "../utils/totp";
+} from '../types';
+import { generateTOTP } from '../utils/totp';
 
 export class TradejiniAdapter implements IBrokerAdapter {
   private apiSecret: string;
@@ -15,14 +15,14 @@ export class TradejiniAdapter implements IBrokerAdapter {
   private totpSecret?: string;
   private accessToken?: string;
   private clientId: string;
-  private baseUrl: string = "https://api.tradejini.com/v2";
+  private baseUrl: string = 'https://api.tradejini.com/v2';
 
   constructor(credentials: BrokerCredentials) {
     this.apiSecret = credentials.api_secret;
     this.password = credentials.password;
     this.totpSecret = credentials.totp_secret;
     this.accessToken = credentials.access_token;
-    this.clientId = credentials.client_id || "";
+    this.clientId = credentials.client_id || '';
   }
 
   async authenticate(authPayload?: BrokerCredentials): Promise<AuthResponse> {
@@ -31,36 +31,36 @@ export class TradejiniAdapter implements IBrokerAdapter {
         authPayload?.totpCode ||
         (this.totpSecret ? generateTOTP(this.totpSecret) : null);
       if (!totpCode) {
-        return { success: false, message: "TOTP code or secret is required" };
+        return { success: false, message: 'TOTP code or secret is required' };
       }
       if (!this.password) {
         return {
           success: false,
-          message: "Trading password is required for 2FA login",
+          message: 'Trading password is required for 2FA login',
         };
       }
 
       const response = await fetch(
         `${this.baseUrl}/api-gw/oauth/individual-token-v2`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${this.apiSecret}`,
-            "Content-Type": "application/x-www-form-urlencoded",
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
           body: new URLSearchParams({
             password: this.password,
             twoFa: totpCode,
-            twoFaTyp: "totp",
+            twoFaTyp: 'totp',
           }),
-        },
+        }
       );
 
       const data = await response.json();
       if (!response.ok || !data.access_token) {
         return {
           success: false,
-          message: data.message || "Authentication failed",
+          message: data.message || 'Authentication failed',
         };
       }
 
@@ -68,7 +68,7 @@ export class TradejiniAdapter implements IBrokerAdapter {
         success: true,
         accessToken: data.access_token,
         expiresAt: new Date(
-          Date.now() + (data.expires_in || 24 * 60 * 60) * 1000,
+          Date.now() + (data.expires_in || 24 * 60 * 60) * 1000
         ),
       };
     } catch (error: unknown) {
@@ -80,16 +80,16 @@ export class TradejiniAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("GET", "/api-gw/user/profile");
+    const data = await this.request('GET', '/api-gw/user/profile');
     return {
       id: data.clientCode || this.clientId,
-      name: data.clientName || "Tradejini User",
-      brokerName: "Tradejini",
+      name: data.clientName || 'Tradejini User',
+      brokerName: 'Tradejini',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/api-gw/user/limits");
+    const data = await this.request('GET', '/api-gw/user/limits');
     return {
       availableCash: parseFloat(data.availableMargin || 0),
       utilizedMargin: 0,
@@ -100,17 +100,17 @@ export class TradejiniAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         symbol: order.symbol,
         transactionType: order.transactionType,
         orderType: order.orderType,
         quantity: order.quantity,
         price: order.price || 0,
         product: order.product,
-        validity: "DAY",
+        validity: 'DAY',
       };
 
-      const data = await this.request("POST", "/api-gw/orders", payload);
+      const data = await this.request('POST', '/api-gw/orders', payload);
       return {
         success: !!data.orderId,
         orderId: data.orderId,
@@ -125,12 +125,12 @@ export class TradejiniAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.accessToken}`,
       },
       body: body ? JSON.stringify(body) : undefined,
@@ -139,7 +139,7 @@ export class TradejiniAdapter implements IBrokerAdapter {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message || `HTTP error! status: ${response.status}`,
+        errorData.message || `HTTP error! status: ${response.status}`
       );
     }
 

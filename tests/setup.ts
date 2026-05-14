@@ -1,8 +1,8 @@
-import "@testing-library/jest-dom";
-import { vi } from "vitest";
+import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 
 // Mock next/navigation
-vi.mock("next/navigation", () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
     replace: vi.fn(),
@@ -11,14 +11,14 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => ({
     get: vi.fn(),
   }),
-  usePathname: () => "",
+  usePathname: () => '',
 }));
 
 // Mock next-auth
-vi.mock("next-auth/react", () => ({
+vi.mock('next-auth/react', () => ({
   useSession: () => ({
-    data: { user: { id: "test-user-id" } },
-    status: "authenticated",
+    data: { user: { id: 'test-user-id' } },
+    status: 'authenticated',
   }),
   signIn: vi.fn(),
   signOut: vi.fn(),

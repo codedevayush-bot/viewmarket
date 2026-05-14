@@ -1,17 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { BrokerFactory } from "@/lib/brokers/BrokerFactory";
-import { decrypt } from "@/lib/encryption";
+import { NextRequest, NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+import { BrokerFactory } from '@/lib/brokers/BrokerFactory';
+import { decrypt } from '@/lib/encryption';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const code = searchParams.get("code");
-  const state = searchParams.get("state"); // This should be our connectionId
+  const code = searchParams.get('code');
+  const state = searchParams.get('state'); // This should be our connectionId
 
   if (!code || !state) {
     return NextResponse.json(
-      { error: "Missing code or state" },
-      { status: 400 },
+      { error: 'Missing code or state' },
+      { status: 400 }
     );
   }
 
@@ -19,12 +19,12 @@ export async function GET(req: NextRequest) {
   try {
     // Decrypt the state to get the connectionId
     connectionId = decrypt(state);
-    if (!connectionId) throw new Error("Empty connectionId");
+    if (!connectionId) throw new Error('Empty connectionId');
   } catch (error) {
-    console.error("Invalid state parameter:", error);
+    console.error('Invalid state parameter:', error);
     return NextResponse.json(
-      { error: "Invalid state parameter" },
-      { status: 400 },
+      { error: 'Invalid state parameter' },
+      { status: 400 }
     );
   }
 
@@ -35,13 +35,13 @@ export async function GET(req: NextRequest) {
        FROM broker_connections bc
        JOIN brokers b ON bc."brokerId" = b.id
        WHERE bc.id = $1`,
-      [connectionId],
+      [connectionId]
     );
 
     if (res.rowCount === 0) {
       return NextResponse.json(
-        { error: "Connection not found" },
-        { status: 404 },
+        { error: 'Connection not found' },
+        { status: 404 }
       );
     }
 
@@ -51,19 +51,19 @@ export async function GET(req: NextRequest) {
     const credentials = {
       client_id: decrypt(connection.api_key),
       client_secret: decrypt(connection.api_secret),
-      redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/brokers/callback`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/brokers/callback`,
     };
 
     // 2. Instantiate adapter and handle the callback
     const adapter = BrokerFactory.createAdapter(
       connection.broker_name,
-      credentials,
+      credentials
     );
 
     if (!adapter.handleOAuthCallback) {
       return NextResponse.json(
-        { error: "Broker does not support OAuth callback" },
-        { status: 400 },
+        { error: 'Broker does not support OAuth callback' },
+        { status: 400 }
       );
     }
 
@@ -71,8 +71,8 @@ export async function GET(req: NextRequest) {
 
     if (!authResult.success || !authResult.accessToken) {
       return NextResponse.json(
-        { error: "OAuth callback failed", message: authResult.message },
-        { status: 400 },
+        { error: 'OAuth callback failed', message: authResult.message },
+        { status: 400 }
       );
     }
 
@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
     // Let's assume `access_token` is stored as plain string in this implementation,
     // or rather, we should update the DB and BrokerFactory to encrypt/decrypt it.
     // For simplicity right now, we'll store it as is, or we encrypt it. Let's encrypt it.
-    const { encrypt } = await import("@/lib/encryption");
+    const { encrypt } = await import('@/lib/encryption');
     const encryptedAccessToken = encrypt(authResult.accessToken);
     const encryptedRefreshToken = authResult.refreshToken
       ? encrypt(authResult.refreshToken)
@@ -107,17 +107,17 @@ export async function GET(req: NextRequest) {
         encryptedRefreshToken,
         expiresAt.toISOString(),
         connection.id,
-      ],
+      ]
     );
 
     // Redirect the user back to the dashboard or connections page
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
     return NextResponse.redirect(`${appUrl}/user-dashboard`);
   } catch (error) {
-    console.error("Failed to process OAuth callback:", error);
+    console.error('Failed to process OAuth callback:', error);
     return NextResponse.json(
-      { error: "Failed to process OAuth callback" },
-      { status: 500 },
+      { error: 'Failed to process OAuth callback' },
+      { status: 500 }
     );
   }
 }

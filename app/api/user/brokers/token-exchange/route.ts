@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { auth } from "@/auth";
-import { BrokerFactory } from "@/lib/brokers/BrokerFactory";
-import { decrypt, encrypt } from "@/lib/encryption";
+import { NextRequest, NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+import { auth } from '@/auth';
+import { BrokerFactory } from '@/lib/brokers/BrokerFactory';
+import { decrypt, encrypt } from '@/lib/encryption';
 
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
 
     if (!connectionId || !requestToken) {
       return NextResponse.json(
-        { error: "Missing connectionId or requestToken" },
-        { status: 400 },
+        { error: 'Missing connectionId or requestToken' },
+        { status: 400 }
       );
     }
 
@@ -25,13 +25,13 @@ export async function POST(req: NextRequest) {
        FROM broker_connections bc
        JOIN brokers b ON bc."brokerId" = b.id
        WHERE bc.id = $1 AND bc."userId" = $2`,
-      [connectionId, session.user.id],
+      [connectionId, session.user.id]
     );
 
     if (res.rowCount === 0) {
       return NextResponse.json(
-        { error: "Connection not found" },
-        { status: 404 },
+        { error: 'Connection not found' },
+        { status: 404 }
       );
     }
 
@@ -39,13 +39,13 @@ export async function POST(req: NextRequest) {
 
     // Decrypt API credentials
     const credentials = {
-      api_key: connection.api_key ? decrypt(connection.api_key) : "",
-      api_secret: connection.api_secret ? decrypt(connection.api_secret) : "",
+      api_key: connection.api_key ? decrypt(connection.api_key) : '',
+      api_secret: connection.api_secret ? decrypt(connection.api_secret) : '',
     };
 
     const adapter = BrokerFactory.createAdapter(
       connection.broker_name,
-      credentials,
+      credentials
     );
 
     // Call authenticate with the requestToken
@@ -53,8 +53,8 @@ export async function POST(req: NextRequest) {
 
     if (!authResult.success || !authResult.accessToken) {
       return NextResponse.json(
-        { error: "Failed to exchange token", message: authResult.message },
-        { status: 400 },
+        { error: 'Failed to exchange token', message: authResult.message },
+        { status: 400 }
       );
     }
 
@@ -70,22 +70,22 @@ export async function POST(req: NextRequest) {
       `UPDATE broker_connections 
        SET access_token = $1, token_expires_at = $2, is_valid = true, "updatedAt" = NOW()
        WHERE id = $3`,
-      [encryptedAccessToken, expiresAt.toISOString(), connection.id],
+      [encryptedAccessToken, expiresAt.toISOString(), connection.id]
     );
 
     return NextResponse.json({
       success: true,
-      message: "Token exchanged successfully",
+      message: 'Token exchanged successfully',
     });
   } catch (error: unknown) {
-    console.error("Token exchange failed:", error);
+    console.error('Token exchange failed:', error);
     return NextResponse.json(
       {
         error:
           (error instanceof Error ? error.message : String(error)) ||
-          "Token exchange failed",
+          'Token exchange failed',
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

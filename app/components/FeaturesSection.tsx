@@ -1,4 +1,4 @@
-import styles from "./FeaturesSection.module.css";
+import styles from './FeaturesSection.module.css';
 
 export default function FeaturesSection() {
   return (
@@ -7,7 +7,7 @@ export default function FeaturesSection() {
         {/* Heading */}
         <div className={styles.featuresHeading}>
           <h2 className={styles.featuresTitle}>
-            A new species of trading tool.{" "}
+            A new species of trading tool.{' '}
             <span className={styles.featuresTitleMuted}>
               Purpose-built for modern traders with algorithmic workflows at its
               core, View Market sets a new standard for automated strategy

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "../TradingWorkspace.module.css";
+import { useState } from 'react';
+import styles from '../TradingWorkspace.module.css';
 
-type IntegrationsTab = "overview" | "tradingview" | "gocharting" | "telegram";
+type IntegrationsTab = 'overview' | 'tradingview' | 'gocharting' | 'telegram';
 
 interface ConnectedPlatform {
   id: string;
   name: string;
-  status: "connected" | "disconnected" | "error";
+  status: 'connected' | 'disconnected' | 'error';
   lastSync: string;
   icon: string;
 }
@@ -16,68 +16,68 @@ interface ConnectedPlatform {
 const tabConfig: { id: IntegrationsTab; label: string; description: string }[] =
   [
     {
-      id: "overview",
-      label: "Overview",
-      description: "All connected platforms",
+      id: 'overview',
+      label: 'Overview',
+      description: 'All connected platforms',
     },
     {
-      id: "tradingview",
-      label: "TradingView",
-      description: "Webhook & alert setup",
+      id: 'tradingview',
+      label: 'TradingView',
+      description: 'Webhook & alert setup',
     },
     {
-      id: "gocharting",
-      label: "GoCharting",
-      description: "Chart signals integration",
+      id: 'gocharting',
+      label: 'GoCharting',
+      description: 'Chart signals integration',
     },
     {
-      id: "telegram",
-      label: "Telegram Bot",
-      description: "Notifications & commands",
+      id: 'telegram',
+      label: 'Telegram Bot',
+      description: 'Notifications & commands',
     },
   ];
 
 const connectedPlatforms: ConnectedPlatform[] = [
   {
-    id: "1",
-    name: "TradingView",
-    status: "connected",
-    lastSync: "2 mins ago",
-    icon: "TV",
+    id: '1',
+    name: 'TradingView',
+    status: 'connected',
+    lastSync: '2 mins ago',
+    icon: 'TV',
   },
   {
-    id: "2",
-    name: "GoCharting",
-    status: "connected",
-    lastSync: "5 mins ago",
-    icon: "GC",
+    id: '2',
+    name: 'GoCharting',
+    status: 'connected',
+    lastSync: '5 mins ago',
+    icon: 'GC',
   },
   {
-    id: "3",
-    name: "Telegram Bot",
-    status: "connected",
-    lastSync: "1 min ago",
-    icon: "TG",
+    id: '3',
+    name: 'Telegram Bot',
+    status: 'connected',
+    lastSync: '1 min ago',
+    icon: 'TG',
   },
   {
-    id: "4",
-    name: "Zerodha",
-    status: "connected",
-    lastSync: "Live",
-    icon: "ZD",
+    id: '4',
+    name: 'Zerodha',
+    status: 'connected',
+    lastSync: 'Live',
+    icon: 'ZD',
   },
 ];
 
 export default function IntegrationsHubPage() {
-  const [activeTab, setActiveTab] = useState<IntegrationsTab>("overview");
+  const [activeTab, setActiveTab] = useState<IntegrationsTab>('overview');
 
-  const getStatusBadge = (status: ConnectedPlatform["status"]) => {
+  const getStatusBadge = (status: ConnectedPlatform['status']) => {
     switch (status) {
-      case "connected":
+      case 'connected':
         return styles.statusActive;
-      case "disconnected":
+      case 'disconnected':
         return styles.statusDraft;
-      case "error":
+      case 'error':
         return styles.statusPaused;
     }
   };
@@ -100,7 +100,7 @@ export default function IntegrationsHubPage() {
           <button
             key={tab.id}
             className={`${styles.tabButton} ${
-              activeTab === tab.id ? styles.tabButtonActive : ""
+              activeTab === tab.id ? styles.tabButtonActive : ''
             }`}
             onClick={() => setActiveTab(tab.id)}
           >
@@ -121,16 +121,16 @@ export default function IntegrationsHubPage() {
               </h2>
             </div>
             <span className={styles.badge}>
-              {activeTab === "overview" &&
+              {activeTab === 'overview' &&
                 `${connectedPlatforms.length} connected`}
-              {activeTab === "tradingview" && "Webhook"}
-              {activeTab === "gocharting" && "Signals"}
-              {activeTab === "telegram" && "Bot Active"}
+              {activeTab === 'tradingview' && 'Webhook'}
+              {activeTab === 'gocharting' && 'Signals'}
+              {activeTab === 'telegram' && 'Bot Active'}
             </span>
           </div>
 
           <div className={styles.list}>
-            {activeTab === "overview" && (
+            {activeTab === 'overview' && (
               <>
                 {connectedPlatforms.map((platform) => (
                   <div key={platform.id} className={styles.integrationRow}>
@@ -155,7 +155,7 @@ export default function IntegrationsHubPage() {
               </>
             )}
 
-            {activeTab === "tradingview" && (
+            {activeTab === 'tradingview' && (
               <div className={styles.integrationSetup}>
                 <div className={styles.setupSection}>
                   <h3 className={styles.setupTitle}>Webhook URL</h3>
@@ -212,7 +212,7 @@ export default function IntegrationsHubPage() {
               </div>
             )}
 
-            {activeTab === "gocharting" && (
+            {activeTab === 'gocharting' && (
               <div className={styles.integrationSetup}>
                 <div className={styles.setupSection}>
                   <h3 className={styles.setupTitle}>Webhook URL</h3>
@@ -253,7 +253,7 @@ export default function IntegrationsHubPage() {
               </div>
             )}
 
-            {activeTab === "telegram" && (
+            {activeTab === 'telegram' && (
               <div className={styles.integrationSetup}>
                 <div className={styles.setupSection}>
                   <h3 className={styles.setupTitle}>Bot Token</h3>

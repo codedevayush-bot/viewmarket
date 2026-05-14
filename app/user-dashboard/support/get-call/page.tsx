@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import styles from "./GetCallPage.module.css";
+import React, { useState } from 'react';
+import styles from './GetCallPage.module.css';
 
-const countries = [{ code: "+91", name: "India (IN)" }];
+const countries = [{ code: '+91', name: 'India (IN)' }];
 
 interface FormData {
   fullName: string;
@@ -27,14 +27,14 @@ interface FormErrors {
 
 export default function GetCallPage() {
   const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    email: "",
-    countryCode: "+91",
-    phone: "",
-    companyName: "",
-    preferredDate: "",
-    preferredTime: "",
-    message: "",
+    fullName: '',
+    email: '',
+    countryCode: '+91',
+    phone: '',
+    companyName: '',
+    preferredDate: '',
+    preferredTime: '',
+    message: '',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -45,33 +45,33 @@ export default function GetCallPage() {
     const newErrors: FormErrors = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = "Full name is required";
+      newErrors.fullName = 'Full name is required';
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email address is required";
+      newErrors.email = 'Email address is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
+      newErrors.email = 'Invalid email format';
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^\d{7,15}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
-      newErrors.phone = "Invalid phone number";
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\d{7,15}$/.test(formData.phone.replace(/[\s-]/g, ''))) {
+      newErrors.phone = 'Invalid phone number';
     }
 
     if (!formData.preferredDate) {
-      newErrors.preferredDate = "Required";
+      newErrors.preferredDate = 'Required';
     }
 
     if (!formData.preferredTime) {
-      newErrors.preferredTime = "Required";
+      newErrors.preferredTime = 'Required';
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = "Please provide some requirements";
+      newErrors.message = 'Please provide some requirements';
     } else if (formData.message.length < 10) {
-      newErrors.message = "Message must be at least 10 characters";
+      newErrors.message = 'Message must be at least 10 characters';
     }
 
     setErrors(newErrors);
@@ -81,7 +81,7 @@ export default function GetCallPage() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -102,7 +102,7 @@ export default function GetCallPage() {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setIsSuccess(true);
     } catch (error) {
-      console.error("Submission failed:", error);
+      console.error('Submission failed:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -129,7 +129,7 @@ export default function GetCallPage() {
           <h2 className={styles.successTitle}>Request Submitted</h2>
           <p className={styles.successText}>
             Thank you, {formData.fullName}. We&apos;ve received your request for
-            a callback on <strong>{formData.preferredDate}</strong> at{" "}
+            a callback on <strong>{formData.preferredDate}</strong> at{' '}
             <strong>{formData.preferredTime}</strong>. Our team will contact you
             at {formData.countryCode} {formData.phone} shortly.
           </p>
@@ -137,14 +137,14 @@ export default function GetCallPage() {
             onClick={() => {
               setIsSuccess(false);
               setFormData({
-                fullName: "",
-                email: "",
-                countryCode: "+91",
-                phone: "",
-                companyName: "",
-                preferredDate: "",
-                preferredTime: "",
-                message: "",
+                fullName: '',
+                email: '',
+                countryCode: '+91',
+                phone: '',
+                companyName: '',
+                preferredDate: '',
+                preferredTime: '',
+                message: '',
               });
             }}
             className={styles.backButton}
@@ -180,7 +180,7 @@ export default function GetCallPage() {
               value={formData.fullName}
               onChange={handleChange}
               placeholder="e.g. Alexander Pierce"
-              className={`${styles.input} ${errors.fullName ? styles.error : ""}`}
+              className={`${styles.input} ${errors.fullName ? styles.error : ''}`}
             />
             {errors.fullName && (
               <span className={styles.errorMessage}>{errors.fullName}</span>
@@ -198,7 +198,7 @@ export default function GetCallPage() {
               value={formData.email}
               onChange={handleChange}
               placeholder="alex@company.com"
-              className={`${styles.input} ${errors.email ? styles.error : ""}`}
+              className={`${styles.input} ${errors.email ? styles.error : ''}`}
             />
             {errors.email && (
               <span className={styles.errorMessage}>{errors.email}</span>
@@ -230,7 +230,7 @@ export default function GetCallPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="00000 00000"
-                className={`${styles.input} ${errors.phone ? styles.error : ""}`}
+                className={`${styles.input} ${errors.phone ? styles.error : ''}`}
               />
             </div>
             {errors.phone && (
@@ -257,14 +257,14 @@ export default function GetCallPage() {
           <div className={`${styles.fieldGroup} ${styles.fullWidth}`}>
             <label className={styles.label}>Preferred Callback Time</label>
             <div className={styles.dateTimeGrid}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <input
                   type="date"
                   name="preferredDate"
                   value={formData.preferredDate}
                   onChange={handleChange}
-                  min={new Date().toISOString().split("T")[0]}
-                  className={`${styles.input} ${errors.preferredDate ? styles.error : ""}`}
+                  min={new Date().toISOString().split('T')[0]}
+                  className={`${styles.input} ${errors.preferredDate ? styles.error : ''}`}
                 />
                 {errors.preferredDate && (
                   <span className={styles.errorMessage}>
@@ -272,13 +272,13 @@ export default function GetCallPage() {
                   </span>
                 )}
               </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <input
                   type="time"
                   name="preferredTime"
                   value={formData.preferredTime}
                   onChange={handleChange}
-                  className={`${styles.input} ${errors.preferredTime ? styles.error : ""}`}
+                  className={`${styles.input} ${errors.preferredTime ? styles.error : ''}`}
                 />
                 {errors.preferredTime && (
                   <span className={styles.errorMessage}>
@@ -300,7 +300,7 @@ export default function GetCallPage() {
               value={formData.message}
               onChange={handleChange}
               placeholder="Please describe your interest or specific requirements..."
-              className={`${styles.textarea} ${errors.message ? styles.error : ""}`}
+              className={`${styles.textarea} ${errors.message ? styles.error : ''}`}
             />
             {errors.message && (
               <span className={styles.errorMessage}>{errors.message}</span>

@@ -1,9 +1,9 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 /**
  * Dashboard root route.
  * Automatically redirects the user to the default 'Console' view.
  */
 export default function UserDashboardIndex() {
-  redirect("/user-dashboard/console");
+  redirect('/user-dashboard/console');
 }

@@ -1,21 +1,21 @@
-import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { auth } from "@/auth";
+import { NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+import { auth } from '@/auth';
 
 export async function GET() {
   const session = await auth();
   if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const res = await query("SELECT * FROM brokers WHERE is_active = true");
+    const res = await query('SELECT * FROM brokers WHERE is_active = true');
     return NextResponse.json({ brokers: res.rows });
   } catch (error) {
-    console.error("Failed to fetch brokers:", error);
+    console.error('Failed to fetch brokers:', error);
     return NextResponse.json(
-      { error: "Failed to fetch brokers" },
-      { status: 500 },
+      { error: 'Failed to fetch brokers' },
+      { status: 500 }
     );
   }
 }

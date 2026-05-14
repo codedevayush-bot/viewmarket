@@ -1,10 +1,10 @@
-import { Metadata } from "next";
-import ChartsClient from "./ChartsClient";
+import { Metadata } from 'next';
+import ChartsClient from './ChartsClient';
 
 export const metadata: Metadata = {
-  title: "Charts",
+  title: 'Charts',
   description:
-    "View and analyze market charts with TradingView Lightweight Charts.",
+    'View and analyze market charts with TradingView Lightweight Charts.',
 };
 
 export default function ChartsPage() {

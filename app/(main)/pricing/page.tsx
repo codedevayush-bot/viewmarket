@@ -1,9 +1,9 @@
-import PricingClient from "@/app/components/pricing/PricingClient";
+import PricingClient from '@/app/components/pricing/PricingClient';
 
 export const metadata = {
-  title: "Pricing",
+  title: 'Pricing',
   description:
-    "Premium-grade algorithmic trading tools, optimized for performance and reliability.",
+    'Premium-grade algorithmic trading tools, optimized for performance and reliability.',
 };
 
 export default function PricingPage() {

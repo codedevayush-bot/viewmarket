@@ -6,7 +6,7 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
+} from '../types';
 
 export class WisdomAdapter implements IBrokerAdapter {
   private interactiveApiKey: string;
@@ -21,7 +21,7 @@ export class WisdomAdapter implements IBrokerAdapter {
     this.interactiveApiSecret = credentials.interactive_api_secret;
     this.marketDataApiKey = credentials.market_data_api_key;
     this.marketDataApiSecret = credentials.market_data_api_secret;
-    this.baseUrl = credentials.base_url || "https://wisdom.xts.com";
+    this.baseUrl = credentials.base_url || 'https://wisdom.xts.com';
     this.accessToken = credentials.access_token;
   }
 
@@ -31,21 +31,21 @@ export class WisdomAdapter implements IBrokerAdapter {
       const interactiveResponse = await fetch(
         `${this.baseUrl}/interactive/user/session`,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             appKey: this.interactiveApiKey,
             secretKey: this.interactiveApiSecret,
-            source: "WebAPI",
+            source: 'WebAPI',
           }),
-        },
+        }
       );
 
       const interactiveData = await interactiveResponse.json();
-      if (interactiveData.type !== "success") {
+      if (interactiveData.type !== 'success') {
         return {
           success: false,
-          message: interactiveData.description || "Interactive login failed",
+          message: interactiveData.description || 'Interactive login failed',
         };
       }
 
@@ -55,21 +55,21 @@ export class WisdomAdapter implements IBrokerAdapter {
       const marketResponse = await fetch(
         `${this.baseUrl}/marketdata/auth/login`,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             appKey: this.marketDataApiKey,
             secretKey: this.marketDataApiSecret,
-            source: "WebAPI",
+            source: 'WebAPI',
           }),
-        },
+        }
       );
 
       const marketData = await marketResponse.json();
-      if (marketData.type !== "success") {
+      if (marketData.type !== 'success') {
         return {
           success: false,
-          message: marketData.description || "Market data login failed",
+          message: marketData.description || 'Market data login failed',
         };
       }
 
@@ -92,16 +92,16 @@ export class WisdomAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("GET", "/interactive/user/profile");
+    const data = await this.request('GET', '/interactive/user/profile');
     return {
-      id: data.result.clientCode || "",
-      name: data.result.clientName || "Wisdom User",
-      brokerName: "Wisdom",
+      id: data.result.clientCode || '',
+      name: data.result.clientName || 'Wisdom User',
+      brokerName: 'Wisdom',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/interactive/user/balance");
+    const data = await this.request('GET', '/interactive/user/balance');
     const balance = data.result.balanceList?.[0] || {};
     return {
       availableCash: parseFloat(balance.limitMargin || 0),
@@ -113,12 +113,12 @@ export class WisdomAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        exchangeSegment: order.exchange || "NSECM",
+        exchangeSegment: order.exchange || 'NSECM',
         exchangeInstrumentID: order.symbol,
         productType: order.product,
         orderType: order.orderType,
         orderSide: order.transactionType,
-        timeInForce: "DAY",
+        timeInForce: 'DAY',
         disclosedQuantity: 0,
         orderQuantity: order.quantity,
         limitPrice: order.price || 0,
@@ -126,9 +126,9 @@ export class WisdomAdapter implements IBrokerAdapter {
         orderUniqueIdentifier: `VM-${Date.now()}`,
       };
 
-      const data = await this.request("POST", "/interactive/orders", payload);
+      const data = await this.request('POST', '/interactive/orders', payload);
       return {
-        success: data.type === "success",
+        success: data.type === 'success',
         orderId: data.result.AppOrderID,
         message: data.description,
       };
@@ -141,21 +141,21 @@ export class WisdomAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, path: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
-    const [interactiveToken] = this.accessToken.split("|");
+    if (!this.accessToken) throw new Error('No access token found.');
+    const [interactiveToken] = this.accessToken.split('|');
 
     const response = await fetch(`${this.baseUrl}${path}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         authorization: interactiveToken,
       },
       body: body ? JSON.stringify(body) : undefined,
     });
 
     const data = await response.json();
-    if (data.type !== "success") {
-      throw new Error(data.description || "Request failed");
+    if (data.type !== 'success') {
+      throw new Error(data.description || 'Request failed');
     }
     return data;
   }

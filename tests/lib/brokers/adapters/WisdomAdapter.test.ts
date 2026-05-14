@@ -1,13 +1,13 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { WisdomAdapter } from "@/lib/brokers/adapters/WisdomAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { WisdomAdapter } from '@/lib/brokers/adapters/WisdomAdapter';
 
-describe("WisdomAdapter", () => {
+describe('WisdomAdapter', () => {
   const mockConfig = {
-    interactive_api_key: "w_int_key",
-    interactive_api_secret: "w_int_sec",
-    market_data_api_key: "w_mkt_key",
-    market_data_api_secret: "w_mkt_sec",
-    base_url: "https://wisdom-test.xts.com",
+    interactive_api_key: 'w_int_key',
+    interactive_api_secret: 'w_int_sec',
+    market_data_api_key: 'w_mkt_key',
+    market_data_api_secret: 'w_mkt_sec',
+    base_url: 'https://wisdom-test.xts.com',
   };
 
   beforeEach(() => {
@@ -15,15 +15,15 @@ describe("WisdomAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should authenticate successfully", async () => {
+  it('should authenticate successfully', async () => {
     const mockIntResponse = {
-      type: "success",
-      result: { token: "w_token_int" },
+      type: 'success',
+      result: { token: 'w_token_int' },
     };
 
     const mockMktResponse = {
-      type: "success",
-      result: { token: "w_token_mkt" },
+      type: 'success',
+      result: { token: 'w_token_mkt' },
     };
 
     vi.mocked(fetch)
@@ -40,13 +40,13 @@ describe("WisdomAdapter", () => {
     const result = await adapter.authenticate();
 
     expect(result.success).toBe(true);
-    expect(result.accessToken).toBe("w_token_int|w_token_mkt");
+    expect(result.accessToken).toBe('w_token_int|w_token_mkt');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
-      type: "success",
-      result: { clientCode: "W123", clientName: "Wisdom Tester" },
+      type: 'success',
+      result: { clientCode: 'W123', clientName: 'Wisdom Tester' },
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -54,20 +54,20 @@ describe("WisdomAdapter", () => {
       json: async () => mockProfileResponse,
     } as Response);
 
-    const adapter = new WisdomAdapter({ ...mockConfig, access_token: "it|mt" });
+    const adapter = new WisdomAdapter({ ...mockConfig, access_token: 'it|mt' });
     const profile = await adapter.getProfile();
 
-    expect(profile.id).toBe("W123");
-    expect(profile.name).toBe("Wisdom Tester");
+    expect(profile.id).toBe('W123');
+    expect(profile.name).toBe('Wisdom Tester');
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      type: "success",
+      type: 'success',
       result: {
-        AppOrderID: "W_ORD_333",
+        AppOrderID: 'W_ORD_333',
       },
-      description: "Order OK",
+      description: 'Order OK',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -75,17 +75,17 @@ describe("WisdomAdapter", () => {
       json: async () => mockOrderResponse,
     } as Response);
 
-    const adapter = new WisdomAdapter({ ...mockConfig, access_token: "it|mt" });
+    const adapter = new WisdomAdapter({ ...mockConfig, access_token: 'it|mt' });
     const result = await adapter.placeOrder({
-      symbol: "12345",
-      exchange: "NSECM",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: '12345',
+      exchange: 'NSECM',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 10,
-      product: "MIS",
+      product: 'MIS',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("W_ORD_333");
+    expect(result.orderId).toBe('W_ORD_333');
   });
 });

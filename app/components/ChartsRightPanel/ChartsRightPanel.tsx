@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import styles from "./ChartsRightPanel.module.css";
+import React from 'react';
+import styles from './ChartsRightPanel.module.css';
 
 export default function ChartsRightPanel() {
   const [isTradeHovered, setIsTradeHovered] = React.useState(false);
@@ -31,10 +31,10 @@ export default function ChartsRightPanel() {
     };
 
     if (isTradeHovered) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isTradeHovered]);
 

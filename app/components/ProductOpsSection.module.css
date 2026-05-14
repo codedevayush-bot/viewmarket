@@ -335,7 +335,7 @@
 
 .issueId {
   font-size: 0.75rem;
-  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
   color: var(--text-placeholder);
 }
 
@@ -514,7 +514,7 @@
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--text-dim);
-  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
   min-width: 32px;
 }
 

@@ -6,8 +6,8 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { generateTOTP } from "../utils/totp";
+} from '../types';
+import { generateTOTP } from '../utils/totp';
 
 export class MStockAdapter implements IBrokerAdapter {
   private clientCode: string;
@@ -15,7 +15,7 @@ export class MStockAdapter implements IBrokerAdapter {
   private password: string;
   private totpSecret: string;
   private accessToken?: string;
-  private baseUrl: string = "https://api.mstock.trade";
+  private baseUrl: string = 'https://api.mstock.trade';
 
   constructor(config: BrokerCredentials) {
     this.clientCode = config.api_key;
@@ -33,23 +33,23 @@ export class MStockAdapter implements IBrokerAdapter {
       const loginRes = await fetch(
         `${this.baseUrl}/openapi/typeb/connect/login`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "X-Mirae-Version": "1",
-            "Content-Type": "application/json",
+            'X-Mirae-Version': '1',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             clientcode: this.clientCode,
             password: this.password,
             totp: totpCode,
-            state: "",
+            state: '',
           }),
-        },
+        }
       );
 
       const loginData = await loginRes.json();
       if (!loginData.status || !loginData.data) {
-        return { success: false, message: loginData.message || "Login failed" };
+        return { success: false, message: loginData.message || 'Login failed' };
       }
 
       const refreshToken =
@@ -59,24 +59,24 @@ export class MStockAdapter implements IBrokerAdapter {
       const verifyRes = await fetch(
         `${this.baseUrl}/openapi/typeb/session/verifytotp`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "X-Mirae-Version": "1",
-            "X-PrivateKey": this.apiKey,
-            "Content-Type": "application/json",
+            'X-Mirae-Version': '1',
+            'X-PrivateKey': this.apiKey,
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             refreshToken,
             totp: totpCode,
           }),
-        },
+        }
       );
 
       const verifyData = await verifyRes.json();
       if (!verifyData.status || !verifyData.data?.jwtToken) {
         return {
           success: false,
-          message: verifyData.message || "TOTP verification failed",
+          message: verifyData.message || 'TOTP verification failed',
         };
       }
 
@@ -94,18 +94,18 @@ export class MStockAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const response = await this.request("GET", "/openapi/typeb/user/profile");
+    const response = await this.request('GET', '/openapi/typeb/user/profile');
     return {
       id: this.clientCode,
-      name: response.data?.clientName || "mStock User",
-      brokerName: "MStock",
+      name: response.data?.clientName || 'mStock User',
+      brokerName: 'MStock',
     };
   }
 
   async getFunds(): Promise<FundsData> {
     const response = await this.request(
-      "GET",
-      "/openapi/typeb/limits/getlimits",
+      'GET',
+      '/openapi/typeb/limits/getlimits'
     );
     return {
       availableCash: parseFloat(response.data?.availableMargin || 0),
@@ -118,19 +118,19 @@ export class MStockAdapter implements IBrokerAdapter {
     try {
       const payload = {
         tradingSymbol: order.symbol,
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         transactionType: order.transactionType,
         orderType: order.orderType,
         quantity: order.quantity.toString(),
-        price: order.price?.toString() || "0",
+        price: order.price?.toString() || '0',
         productType: order.product,
-        validity: "DAY",
+        validity: 'DAY',
       };
 
       const response = await this.request(
-        "POST",
-        "/openapi/typeb/order/placeorder",
-        payload,
+        'POST',
+        '/openapi/typeb/order/placeorder',
+        payload
       );
       return {
         success: response.status === true,
@@ -146,22 +146,22 @@ export class MStockAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
-        "X-Mirae-Version": "1",
-        "X-PrivateKey": this.apiKey,
+        'X-Mirae-Version': '1',
+        'X-PrivateKey': this.apiKey,
         Authorization: `Bearer ${this.accessToken}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: body ? JSON.stringify(body) : undefined,
     });
 
     const data = await response.json();
     if (!data.status) {
-      throw new Error(data.message || "Request failed");
+      throw new Error(data.message || 'Request failed');
     }
     return data;
   }

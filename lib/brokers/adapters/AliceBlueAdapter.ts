@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from 'crypto';
 import {
   IBrokerAdapter,
   BrokerCredentials,
@@ -7,7 +7,7 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
+} from '../types';
 
 export class AliceBlueAdapter implements IBrokerAdapter {
   private userId: string;
@@ -28,31 +28,31 @@ export class AliceBlueAdapter implements IBrokerAdapter {
       if (!code) {
         return {
           success: false,
-          message: "Auth code is required for Alice Blue login",
+          message: 'Auth code is required for Alice Blue login',
         };
       }
 
       const checksumInput = `${this.userId}${code}${this.apiSecret}`;
       const checksum = crypto
-        .createHash("sha256")
+        .createHash('sha256')
         .update(checksumInput)
-        .digest("hex");
+        .digest('hex');
 
       const response = await fetch(
-        "https://ant.aliceblueonline.com/open-api/od/v1/vendor/getUserDetails",
+        'https://ant.aliceblueonline.com/open-api/od/v1/vendor/getUserDetails',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
           },
           body: JSON.stringify({ checkSum: checksum }),
-        },
+        }
       );
 
       const data = await response.json();
 
-      if (data.stat === "Ok" && data.userSession) {
+      if (data.stat === 'Ok' && data.userSession) {
         return {
           success: true,
           accessToken: data.userSession,
@@ -61,7 +61,7 @@ export class AliceBlueAdapter implements IBrokerAdapter {
       } else {
         return {
           success: false,
-          message: data.emsg || "Authentication failed",
+          message: data.emsg || 'Authentication failed',
         };
       }
     } catch (error: unknown) {
@@ -75,15 +75,15 @@ export class AliceBlueAdapter implements IBrokerAdapter {
   async getProfile(): Promise<UserProfile> {
     return {
       id: this.userId,
-      name: "Alice Blue User",
-      brokerName: "Alice Blue",
+      name: 'Alice Blue User',
+      brokerName: 'Alice Blue',
     };
   }
 
   async getFunds(): Promise<FundsData> {
     const data = await this.request(
-      "GET",
-      "/open-api/v2/cash/getAvailableCash",
+      'GET',
+      '/open-api/v2/cash/getAvailableCash'
     );
     return {
       availableCash: parseFloat(data.availableCash || 0),
@@ -95,24 +95,24 @@ export class AliceBlueAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        complexity: "regular",
+        complexity: 'regular',
         trading_symbol: order.symbol,
         quantity: order.quantity,
         transaction_type: order.transactionType,
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         order_type: order.orderType,
         price: order.price || 0,
         product: order.product,
-        duration: "DAY",
+        duration: 'DAY',
       };
 
       const data = await this.request(
-        "POST",
-        "/open-api/v2/order/placeOrder",
-        payload,
+        'POST',
+        '/open-api/v2/order/placeOrder',
+        payload
       );
       return {
-        success: data.stat === "Ok",
+        success: data.stat === 'Ok',
         orderId: data.data?.oms_order_id,
         message: data.emsg,
       };
@@ -125,20 +125,20 @@ export class AliceBlueAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`https://ant.aliceblueonline.com${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.accessToken}`,
       },
       body: body ? JSON.stringify(body) : undefined,
     });
 
     const data = await response.json();
-    if (data.stat !== "Ok") {
-      throw new Error(data.emsg || "Request failed");
+    if (data.stat !== 'Ok') {
+      throw new Error(data.emsg || 'Request failed');
     }
     return data;
   }

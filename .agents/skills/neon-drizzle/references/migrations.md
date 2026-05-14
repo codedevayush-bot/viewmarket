@@ -23,10 +23,10 @@ Update your schema file:
 
 ```typescript
 // src/db/schema.ts
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull(),
-  phoneNumber: varchar("phone_number", { length: 20 }), // NEW
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull(),
+  phoneNumber: varchar('phone_number', { length: 20 }), // NEW
 });
 ```
 
@@ -96,15 +96,15 @@ Error: url is undefined in dbCredentials
 **drizzle.config.ts:**
 
 ```typescript
-import { defineConfig } from "drizzle-kit";
-import { config } from "dotenv";
+import { defineConfig } from 'drizzle-kit';
+import { config } from 'dotenv';
 
-config({ path: ".env.local" });
+config({ path: '.env.local' });
 
 export default defineConfig({
-  schema: "./src/db/schema.ts",
-  out: "./src/db/migrations",
-  dialect: "postgresql",
+  schema: './src/db/schema.ts',
+  out: './src/db/migrations',
+  dialect: 'postgresql',
   dbCredentials: {
     url: process.env.DATABASE_URL!,
   },
@@ -161,18 +161,18 @@ npm add -D dotenv-cli
 **scripts/migrate.ts:**
 
 ```typescript
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
-import { migrate } from "drizzle-orm/neon-http/migrator";
-import { config } from "dotenv";
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
+import { migrate } from 'drizzle-orm/neon-http/migrator';
+import { config } from 'dotenv';
 
-config({ path: ".env.local" });
+config({ path: '.env.local' });
 
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql);
 
-await migrate(db, { migrationsFolder: "./src/db/migrations" });
-console.log("Migrations complete");
+await migrate(db, { migrationsFolder: './src/db/migrations' });
+console.log('Migrations complete');
 ```
 
 **Run:**
@@ -212,10 +212,10 @@ CREATE INDEX posts_user_id_idx ON posts(user_id);
 **Schema:**
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull(),
-  phoneNumber: varchar("phone_number", { length: 20 }), // NEW
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull(),
+  phoneNumber: varchar('phone_number', { length: 20 }), // NEW
 });
 ```
 
@@ -230,9 +230,9 @@ ALTER TABLE users ADD COLUMN phone_number VARCHAR(20);
 **Schema:**
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull(),
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull(),
   // removed: phoneNumber
 });
 ```
@@ -252,9 +252,9 @@ ALTER TABLE users DROP COLUMN phone_number;
 **Schema:**
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  fullName: varchar("full_name", { length: 255 }), // was 'name'
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  fullName: varchar('full_name', { length: 255 }), // was 'name'
 });
 ```
 
@@ -277,9 +277,9 @@ ALTER TABLE users RENAME COLUMN name TO full_name;
 **Schema:**
 
 ```typescript
-export const posts = pgTable("posts", {
-  id: serial("id").primaryKey(),
-  views: bigint("views", { mode: "number" }), // was integer
+export const posts = pgTable('posts', {
+  id: serial('id').primaryKey(),
+  views: bigint('views', { mode: 'number' }), // was integer
 });
 ```
 
@@ -297,14 +297,14 @@ ALTER TABLE posts ALTER COLUMN views TYPE BIGINT;
 
 ```typescript
 export const posts = pgTable(
-  "posts",
+  'posts',
   {
-    id: serial("id").primaryKey(),
-    title: text("title").notNull(),
+    id: serial('id').primaryKey(),
+    title: text('title').notNull(),
   },
   (table) => ({
-    titleIdx: index("posts_title_idx").on(table.title), // NEW
-  }),
+    titleIdx: index('posts_title_idx').on(table.title), // NEW
+  })
 );
 ```
 
@@ -319,12 +319,12 @@ CREATE INDEX posts_title_idx ON posts(title);
 **Schema:**
 
 ```typescript
-export const comments = pgTable("comments", {
-  id: serial("id").primaryKey(),
-  postId: serial("post_id")
+export const comments = pgTable('comments', {
+  id: serial('id').primaryKey(),
+  postId: serial('post_id')
     .notNull()
     .references(() => posts.id), // NEW
-  content: text("content").notNull(),
+  content: text('content').notNull(),
 });
 ```
 
@@ -341,9 +341,9 @@ ALTER TABLE comments
 **Unique:**
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull().unique(),
 });
 ```
 
@@ -357,14 +357,14 @@ ALTER TABLE users ADD CONSTRAINT users_email_unique UNIQUE (email);
 
 ```typescript
 export const products = pgTable(
-  "products",
+  'products',
   {
-    id: serial("id").primaryKey(),
-    price: integer("price").notNull(),
+    id: serial('id').primaryKey(),
+    price: integer('price').notNull(),
   },
   (table) => ({
-    priceCheck: check("price_check", "price >= 0"),
-  }),
+    priceCheck: check('price_check', 'price >= 0'),
+  })
 );
 ```
 
@@ -539,8 +539,8 @@ jobs:
 
 ```typescript
 // scripts/pre-migrate.ts
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
 
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql);
@@ -548,7 +548,7 @@ const db = drizzle(sql);
 async function preMigrationChecks() {
   try {
     await sql`SELECT 1`;
-    console.log("✅ Database connection successful");
+    console.log('✅ Database connection successful');
 
     const tables = await sql`
       SELECT tablename FROM pg_tables
@@ -558,7 +558,7 @@ async function preMigrationChecks() {
 
     return true;
   } catch (err) {
-    console.error("❌ Pre-migration check failed:", err);
+    console.error('❌ Pre-migration check failed:', err);
     process.exit(1);
   }
 }

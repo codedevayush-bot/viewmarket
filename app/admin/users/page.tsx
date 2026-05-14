@@ -1,14 +1,14 @@
-import { query } from "@/lib/db";
-import styles from "../Admin.module.css";
+import { query } from '@/lib/db';
+import styles from '../Admin.module.css';
 
 async function getUsers() {
   try {
     const result = await query(
-      'SELECT id, name, email, role, "createdAt", "lastLoginAt", is_active FROM users ORDER BY "createdAt" DESC',
+      'SELECT id, name, email, role, "createdAt", "lastLoginAt", is_active FROM users ORDER BY "createdAt" DESC'
     );
     return result.rows;
   } catch (error) {
-    console.error("Failed to fetch users:", error);
+    console.error('Failed to fetch users:', error);
     return [];
   }
 }
@@ -58,7 +58,7 @@ export default async function AdminUsersPage() {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: "40px" }}>#</th>
+              <th style={{ width: '40px' }}>#</th>
               <th>User Name</th>
               <th>Email Address</th>
               <th>Role</th>
@@ -71,15 +71,15 @@ export default async function AdminUsersPage() {
           <tbody>
             {users.map((user, index) => (
               <tr key={user.id}>
-                <td style={{ textAlign: "center", opacity: 0.3 }}>
+                <td style={{ textAlign: 'center', opacity: 0.3 }}>
                   {index + 1}
                 </td>
-                <td>{user.name || "-"}</td>
+                <td>{user.name || '-'}</td>
                 <td className={styles.emailCell}>{user.email}</td>
                 <td>
                   <span
                     className={`${styles.roleBadge} ${
-                      user.role === "admin" ? styles.roleAdmin : styles.roleUser
+                      user.role === 'admin' ? styles.roleAdmin : styles.roleUser
                     }`}
                   >
                     {user.role}
@@ -97,14 +97,14 @@ export default async function AdminUsersPage() {
                     <span
                       style={{ opacity: user.is_active !== false ? 1 : 0.4 }}
                     >
-                      {user.is_active !== false ? "Active" : "Inactive"}
+                      {user.is_active !== false ? 'Active' : 'Inactive'}
                     </span>
                   </div>
                 </td>
                 <td>
                   {user.lastLoginAt
                     ? new Date(user.lastLoginAt).toLocaleDateString()
-                    : "Never"}
+                    : 'Never'}
                 </td>
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td className={styles.idCell}>{user.id}</td>

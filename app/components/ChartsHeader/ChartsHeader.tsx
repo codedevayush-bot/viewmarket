@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import styles from "./ChartsHeader.module.css";
+import React, { useState } from 'react';
+import styles from './ChartsHeader.module.css';
 import ChartTypeDropdown, {
   ChartTypeIcon,
-} from "../ChartTypeDropdown/ChartTypeDropdown";
-import TimeframeDropdown from "../TimeframeDropdown/TimeframeDropdown";
-import type { ChartType } from "../ChartTypeDropdown/ChartTypeDropdown";
+} from '../ChartTypeDropdown/ChartTypeDropdown';
+import TimeframeDropdown from '../TimeframeDropdown/TimeframeDropdown';
+import type { ChartType } from '../ChartTypeDropdown/ChartTypeDropdown';
 
 interface ChartsHeaderProps {
   title?: string;
@@ -21,7 +21,7 @@ interface ChartsHeaderProps {
 }
 
 export default function ChartsHeader({
-  title = "",
+  title = '',
   onSymbolClick,
   onStrategyClick,
   onSettingsClick,
@@ -66,7 +66,7 @@ export default function ChartsHeader({
           {/* Timeframe Button */}
           <div className={styles.dropdownAnchor}>
             <button
-              className={`${styles.toolbarButton} ${showTimeframe ? styles.buttonActive : ""}`}
+              className={`${styles.toolbarButton} ${showTimeframe ? styles.buttonActive : ''}`}
               title="Timeframe"
               onClick={() => {
                 setShowTimeframe((p) => !p);
@@ -89,7 +89,7 @@ export default function ChartsHeader({
           {/* Chart Type Button */}
           <div className={styles.dropdownAnchor}>
             <button
-              className={`${styles.toolbarButton} ${showChartType ? styles.buttonActive : ""}`}
+              className={`${styles.toolbarButton} ${showChartType ? styles.buttonActive : ''}`}
               title="Chart Type"
               onClick={() => {
                 setShowChartType((p) => !p);

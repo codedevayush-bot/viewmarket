@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import styles from "./CopyTrading.module.css";
+import styles from './CopyTrading.module.css';
 
 export default function CopyTradingPage() {
   return (

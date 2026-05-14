@@ -1,9 +1,9 @@
-import LegalLayout from "../../components/LegalLayout";
-import styles from "../../components/LegalLayout.module.css";
+import LegalLayout from '../../components/LegalLayout';
+import styles from '../../components/LegalLayout.module.css';
 
 export const metadata = {
-  title: "Risk Disclosure",
-  description: "Risk Disclosure for ViewMarket algorithmic trading platform",
+  title: 'Risk Disclosure',
+  description: 'Risk Disclosure for ViewMarket algorithmic trading platform',
 };
 
 export default function RiskDisclosurePage() {
@@ -16,11 +16,11 @@ export default function RiskDisclosurePage() {
           risks associated with using the ViewMarket platform and trading in
           financial markets. ViewMarket is a Software-as-a-Service (SaaS)
           platform that provides algorithmic trading tools, charting features,
-          and broker integrations.{" "}
+          and broker integrations.{' '}
           <span className={styles.highlight}>
             We do not provide trading recommendations, investment advice, or
             suggestions of any kind.
-          </span>{" "}
+          </span>{' '}
           All trading decisions and their outcomes are solely your
           responsibility.
         </p>
@@ -47,17 +47,17 @@ export default function RiskDisclosurePage() {
         </p>
         <ul className={styles.sectionList}>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Strategy Failures:</span>{" "}
+            <span className={styles.highlight}>Strategy Failures:</span>{' '}
             Algorithms may not perform as expected due to market conditions,
             data errors, or logical flaws in strategy design.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Rapid Execution Risk:</span>{" "}
+            <span className={styles.highlight}>Rapid Execution Risk:</span>{' '}
             Automated strategies can execute trades at high speed, potentially
             amplifying losses if the strategy behaves unexpectedly.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Technical Failures:</span>{" "}
+            <span className={styles.highlight}>Technical Failures:</span>{' '}
             Internet connectivity issues, server downtime, or software bugs may
             prevent timely execution or modification of orders.
           </li>
@@ -67,7 +67,7 @@ export default function RiskDisclosurePage() {
             price due to market movement or network latency.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Over-Optimization:</span>{" "}
+            <span className={styles.highlight}>Over-Optimization:</span>{' '}
             Strategies optimized on historical data may not perform well in live
             markets (curve-fitting risk).
           </li>
@@ -82,7 +82,7 @@ export default function RiskDisclosurePage() {
         </p>
         <ul className={styles.sectionList}>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Broker-Side Failures:</span>{" "}
+            <span className={styles.highlight}>Broker-Side Failures:</span>{' '}
             Broker outages, API downtime, or execution errors are outside
             ViewMarket&apos;s control.
           </li>
@@ -92,7 +92,7 @@ export default function RiskDisclosurePage() {
             unauthorized access could result in unintended trades.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Regulatory Differences:</span>{" "}
+            <span className={styles.highlight}>Regulatory Differences:</span>{' '}
             Brokers operate under different regulatory regimes. Users are
             responsible for understanding the regulatory protections (or lack
             thereof) applicable to their broker.
@@ -157,7 +157,7 @@ export default function RiskDisclosurePage() {
             or user data.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Third-Party Dependencies:</span>{" "}
+            <span className={styles.highlight}>Third-Party Dependencies:</span>{' '}
             The platform relies on third-party services (data providers, cloud
             infrastructure) whose failures may impact our service.
           </li>

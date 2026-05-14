@@ -1,9 +1,9 @@
-import LegalLayout from "../../components/LegalLayout";
-import styles from "../../components/LegalLayout.module.css";
+import LegalLayout from '../../components/LegalLayout';
+import styles from '../../components/LegalLayout.module.css';
 
 export const metadata = {
-  title: "Disclaimer",
-  description: "Disclaimer for ViewMarket algorithmic trading platform",
+  title: 'Disclaimer',
+  description: 'Disclaimer for ViewMarket algorithmic trading platform',
 };
 
 export default function DisclaimerPage() {

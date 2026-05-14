@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import styles from "./LegalLayout.module.css";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import styles from './LegalLayout.module.css';
 
 const legalPages = [
-  { label: "Privacy Policy", href: "/legal/privacy" },
-  { label: "Disclaimer", href: "/legal/disclaimer" },
-  { label: "Terms of Service", href: "/legal/terms-of-service" },
-  { label: "Risk Disclosure", href: "/legal/risk-disclosure" },
-  { label: "Cookie Policy", href: "/legal/cookies" },
-  { label: "Refund Policy", href: "/legal/refund" },
+  { label: 'Privacy Policy', href: '/legal/privacy' },
+  { label: 'Disclaimer', href: '/legal/disclaimer' },
+  { label: 'Terms of Service', href: '/legal/terms-of-service' },
+  { label: 'Risk Disclosure', href: '/legal/risk-disclosure' },
+  { label: 'Cookie Policy', href: '/legal/cookies' },
+  { label: 'Refund Policy', href: '/legal/refund' },
 ];
 
 interface LegalLayoutProps {
@@ -39,7 +39,7 @@ export default function LegalLayout({
                   <Link
                     href={page.href}
                     className={`${styles.sidebarLink} ${
-                      pathname === page.href ? styles.sidebarLinkActive : ""
+                      pathname === page.href ? styles.sidebarLinkActive : ''
                     }`}
                   >
                     {page.label}

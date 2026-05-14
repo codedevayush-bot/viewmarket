@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import styles from "./SettingsModal.module.css";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import styles from './SettingsModal.module.css';
 
 interface SettingsModalProps {
   onClose: () => void;
 }
 
 const SETTINGS_TABS = [
-  "General",
-  "Appearance",
-  "Indicators",
-  "Trading",
-  "Shortcuts",
+  'General',
+  'Appearance',
+  'Indicators',
+  'Trading',
+  'Shortcuts',
 ];
 
 export default function SettingsModal({ onClose }: SettingsModalProps) {
-  const [activeTab, setActiveTab] = useState("General");
+  const [activeTab, setActiveTab] = useState('General');
   const [position, setPosition] = useState<{ x: number; y: number } | null>(
-    null,
+    null
   );
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
@@ -26,13 +26,13 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
   // Escape handler
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === 'Escape') onClose();
     };
-    window.addEventListener("keydown", handleEsc);
-    document.body.style.overflow = "hidden";
+    window.addEventListener('keydown', handleEsc);
+    document.body.style.overflow = 'hidden';
     return () => {
-      window.removeEventListener("keydown", handleEsc);
-      document.body.style.overflow = "auto";
+      window.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'auto';
     };
   }, [onClose]);
 
@@ -42,7 +42,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
       if (e.button !== 0) return;
       setIsDragging(true);
       const modal = (e.currentTarget as HTMLElement).closest(
-        `.${styles.modal}`,
+        `.${styles.modal}`
       ) as HTMLElement;
       if (!modal) return;
       const rect = modal.getBoundingClientRect();
@@ -52,7 +52,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
       };
       if (!position) setPosition({ x: rect.left, y: rect.top });
     },
-    [position],
+    [position]
   );
 
   useEffect(() => {
@@ -64,20 +64,20 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
       });
     };
     const handleMouseUp = () => setIsDragging(false);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging]);
 
   const modalStyle: React.CSSProperties = position
     ? {
-        position: "fixed",
+        position: 'fixed',
         left: position.x,
         top: position.y,
-        transform: "none",
+        transform: 'none',
       }
     : {};
 
@@ -90,7 +90,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
       >
         {/* Header / Drag Handle */}
         <div
-          className={`${styles.dragHandle} ${isDragging ? styles.dragging : ""}`}
+          className={`${styles.dragHandle} ${isDragging ? styles.dragging : ''}`}
           onMouseDown={handleDragStart}
         >
           <div className={styles.headerLeft}>
@@ -133,7 +133,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
             {SETTINGS_TABS.map((tab) => (
               <button
                 key={tab}
-                className={`${styles.tabButton} ${activeTab === tab ? styles.active : ""}`}
+                className={`${styles.tabButton} ${activeTab === tab ? styles.active : ''}`}
                 onClick={() => setActiveTab(tab)}
               >
                 {tab}

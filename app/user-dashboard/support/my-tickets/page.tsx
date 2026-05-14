@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import useSWR from "swr";
-import styles from "./MyTickets.module.css";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import useSWR from 'swr';
+import styles from './MyTickets.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -22,21 +22,21 @@ export default function MyTicketsPage() {
     data: tickets,
     error,
     isLoading,
-  } = useSWR<Ticket[]>("/api/tickets", fetcher, {
+  } = useSWR<Ticket[]>('/api/tickets', fetcher, {
     refreshInterval: 10000, // refresh every 10 seconds
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case "open":
+      case 'open':
         return styles.statusOpen;
-      case "in_progress":
+      case 'in_progress':
         return styles.statusInProgress;
-      case "resolved":
+      case 'resolved':
         return styles.statusResolved;
-      case "closed":
+      case 'closed':
         return styles.statusClosed;
       default:
         return styles.statusOpen;
@@ -44,14 +44,14 @@ export default function MyTicketsPage() {
   };
 
   const formatStatus = (status: string) => {
-    return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase());
+    return status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
     });
   };
 
@@ -70,7 +70,7 @@ export default function MyTicketsPage() {
   const filteredTickets = tickets?.filter(
     (ticket: Ticket) =>
       ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.id.toLowerCase().includes(searchTerm.toLowerCase()),
+      ticket.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -125,7 +125,7 @@ export default function MyTicketsPage() {
               <tr>
                 <td colSpan={5} className={styles.emptyState}>
                   {searchTerm
-                    ? "No tickets match your search."
+                    ? 'No tickets match your search.'
                     : "You haven't raised any tickets yet."}
                 </td>
               </tr>
@@ -136,7 +136,7 @@ export default function MyTicketsPage() {
                   className={styles.row}
                   onClick={() =>
                     router.push(
-                      `/user-dashboard/support/my-tickets/${ticket.id}`,
+                      `/user-dashboard/support/my-tickets/${ticket.id}`
                     )
                   }
                 >
@@ -144,7 +144,7 @@ export default function MyTicketsPage() {
                   <td className={styles.td}>{ticket.title}</td>
                   <td
                     className={styles.td}
-                    style={{ color: "var(--text-secondary)" }}
+                    style={{ color: 'var(--text-secondary)' }}
                   >
                     {ticket.category}
                   </td>
@@ -157,7 +157,7 @@ export default function MyTicketsPage() {
                   </td>
                   <td
                     className={styles.td}
-                    style={{ color: "var(--text-secondary)" }}
+                    style={{ color: 'var(--text-secondary)' }}
                   >
                     {formatDate(ticket.created_at)}
                   </td>

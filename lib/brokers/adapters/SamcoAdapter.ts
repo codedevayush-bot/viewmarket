@@ -6,14 +6,14 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
+} from '../types';
 
 export class SamcoAdapter implements IBrokerAdapter {
   private clientId: string;
   private password?: string;
   private secretApiKey?: string;
   private accessToken?: string;
-  private baseUrl: string = "https://tradeapi.samco.in";
+  private baseUrl: string = 'https://tradeapi.samco.in';
 
   constructor(credentials: BrokerCredentials) {
     this.clientId = credentials.client_id || credentials.api_key;
@@ -27,16 +27,16 @@ export class SamcoAdapter implements IBrokerAdapter {
       if (!this.password || !this.secretApiKey) {
         return {
           success: false,
-          message: "Password and Secret API Key are required",
+          message: 'Password and Secret API Key are required',
         };
       }
 
       // 1. Generate access token (valid 24 hours)
       const tokenResponse = await fetch(`${this.baseUrl}/accessToken/token`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           uid: this.clientId,
@@ -45,10 +45,10 @@ export class SamcoAdapter implements IBrokerAdapter {
       });
 
       const tokenData = await tokenResponse.json();
-      if (tokenData.status !== "Success" || !tokenData.accessToken) {
+      if (tokenData.status !== 'Success' || !tokenData.accessToken) {
         return {
           success: false,
-          message: tokenData.statusMessage || "Failed to generate access token",
+          message: tokenData.statusMessage || 'Failed to generate access token',
         };
       }
 
@@ -56,10 +56,10 @@ export class SamcoAdapter implements IBrokerAdapter {
 
       // 2. Login with access token
       const loginResponse = await fetch(`${this.baseUrl}/login`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           userId: this.clientId,
@@ -69,10 +69,10 @@ export class SamcoAdapter implements IBrokerAdapter {
       });
 
       const loginData = await loginResponse.json();
-      if (loginData.status !== "Success" || !loginData.sessionToken) {
+      if (loginData.status !== 'Success' || !loginData.sessionToken) {
         return {
           success: false,
-          message: loginData.statusMessage || "Login failed",
+          message: loginData.statusMessage || 'Login failed',
         };
       }
 
@@ -90,16 +90,16 @@ export class SamcoAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("GET", "/user/profile");
+    const data = await this.request('GET', '/user/profile');
     return {
       id: this.clientId,
-      name: data.clientName || "SAMCO User",
-      brokerName: "Samco",
+      name: data.clientName || 'SAMCO User',
+      brokerName: 'Samco',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/user/balance");
+    const data = await this.request('GET', '/user/balance');
     return {
       availableCash: parseFloat(data.equityLimit || 0),
       utilizedMargin: 0,
@@ -110,19 +110,19 @@ export class SamcoAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         symbol: order.symbol,
         transactionType: order.transactionType,
         orderType: order.orderType,
         quantity: order.quantity,
         price: order.price || 0,
         productType: order.product,
-        orderValidity: "DAY",
+        orderValidity: 'DAY',
       };
 
-      const data = await this.request("POST", "/order/placeOrder", payload);
+      const data = await this.request('POST', '/order/placeOrder', payload);
       return {
-        success: data.status === "Success",
+        success: data.status === 'Success',
         orderId: data.orderNumber,
         message: data.statusMessage,
       };
@@ -135,14 +135,14 @@ export class SamcoAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "x-session-token": this.accessToken,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'x-session-token': this.accessToken,
       },
       body: body ? JSON.stringify(body) : undefined,
     });
@@ -152,8 +152,8 @@ export class SamcoAdapter implements IBrokerAdapter {
     }
 
     const data = await response.json();
-    if (data.status !== "Success") {
-      throw new Error(data.statusMessage || "Request failed");
+    if (data.status !== 'Success') {
+      throw new Error(data.statusMessage || 'Request failed');
     }
     return data;
   }

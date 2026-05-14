@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useSearchParams } from "next/navigation";
-import Sidebar from "../components/Sidebar/Sidebar";
-import styles from "./UserDashboard.module.css";
+import { useSearchParams } from 'next/navigation';
+import Sidebar from '../components/Sidebar/Sidebar';
+import styles from './UserDashboard.module.css';
 
 export default function DashboardLayout({
   children,
@@ -10,7 +10,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const searchParams = useSearchParams();
-  const isPopout = searchParams.get("popout") === "true";
+  const isPopout = searchParams.get('popout') === 'true';
 
   return (
     <div className={styles.dashboardPage}>

@@ -1,8 +1,8 @@
-import CartClient from "./CartClient";
+import CartClient from './CartClient';
 
 export const metadata = {
-  title: "Checkout",
-  description: "Complete your subscription to ViewMarket.",
+  title: 'Checkout',
+  description: 'Complete your subscription to ViewMarket.',
 };
 
 export default function CartPage() {

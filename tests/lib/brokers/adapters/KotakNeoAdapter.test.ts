@@ -1,19 +1,19 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { KotakNeoAdapter } from "@/lib/brokers/adapters/KotakNeoAdapter";
-import { generateTOTP } from "@/lib/brokers/utils/totp";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { KotakNeoAdapter } from '@/lib/brokers/adapters/KotakNeoAdapter';
+import { generateTOTP } from '@/lib/brokers/utils/totp';
 
-vi.mock("@/lib/brokers/utils/totp", () => ({
-  generateTOTP: vi.fn(() => "654321"),
+vi.mock('@/lib/brokers/utils/totp', () => ({
+  generateTOTP: vi.fn(() => '654321'),
 }));
 
-describe("KotakNeoAdapter", () => {
+describe('KotakNeoAdapter', () => {
   const mockConfig = {
-    ucc: "KOTAK123",
-    api_key: "test_key",
-    api_secret: "test_secret",
-    mobile_number: "9876543210",
-    mpin: "1234",
-    totp_secret: "KOTAKSECRET",
+    ucc: 'KOTAK123',
+    api_key: 'test_key',
+    api_secret: 'test_secret',
+    mobile_number: '9876543210',
+    mpin: '1234',
+    totp_secret: 'KOTAKSECRET',
   };
 
   beforeEach(() => {
@@ -21,21 +21,21 @@ describe("KotakNeoAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should authenticate successfully through two steps", async () => {
+  it('should authenticate successfully through two steps', async () => {
     const mockLoginResponse = {
       data: {
-        status: "success",
-        token: "view_token",
-        sid: "view_sid",
+        status: 'success',
+        token: 'view_token',
+        sid: 'view_sid',
       },
     };
 
     const mockValidateResponse = {
       data: {
-        status: "success",
-        token: "trading_token",
-        sid: "trading_sid",
-        baseUrl: "https://actual.kotak.com",
+        status: 'success',
+        token: 'trading_token',
+        sid: 'trading_sid',
+        baseUrl: 'https://actual.kotak.com',
       },
     };
 
@@ -52,21 +52,21 @@ describe("KotakNeoAdapter", () => {
     const adapter = new KotakNeoAdapter(mockConfig);
     const result = await adapter.authenticate();
 
-    expect(generateTOTP).toHaveBeenCalledWith("KOTAKSECRET");
+    expect(generateTOTP).toHaveBeenCalledWith('KOTAKSECRET');
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(result.success).toBe(true);
     expect(result.accessToken).toBe(
-      "trading_token:::trading_sid:::https://actual.kotak.com",
+      'trading_token:::trading_sid:::https://actual.kotak.com'
     );
   });
 
-  it("should fetch funds successfully", async () => {
+  it('should fetch funds successfully', async () => {
     const mockFundsResponse = {
-      status: "success",
+      status: 'success',
       data: {
-        availableMargin: "15000.75",
-        marginUsed: "3000.00",
-        totalMargin: "18000.75",
+        availableMargin: '15000.75',
+        marginUsed: '3000.00',
+        totalMargin: '18000.75',
       },
     };
 
@@ -77,7 +77,7 @@ describe("KotakNeoAdapter", () => {
 
     const adapter = new KotakNeoAdapter({
       ...mockConfig,
-      access_token: "token:::sid:::https://api.kotak.com",
+      access_token: 'token:::sid:::https://api.kotak.com',
     });
     const funds = await adapter.getFunds();
 
@@ -85,11 +85,11 @@ describe("KotakNeoAdapter", () => {
     expect(funds.utilizedMargin).toBe(3000);
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      status: "success",
+      status: 'success',
       data: {
-        orderId: "KOTAK_ORD_999",
+        orderId: 'KOTAK_ORD_999',
       },
     };
 
@@ -100,18 +100,18 @@ describe("KotakNeoAdapter", () => {
 
     const adapter = new KotakNeoAdapter({
       ...mockConfig,
-      access_token: "token:::sid:::https://api.kotak.com",
+      access_token: 'token:::sid:::https://api.kotak.com',
     });
     const result = await adapter.placeOrder({
-      symbol: "HDFC-EQ",
-      exchange: "NSE",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: 'HDFC-EQ',
+      exchange: 'NSE',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 1,
-      product: "CNC",
+      product: 'CNC',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("KOTAK_ORD_999");
+    expect(result.orderId).toBe('KOTAK_ORD_999');
   });
 });

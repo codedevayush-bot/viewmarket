@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { ShoonyaAdapter } from "@/lib/brokers/adapters/ShoonyaAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { ShoonyaAdapter } from '@/lib/brokers/adapters/ShoonyaAdapter';
 
-describe("ShoonyaAdapter", () => {
+describe('ShoonyaAdapter', () => {
   const mockConfig = {
-    user_id: "SH123",
-    api_key: "test_key",
-    api_secret: "test_secret",
+    user_id: 'SH123',
+    api_key: 'test_key',
+    api_secret: 'test_secret',
   };
 
   beforeEach(() => {
@@ -13,10 +13,10 @@ describe("ShoonyaAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should authenticate successfully", async () => {
+  it('should authenticate successfully', async () => {
     const mockAuthResponse = {
-      stat: "Ok",
-      access_token: "mock_access_token",
+      stat: 'Ok',
+      access_token: 'mock_access_token',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -25,23 +25,23 @@ describe("ShoonyaAdapter", () => {
     } as Response);
 
     const adapter = new ShoonyaAdapter(mockConfig);
-    const result = await adapter.authenticate({ code: "valid_code" });
+    const result = await adapter.authenticate({ code: 'valid_code' });
 
     expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining("/NorenWClientAPI/GenAcsTok"),
+      expect.stringContaining('/NorenWClientAPI/GenAcsTok'),
       expect.objectContaining({
-        method: "POST",
-        body: expect.stringContaining("jData="),
-      }),
+        method: 'POST',
+        body: expect.stringContaining('jData='),
+      })
     );
     expect(result.success).toBe(true);
-    expect(result.accessToken).toBe("mock_access_token");
+    expect(result.accessToken).toBe('mock_access_token');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
-      stat: "Ok",
-      uname: "Shoonya User",
+      stat: 'Ok',
+      uname: 'Shoonya User',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -51,19 +51,19 @@ describe("ShoonyaAdapter", () => {
 
     const adapter = new ShoonyaAdapter({
       ...mockConfig,
-      access_token: "mock_token",
+      access_token: 'mock_token',
     });
     const profile = await adapter.getProfile();
 
-    expect(profile.id).toBe("SH123");
-    expect(profile.name).toBe("Shoonya User");
+    expect(profile.id).toBe('SH123');
+    expect(profile.name).toBe('Shoonya User');
   });
 
-  it("should fetch funds successfully", async () => {
+  it('should fetch funds successfully', async () => {
     const mockFundsResponse = {
-      stat: "Ok",
-      cash: "2000.00",
-      margin_used: "500.00",
+      stat: 'Ok',
+      cash: '2000.00',
+      margin_used: '500.00',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -73,7 +73,7 @@ describe("ShoonyaAdapter", () => {
 
     const adapter = new ShoonyaAdapter({
       ...mockConfig,
-      access_token: "mock_token",
+      access_token: 'mock_token',
     });
     const funds = await adapter.getFunds();
 
@@ -81,10 +81,10 @@ describe("ShoonyaAdapter", () => {
     expect(funds.utilizedMargin).toBe(500);
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      stat: "Ok",
-      norenordno: "SHOONYA_ORD_777",
+      stat: 'Ok',
+      norenordno: 'SHOONYA_ORD_777',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -94,18 +94,18 @@ describe("ShoonyaAdapter", () => {
 
     const adapter = new ShoonyaAdapter({
       ...mockConfig,
-      access_token: "mock_token",
+      access_token: 'mock_token',
     });
     const result = await adapter.placeOrder({
-      symbol: "TCS-EQ",
-      exchange: "NSE",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: 'TCS-EQ',
+      exchange: 'NSE',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 2,
-      product: "CNC",
+      product: 'CNC',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("SHOONYA_ORD_777");
+    expect(result.orderId).toBe('SHOONYA_ORD_777');
   });
 });

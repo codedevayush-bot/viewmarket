@@ -1,9 +1,9 @@
-import LegalLayout from "../../components/LegalLayout";
-import styles from "../../components/LegalLayout.module.css";
+import LegalLayout from '../../components/LegalLayout';
+import styles from '../../components/LegalLayout.module.css';
 
 export const metadata = {
-  title: "Privacy Policy",
-  description: "Privacy Policy for ViewMarket algorithmic trading platform",
+  title: 'Privacy Policy',
+  description: 'Privacy Policy for ViewMarket algorithmic trading platform',
 };
 
 export default function PrivacyPage() {
@@ -35,23 +35,23 @@ export default function PrivacyPage() {
             account.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Platform Usage Data:</span>{" "}
+            <span className={styles.highlight}>Platform Usage Data:</span>{' '}
             Trading strategies configured, charts viewed, indicators used, and
             feature interaction patterns within the platform.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Broker Integration Data:</span>{" "}
+            <span className={styles.highlight}>Broker Integration Data:</span>{' '}
             Connection credentials (securely encrypted), broker selection, and
             API interaction logs required to facilitate your trading through our
             30+ broker integrations.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Device & Technical Data:</span>{" "}
+            <span className={styles.highlight}>Device & Technical Data:</span>{' '}
             IP address, browser type, operating system, device identifiers, and
             log data collected automatically.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Cookies & Tracking Data:</span>{" "}
+            <span className={styles.highlight}>Cookies & Tracking Data:</span>{' '}
             As described in our Cookie Policy.
           </li>
         </ul>
@@ -105,7 +105,7 @@ export default function PrivacyPage() {
             broker&apos;s API.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Service Providers:</span>{" "}
+            <span className={styles.highlight}>Service Providers:</span>{' '}
             Third-party vendors who assist in operating our platform (hosting,
             payment processing, analytics) under strict data protection
             agreements.

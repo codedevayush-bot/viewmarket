@@ -43,15 +43,15 @@ export DATABASE_URL="$(grep DATABASE_URL .env.local | cut -d '=' -f2)" && \
 **Option 2: Update drizzle.config.ts**
 
 ```typescript
-import { defineConfig } from "drizzle-kit";
-import { config } from "dotenv";
+import { defineConfig } from 'drizzle-kit';
+import { config } from 'dotenv';
 
-config({ path: ".env.local" });
+config({ path: '.env.local' });
 
 export default defineConfig({
-  schema: "./src/db/schema.ts",
-  out: "./src/db/migrations",
-  dialect: "postgresql",
+  schema: './src/db/schema.ts',
+  out: './src/db/migrations',
+  dialect: 'postgresql',
   dbCredentials: {
     url: process.env.DATABASE_URL!,
   },
@@ -61,13 +61,13 @@ export default defineConfig({
 **Option 3: Use programmatic migration**
 
 ```typescript
-import { migrate } from "drizzle-orm/neon-http/migrator";
-import { db } from "./src/db";
-import { config } from "dotenv";
+import { migrate } from 'drizzle-orm/neon-http/migrator';
+import { db } from './src/db';
+import { config } from 'dotenv';
 
-config({ path: ".env.local" });
+config({ path: '.env.local' });
 
-await migrate(db, { migrationsFolder: "./src/db/migrations" });
+await migrate(db, { migrationsFolder: './src/db/migrations' });
 ```
 
 ### Error: "Cannot find migrations folder"
@@ -206,8 +206,8 @@ Error: WebSocket connection to 'wss://...' failed
 Add to your connection file:
 
 ```typescript
-import { neonConfig } from "@neondatabase/serverless";
-import ws from "ws";
+import { neonConfig } from '@neondatabase/serverless';
+import ws from 'ws';
 
 neonConfig.webSocketConstructor = ws;
 ```
@@ -236,7 +236,7 @@ Error: sorry, too many clients already
 **For WebSocket adapter:** Implement connection pooling:
 
 ```typescript
-import { Pool } from "@neondatabase/serverless";
+import { Pool } from '@neondatabase/serverless';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL!,
@@ -249,7 +249,7 @@ export const db = drizzle(pool);
 **Close connections properly:**
 
 ```typescript
-process.on("SIGTERM", async () => {
+process.on('SIGTERM', async () => {
   await pool.end();
   process.exit(0);
 });
@@ -275,8 +275,8 @@ See `references/adapters.md` for decision guide.
 **HTTP adapter:**
 
 ```typescript
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
 
 const sql = neon(process.env.DATABASE_URL!);
 export const db = drizzle(sql);
@@ -285,9 +285,9 @@ export const db = drizzle(sql);
 **WebSocket adapter:**
 
 ```typescript
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { Pool, neonConfig } from "@neondatabase/serverless";
-import ws from "ws";
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import ws from 'ws';
 
 neonConfig.webSocketConstructor = ws;
 const pool = new Pool({ connectionString: process.env.DATABASE_URL! });
@@ -303,7 +303,7 @@ export const db = drizzle(pool);
 ```typescript
 const user = await db.insert(users).values({
   id: 1, // Error here
-  email: "test@example.com",
+  email: 'test@example.com',
 });
 ```
 
@@ -315,7 +315,7 @@ Remove `id` from insert (it's auto-generated):
 
 ```typescript
 const user = await db.insert(users).values({
-  email: "test@example.com",
+  email: 'test@example.com',
 });
 ```
 
@@ -335,9 +335,9 @@ console.log(user[0].nonExistentField); // Error
 Add column to schema:
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  nonExistentField: text("non_existent_field"),
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  nonExistentField: text('non_existent_field'),
 });
 ```
 
@@ -414,8 +414,8 @@ See `references/adapters.md`.
 
 ```typescript
 await db.batch([
-  db.insert(users).values({ email: "test1@example.com" }),
-  db.insert(posts).values({ title: "Test" }),
+  db.insert(users).values({ email: 'test1@example.com' }),
+  db.insert(posts).values({ title: 'Test' }),
 ]);
 ```
 
@@ -437,14 +437,14 @@ Check if foreign keys have indexes:
 
 ```typescript
 export const posts = pgTable(
-  "posts",
+  'posts',
   {
-    id: serial("id").primaryKey(),
-    authorId: serial("author_id").notNull(),
+    id: serial('id').primaryKey(),
+    authorId: serial('author_id').notNull(),
   },
   (table) => ({
-    authorIdIdx: index("posts_author_id_idx").on(table.authorId), // ADD THIS
-  }),
+    authorIdIdx: index('posts_author_id_idx').on(table.authorId), // ADD THIS
+  })
 );
 ```
 
@@ -484,7 +484,7 @@ const users = await db
 **2. For Node.js:** Implement connection pooling with retry:
 
 ```typescript
-import { Pool } from "@neondatabase/serverless";
+import { Pool } from '@neondatabase/serverless';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL!,
@@ -500,7 +500,7 @@ const pool = new Pool({
 const result = await Promise.race([
   db.select().from(users),
   new Promise((_, reject) =>
-    setTimeout(() => reject(new Error("Query timeout")), 5000),
+    setTimeout(() => reject(new Error('Query timeout')), 5000)
   ),
 ]);
 ```
@@ -528,8 +528,8 @@ grep DATABASE_URL .env.local
 **3. Load env vars:**
 
 ```typescript
-import { config } from "dotenv";
-config({ path: ".env.local" });
+import { config } from 'dotenv';
+config({ path: '.env.local' });
 ```
 
 **4. For Next.js:** Use `NEXT_PUBLIC_` prefix if accessing client-side (NOT recommended for DATABASE_URL):

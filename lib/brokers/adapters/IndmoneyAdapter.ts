@@ -6,12 +6,12 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
+} from '../types';
 
 export class IndmoneyAdapter implements IBrokerAdapter {
   private apiKey: string;
   private accessToken?: string;
-  private baseUrl: string = "https://api.indstocks.com";
+  private baseUrl: string = 'https://api.indstocks.com';
 
   constructor(credentials: BrokerCredentials) {
     this.apiKey = credentials.api_key;
@@ -23,7 +23,7 @@ export class IndmoneyAdapter implements IBrokerAdapter {
     if (!this.accessToken) {
       return {
         success: false,
-        message: "Access token is required for Indmoney",
+        message: 'Access token is required for Indmoney',
       };
     }
 
@@ -35,16 +35,16 @@ export class IndmoneyAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("GET", "/user/profile");
+    const data = await this.request('GET', '/user/profile');
     return {
-      id: data.data.client_id || "",
-      name: data.data.full_name || "Indmoney User",
-      brokerName: "Indmoney",
+      id: data.data.client_id || '',
+      name: data.data.full_name || 'Indmoney User',
+      brokerName: 'Indmoney',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/funds");
+    const data = await this.request('GET', '/funds');
     return {
       availableCash: parseFloat(data.data.withdrawal_balance || 0),
       utilizedMargin: 0,
@@ -56,18 +56,18 @@ export class IndmoneyAdapter implements IBrokerAdapter {
     try {
       const payload = {
         symbol: order.symbol,
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         transaction_type: order.transactionType,
         order_type: order.orderType,
         quantity: order.quantity,
         price: order.price || 0,
         product: order.product,
-        validity: "DAY",
+        validity: 'DAY',
       };
 
-      const data = await this.request("POST", "/orders", payload);
+      const data = await this.request('POST', '/orders', payload);
       return {
-        success: data.status === "success",
+        success: data.status === 'success',
         orderId: data.data.order_id,
         message: data.message,
       };
@@ -80,20 +80,20 @@ export class IndmoneyAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: this.accessToken,
       },
       body: body ? JSON.stringify(body) : undefined,
     });
 
     const data = await response.json();
-    if (data.status !== "success") {
-      throw new Error(data.message || "Request failed");
+    if (data.status !== 'success') {
+      throw new Error(data.message || 'Request failed');
     }
     return data;
   }

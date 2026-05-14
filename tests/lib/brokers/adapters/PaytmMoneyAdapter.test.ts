@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { PaytmMoneyAdapter } from "@/lib/brokers/adapters/PaytmMoneyAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { PaytmMoneyAdapter } from '@/lib/brokers/adapters/PaytmMoneyAdapter';
 
-describe("PaytmMoneyAdapter", () => {
+describe('PaytmMoneyAdapter', () => {
   const mockConfig = {
-    api_key: "test_key",
-    api_secret: "test_secret",
+    api_key: 'test_key',
+    api_secret: 'test_secret',
   };
 
   beforeEach(() => {
@@ -12,17 +12,17 @@ describe("PaytmMoneyAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should generate correct auth URL via authenticate()", async () => {
+  it('should generate correct auth URL via authenticate()', async () => {
     const adapter = new PaytmMoneyAdapter(mockConfig);
     const result = await adapter.authenticate();
     expect(result.success).toBe(true);
     expect(result.isOAuth).toBe(true);
-    expect(result.redirectUrl).toContain("apiKey=test_key");
+    expect(result.redirectUrl).toContain('apiKey=test_key');
   });
 
-  it("should handle OAuth callback successfully", async () => {
+  it('should handle OAuth callback successfully', async () => {
     const mockResponse = {
-      access_token: "mock_jwt_token",
+      access_token: 'mock_jwt_token',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -32,22 +32,22 @@ describe("PaytmMoneyAdapter", () => {
     } as Response);
 
     const adapter = new PaytmMoneyAdapter(mockConfig);
-    const result = await adapter.handleOAuthCallback("valid_code");
+    const result = await adapter.handleOAuthCallback('valid_code');
 
     expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining("/accounts/v2/gettoken"),
+      expect.stringContaining('/accounts/v2/gettoken'),
       expect.objectContaining({
-        method: "POST",
-      }),
+        method: 'POST',
+      })
     );
     expect(result.success).toBe(true);
-    expect(result.accessToken).toBe("mock_jwt_token");
+    expect(result.accessToken).toBe('mock_jwt_token');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
-      client_id: "PM123",
-      user_name: "Paytm User",
+      client_id: 'PM123',
+      user_name: 'Paytm User',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -58,17 +58,17 @@ describe("PaytmMoneyAdapter", () => {
 
     const adapter = new PaytmMoneyAdapter({
       ...mockConfig,
-      access_token: "mock_token",
+      access_token: 'mock_token',
     });
     const profile = await adapter.getProfile();
 
-    expect(profile.id).toBe("PM123");
-    expect(profile.name).toBe("Paytm User");
+    expect(profile.id).toBe('PM123');
+    expect(profile.name).toBe('Paytm User');
   });
 
-  it("should fetch funds successfully", async () => {
+  it('should fetch funds successfully', async () => {
     const mockFundsResponse = {
-      equity: { available_balance: "1234.56" },
+      equity: { available_balance: '1234.56' },
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -79,16 +79,16 @@ describe("PaytmMoneyAdapter", () => {
 
     const adapter = new PaytmMoneyAdapter({
       ...mockConfig,
-      access_token: "mock_token",
+      access_token: 'mock_token',
     });
     const funds = await adapter.getFunds();
 
     expect(funds.availableCash).toBe(1234.56);
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      order_id: "PM_ORDER_999",
+      order_id: 'PM_ORDER_999',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -99,18 +99,18 @@ describe("PaytmMoneyAdapter", () => {
 
     const adapter = new PaytmMoneyAdapter({
       ...mockConfig,
-      access_token: "mock_token",
+      access_token: 'mock_token',
     });
     const result = await adapter.placeOrder({
-      symbol: "12345",
-      exchange: "NSE",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: '12345',
+      exchange: 'NSE',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 1,
-      product: "CNC",
+      product: 'CNC',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("PM_ORDER_999");
+    expect(result.orderId).toBe('PM_ORDER_999');
   });
 });

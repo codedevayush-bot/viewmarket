@@ -1,4 +1,4 @@
-import styles from "./Hero.module.css";
+import styles from './Hero.module.css';
 
 export default function Hero() {
   return (
@@ -44,7 +44,7 @@ export default function Hero() {
                     height="14"
                     viewBox="0 0 100 100"
                     fill="none"
-                    style={{ display: "inline-block", verticalAlign: "middle" }}
+                    style={{ display: 'inline-block', verticalAlign: 'middle' }}
                   >
                     <path d="M50 8 L92 50 L50 92 L8 50 Z" fill="white" />
                     <path
@@ -151,7 +151,7 @@ export default function Hero() {
                 Optimize WebSocket execution
               </h2>
               <p className={styles.issueDescription}>
-                Reduce latency in the{" "}
+                Reduce latency in the{' '}
                 <code className={styles.inlineCode}>OrderManager</code> by
                 implementing a priority queue for high-frequency broker updates
                 during peak market volatility.
@@ -224,7 +224,7 @@ export default function Hero() {
                         <strong>Codex</strong>
                       </span>
                       <p className={styles.activityComment}>
-                        Examining issue{" "}
+                        Examining issue{' '}
                         <code className={styles.inlineCode}>ENG-2703</code>
                       </p>
                     </div>
@@ -281,16 +281,16 @@ export default function Hero() {
                   <code>
                     const order = orders.find(o =&gt; o.id === orderId); if
                     (!order) return null; // Locating order logic for
-                    market_volatility // Optimized in 12ms Summary Replaced{" "}
-                    <span className={styles.codeHighlight}>sequentialSync</span>{" "}
-                    with{" "}
-                    <span className={styles.codeHighlight}>priorityQueue</span>{" "}
-                    and gated the execution on{" "}
+                    market_volatility // Optimized in 12ms Summary Replaced{' '}
+                    <span className={styles.codeHighlight}>sequentialSync</span>{' '}
+                    with{' '}
+                    <span className={styles.codeHighlight}>priorityQueue</span>{' '}
+                    and gated the execution on{' '}
                     <span className={styles.codeHighlight}>
                       OrderState.READY
                     </span>
-                    . Passed validation and{" "}
-                    <span className={styles.codeHighlight}>backtestStatus</span>{" "}
+                    . Passed validation and{' '}
+                    <span className={styles.codeHighlight}>backtestStatus</span>{' '}
                     to ensure low-latency routing.
                   </code>
                 </pre>

@@ -377,7 +377,7 @@
 }
 
 .collapsed .sectionHeader::after {
-  content: "";
+  content: '';
   display: block;
   width: 16px;
   height: 1px;

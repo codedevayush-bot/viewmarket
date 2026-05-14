@@ -1,8 +1,7 @@
-import type { Metadata } from "next";
-import styles from "./SignIn.module.css";
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Sign In",
+  title: 'Sign In',
 };
 
 export default function SignInLayout({

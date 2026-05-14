@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { auth } from "@/auth";
-import { BrokerFactory } from "@/lib/brokers/BrokerFactory";
-import { decrypt } from "@/lib/encryption";
+import { NextRequest, NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+import { auth } from '@/auth';
+import { BrokerFactory } from '@/lib/brokers/BrokerFactory';
+import { decrypt } from '@/lib/encryption';
 
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
 
     if (!connectionId) {
       return NextResponse.json(
-        { error: "Missing connectionId" },
-        { status: 400 },
+        { error: 'Missing connectionId' },
+        { status: 400 }
       );
     }
 
@@ -25,13 +25,13 @@ export async function POST(req: NextRequest) {
        FROM broker_connections bc
        JOIN brokers b ON bc."brokerId" = b.id
        WHERE bc.id = $1 AND bc."userId" = $2`,
-      [connectionId, session.user.id],
+      [connectionId, session.user.id]
     );
 
     if (res.rowCount === 0) {
       return NextResponse.json(
-        { error: "Connection not found" },
-        { status: 404 },
+        { error: 'Connection not found' },
+        { status: 404 }
       );
     }
 
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     const adapter = BrokerFactory.createAdapter(
       connection.broker_name,
       encryptedCredentials,
-      sessionData,
+      sessionData
     );
 
     // For Zerodha, they might not have an accessToken yet if they only did login but not TOTP / session exchange
@@ -65,14 +65,14 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, profile, funds });
   } catch (error: unknown) {
-    console.error("Test connection failed:", error);
+    console.error('Test connection failed:', error);
     return NextResponse.json(
       {
         error:
           (error instanceof Error ? error.message : String(error)) ||
-          "Test connection failed",
+          'Test connection failed',
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

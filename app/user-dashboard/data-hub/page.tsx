@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "../TradingWorkspace.module.css";
+import { useState } from 'react';
+import styles from '../TradingWorkspace.module.css';
 
-type DataTab = "contracts" | "symbols" | "history";
+type DataTab = 'contracts' | 'symbols' | 'history';
 
 interface ContractRow {
   symbol: string;
@@ -31,57 +31,57 @@ interface HistoryRow {
 }
 
 const tabConfig: { id: DataTab; label: string; description: string }[] = [
-  { id: "contracts", label: "Contracts", description: "Master contract list" },
-  { id: "symbols", label: "Symbols", description: "Symbol search" },
-  { id: "history", label: "History", description: "Historical data" },
+  { id: 'contracts', label: 'Contracts', description: 'Master contract list' },
+  { id: 'symbols', label: 'Symbols', description: 'Symbol search' },
+  { id: 'history', label: 'History', description: 'Historical data' },
 ];
 
 const mockContracts: ContractRow[] = [
   {
-    symbol: "NIFTY",
-    name: "Nifty 50",
-    exchange: "NSE",
-    segment: "Futures",
+    symbol: 'NIFTY',
+    name: 'Nifty 50',
+    exchange: 'NSE',
+    segment: 'Futures',
     lotSize: 75,
     tickSize: 0.05,
   },
   {
-    symbol: "BANKNIFTY",
-    name: "Bank Nifty",
-    exchange: "NSE",
-    segment: "Futures",
+    symbol: 'BANKNIFTY',
+    name: 'Bank Nifty',
+    exchange: 'NSE',
+    segment: 'Futures',
     lotSize: 30,
     tickSize: 0.05,
   },
   {
-    symbol: "RELIANCE",
-    name: "Reliance Industries",
-    exchange: "NSE",
-    segment: "Equity",
+    symbol: 'RELIANCE',
+    name: 'Reliance Industries',
+    exchange: 'NSE',
+    segment: 'Equity',
     lotSize: 1,
     tickSize: 0.05,
   },
   {
-    symbol: "TCS",
-    name: "Tata Consultancy",
-    exchange: "NSE",
-    segment: "Equity",
+    symbol: 'TCS',
+    name: 'Tata Consultancy',
+    exchange: 'NSE',
+    segment: 'Equity',
     lotSize: 1,
     tickSize: 0.05,
   },
   {
-    symbol: "NIFTY CE 22400",
-    name: "Nifty Call",
-    exchange: "NSE",
-    segment: "Options",
+    symbol: 'NIFTY CE 22400',
+    name: 'Nifty Call',
+    exchange: 'NSE',
+    segment: 'Options',
     lotSize: 75,
     tickSize: 0.05,
   },
   {
-    symbol: "NIFTY PE 22400",
-    name: "Nifty Put",
-    exchange: "NSE",
-    segment: "Options",
+    symbol: 'NIFTY PE 22400',
+    name: 'Nifty Put',
+    exchange: 'NSE',
+    segment: 'Options',
     lotSize: 75,
     tickSize: 0.05,
   },
@@ -89,83 +89,83 @@ const mockContracts: ContractRow[] = [
 
 const mockSymbols: SymbolRow[] = [
   {
-    symbol: "RELIANCE",
-    name: "Reliance Industries Ltd",
-    exchange: "NSE",
-    type: "Equity",
+    symbol: 'RELIANCE',
+    name: 'Reliance Industries Ltd',
+    exchange: 'NSE',
+    type: 'Equity',
   },
   {
-    symbol: "RELIANCE-EQ",
-    name: "Reliance Industries",
-    exchange: "NSE",
-    type: "Equity",
+    symbol: 'RELIANCE-EQ',
+    name: 'Reliance Industries',
+    exchange: 'NSE',
+    type: 'Equity',
   },
   {
-    symbol: "RELIANCE",
-    name: "Reliance Industries",
-    exchange: "BSE",
-    type: "Equity",
+    symbol: 'RELIANCE',
+    name: 'Reliance Industries',
+    exchange: 'BSE',
+    type: 'Equity',
   },
-  { symbol: "RNAM", name: "Reliance Nippon AMC", exchange: "NSE", type: "ETF" },
+  { symbol: 'RNAM', name: 'Reliance Nippon AMC', exchange: 'NSE', type: 'ETF' },
 ];
 
 const mockHistory: HistoryRow[] = [
   {
-    date: "2024-05-10",
-    open: "22,450",
-    high: "22,580",
-    low: "22,320",
-    close: "22,485",
-    volume: "45.2M",
+    date: '2024-05-10',
+    open: '22,450',
+    high: '22,580',
+    low: '22,320',
+    close: '22,485',
+    volume: '45.2M',
   },
   {
-    date: "2024-05-09",
-    open: "22,380",
-    high: "22,520",
-    low: "22,250",
-    close: "22,450",
-    volume: "38.7M",
+    date: '2024-05-09',
+    open: '22,380',
+    high: '22,520',
+    low: '22,250',
+    close: '22,450',
+    volume: '38.7M',
   },
   {
-    date: "2024-05-08",
-    open: "22,200",
-    high: "22,410",
-    low: "22,180",
-    close: "22,380",
-    volume: "42.1M",
+    date: '2024-05-08',
+    open: '22,200',
+    high: '22,410',
+    low: '22,180',
+    close: '22,380',
+    volume: '42.1M',
   },
   {
-    date: "2024-05-07",
-    open: "22,150",
-    high: "22,300",
-    low: "22,050",
-    close: "22,200",
-    volume: "35.5M",
+    date: '2024-05-07',
+    open: '22,150',
+    high: '22,300',
+    low: '22,050',
+    close: '22,200',
+    volume: '35.5M',
   },
   {
-    date: "2024-05-06",
-    open: "22,280",
-    high: "22,450",
-    low: "22,120",
-    close: "22,150",
-    volume: "40.3M",
+    date: '2024-05-06',
+    open: '22,280',
+    high: '22,450',
+    low: '22,120',
+    close: '22,150',
+    volume: '40.3M',
   },
 ];
 
 export default function DataHubPage() {
-  const [activeTab, setActiveTab] = useState<DataTab>("contracts");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState<DataTab>('contracts');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredContracts = mockContracts.filter(
     (c) =>
       c.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      c.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const filteredSymbols = mockSymbols.filter(
     (s) =>
       s.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      s.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -186,7 +186,7 @@ export default function DataHubPage() {
           <button
             key={tab.id}
             className={`${styles.tabButton} ${
-              activeTab === tab.id ? styles.tabButtonActive : ""
+              activeTab === tab.id ? styles.tabButtonActive : ''
             }`}
             onClick={() => setActiveTab(tab.id)}
           >
@@ -231,15 +231,15 @@ export default function DataHubPage() {
               </h2>
             </div>
             <span className={styles.badge}>
-              {activeTab === "contracts" &&
+              {activeTab === 'contracts' &&
                 `${filteredContracts.length} instruments`}
-              {activeTab === "symbols" && `${filteredSymbols.length} results`}
-              {activeTab === "history" && "5 days"}
+              {activeTab === 'symbols' && `${filteredSymbols.length} results`}
+              {activeTab === 'history' && '5 days'}
             </span>
           </div>
 
           <div className={styles.list}>
-            {activeTab === "contracts" && (
+            {activeTab === 'contracts' && (
               <>
                 <div className={styles.dataTableHeader}>
                   <span>Symbol</span>
@@ -268,7 +268,7 @@ export default function DataHubPage() {
               </>
             )}
 
-            {activeTab === "symbols" && (
+            {activeTab === 'symbols' && (
               <>
                 <div className={styles.dataTableHeader}>
                   <span>Symbol</span>
@@ -291,7 +291,7 @@ export default function DataHubPage() {
               </>
             )}
 
-            {activeTab === "history" && (
+            {activeTab === 'history' && (
               <>
                 <div className={styles.dataTableHeader}>
                   <span>Date</span>

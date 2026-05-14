@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "../TradingWorkspace.module.css";
+import { useState } from 'react';
+import styles from '../TradingWorkspace.module.css';
 
-type MonitorTab = "overview" | "logs" | "performance" | "security";
+type MonitorTab = 'overview' | 'logs' | 'performance' | 'security';
 
 interface LogEntry {
   id: string;
   timestamp: string;
-  level: "info" | "warn" | "error" | "debug";
+  level: 'info' | 'warn' | 'error' | 'debug';
   source: string;
   message: string;
 }
@@ -17,104 +17,104 @@ interface MetricData {
   name: string;
   value: string;
   change: string;
-  status: "up" | "down" | "stable";
+  status: 'up' | 'down' | 'stable';
 }
 
 const tabConfig: { id: MonitorTab; label: string; description: string }[] = [
-  { id: "overview", label: "Overview", description: "System health summary" },
-  { id: "logs", label: "Logs", description: "Application logs" },
-  { id: "performance", label: "Performance", description: "Traffic & latency" },
-  { id: "security", label: "Security", description: "Security events" },
+  { id: 'overview', label: 'Overview', description: 'System health summary' },
+  { id: 'logs', label: 'Logs', description: 'Application logs' },
+  { id: 'performance', label: 'Performance', description: 'Traffic & latency' },
+  { id: 'security', label: 'Security', description: 'Security events' },
 ];
 
 const mockLogs: LogEntry[] = [
   {
-    id: "1",
-    timestamp: "14:32:15",
-    level: "info",
-    source: "API",
-    message: "Request processed successfully",
+    id: '1',
+    timestamp: '14:32:15',
+    level: 'info',
+    source: 'API',
+    message: 'Request processed successfully',
   },
   {
-    id: "2",
-    timestamp: "14:32:14",
-    level: "warn",
-    source: "Auth",
-    message: "Rate limit approaching threshold",
+    id: '2',
+    timestamp: '14:32:14',
+    level: 'warn',
+    source: 'Auth',
+    message: 'Rate limit approaching threshold',
   },
   {
-    id: "3",
-    timestamp: "14:32:12",
-    level: "error",
-    source: "Data",
-    message: "Failed to fetch market data",
+    id: '3',
+    timestamp: '14:32:12',
+    level: 'error',
+    source: 'Data',
+    message: 'Failed to fetch market data',
   },
   {
-    id: "4",
-    timestamp: "14:32:10",
-    level: "info",
-    source: "Trade",
-    message: "Order executed: NIFTY BUY 75",
+    id: '4',
+    timestamp: '14:32:10',
+    level: 'info',
+    source: 'Trade',
+    message: 'Order executed: NIFTY BUY 75',
   },
   {
-    id: "5",
-    timestamp: "14:32:08",
-    level: "debug",
-    source: "WS",
-    message: "WebSocket message received",
+    id: '5',
+    timestamp: '14:32:08',
+    level: 'debug',
+    source: 'WS',
+    message: 'WebSocket message received',
   },
   {
-    id: "6",
-    timestamp: "14:32:05",
-    level: "info",
-    source: "API",
-    message: "User session refreshed",
+    id: '6',
+    timestamp: '14:32:05',
+    level: 'info',
+    source: 'API',
+    message: 'User session refreshed',
   },
   {
-    id: "7",
-    timestamp: "14:32:03",
-    level: "warn",
-    source: "Broker",
-    message: "High latency detected",
+    id: '7',
+    timestamp: '14:32:03',
+    level: 'warn',
+    source: 'Broker',
+    message: 'High latency detected',
   },
   {
-    id: "8",
-    timestamp: "14:32:01",
-    level: "info",
-    source: "Data",
-    message: "Market data sync complete",
+    id: '8',
+    timestamp: '14:32:01',
+    level: 'info',
+    source: 'Data',
+    message: 'Market data sync complete',
   },
 ];
 
 const mockMetrics: MetricData[] = [
-  { name: "Requests/min", value: "1,245", change: "+12%", status: "up" },
-  { name: "Avg Latency", value: "45ms", change: "-8%", status: "down" },
-  { name: "Error Rate", value: "0.02%", change: "-5%", status: "down" },
-  { name: "Active Users", value: "128", change: "+3", status: "up" },
+  { name: 'Requests/min', value: '1,245', change: '+12%', status: 'up' },
+  { name: 'Avg Latency', value: '45ms', change: '-8%', status: 'down' },
+  { name: 'Error Rate', value: '0.02%', change: '-5%', status: 'down' },
+  { name: 'Active Users', value: '128', change: '+3', status: 'up' },
 ];
 
 const mockTraffic = [
-  { time: "14:00", requests: "980", latency: "52ms" },
-  { time: "14:05", requests: "1,120", latency: "48ms" },
-  { time: "14:10", requests: "1,350", latency: "45ms" },
-  { time: "14:15", requests: "1,180", latency: "42ms" },
-  { time: "14:20", requests: "1,420", latency: "44ms" },
-  { time: "14:25", requests: "1,380", latency: "40ms" },
+  { time: '14:00', requests: '980', latency: '52ms' },
+  { time: '14:05', requests: '1,120', latency: '48ms' },
+  { time: '14:10', requests: '1,350', latency: '45ms' },
+  { time: '14:15', requests: '1,180', latency: '42ms' },
+  { time: '14:20', requests: '1,420', latency: '44ms' },
+  { time: '14:25', requests: '1,380', latency: '40ms' },
 ];
 
 export default function ObservabilityHubPage() {
-  const [activeTab, setActiveTab] = useState<MonitorTab>("overview");
+  const [activeTab, setActiveTab] = useState<MonitorTab>('overview');
   const [autoRefresh, setAutoRefresh] = useState(true);
 
-  const getLogLevelClass = (level: LogEntry["level"]) => {
+  const getLogLevelClass = (level: LogEntry['level']) => {
     switch (level) {
-      case "info":
+      case 'info':
         return styles.logInfo;
-      case "warn":
+      case 'warn':
         return styles.logWarn;
-      case "error":
+      case 'error':
         return styles.logError;
-      case "debug":
+      case 'debug':
         return styles.logDebug;
     }
   };
@@ -151,7 +151,7 @@ export default function ObservabilityHubPage() {
           <button
             key={tab.id}
             className={`${styles.tabButton} ${
-              activeTab === tab.id ? styles.tabButtonActive : ""
+              activeTab === tab.id ? styles.tabButtonActive : ''
             }`}
             onClick={() => setActiveTab(tab.id)}
           >
@@ -167,7 +167,7 @@ export default function ObservabilityHubPage() {
             <strong className={styles.metricValue}>{metric.value}</strong>
             <span
               className={`${styles.metricChange} ${
-                metric.status === "up" ? styles.changeUp : styles.changeDown
+                metric.status === 'up' ? styles.changeUp : styles.changeDown
               }`}
             >
               {metric.change}
@@ -209,7 +209,7 @@ export default function ObservabilityHubPage() {
           </div>
 
           <div className={styles.list}>
-            {activeTab === "overview" && (
+            {activeTab === 'overview' && (
               <div className={styles.healthGrid}>
                 <div className={styles.healthItem}>
                   <span className={styles.healthIcon}>
@@ -302,7 +302,7 @@ export default function ObservabilityHubPage() {
               </div>
             )}
 
-            {activeTab === "logs" && (
+            {activeTab === 'logs' && (
               <>
                 <div className={styles.logHeader}>
                   <span>Time</span>
@@ -325,7 +325,7 @@ export default function ObservabilityHubPage() {
               </>
             )}
 
-            {activeTab === "performance" && (
+            {activeTab === 'performance' && (
               <>
                 <div className={styles.trafficHeader}>
                   <span>Time</span>
@@ -356,7 +356,7 @@ export default function ObservabilityHubPage() {
               </>
             )}
 
-            {activeTab === "security" && (
+            {activeTab === 'security' && (
               <div className={styles.securityEvents}>
                 <div className={styles.securityEvent}>
                   <span className={styles.securityIcon}>🔐</span>

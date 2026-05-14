@@ -8,7 +8,7 @@
   color: var(--text-primary);
 }
 
-[data-theme="light"] .container {
+[data-theme='light'] .container {
   background: var(--bg-page);
   color: var(--text-primary);
 }
@@ -26,7 +26,7 @@
   box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
 }
 
-[data-theme="light"] .checkoutCard {
+[data-theme='light'] .checkoutCard {
   background: var(--bg-surface);
   border: 1px solid var(--border-medium);
   box-shadow: 0 50px 100px -20px rgba(24, 24, 27, 0.05);
@@ -45,7 +45,7 @@
   border-right: 1px solid var(--border-subtle);
 }
 
-[data-theme="light"] .infoSection {
+[data-theme='light'] .infoSection {
   border-right: 1px solid var(--border-subtle);
 }
 
@@ -71,7 +71,7 @@
   border-radius: 8px;
 }
 
-[data-theme="light"] .logo {
+[data-theme='light'] .logo {
   background: var(--text-primary);
 }
 
@@ -155,7 +155,7 @@
   margin: 24px 0;
 }
 
-[data-theme="light"] .divider {
+[data-theme='light'] .divider {
   background: var(--border-subtle);
 }
 
@@ -199,7 +199,7 @@
   background: var(--text-emphasis);
 }
 
-[data-theme="light"] .payButton {
+[data-theme='light'] .payButton {
   background: var(--text-primary);
   color: var(--bg-surface);
 }
@@ -218,7 +218,7 @@
   color: var(--text-primary);
 }
 
-[data-theme="light"] .backLink:hover {
+[data-theme='light'] .backLink:hover {
   color: var(--text-primary);
 }
 

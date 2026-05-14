@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import ThemeSwitcher from "../components/ThemeSwitcher/ThemeSwitcher";
+import type { Metadata } from 'next';
+import ThemeSwitcher from '../components/ThemeSwitcher/ThemeSwitcher';
 
 export const metadata: Metadata = {
-  title: "Checkout",
-  description: "Securely complete your subscription.",
+  title: 'Checkout',
+  description: 'Securely complete your subscription.',
 };
 
 export default function CartLayout({

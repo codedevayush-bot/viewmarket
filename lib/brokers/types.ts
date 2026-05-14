@@ -30,12 +30,12 @@ export interface FundsData {
 export interface OrderPayload {
   symbol: string;
   exchange: string;
-  transactionType: "BUY" | "SELL";
-  orderType: "MARKET" | "LIMIT" | "SL" | "SL-M";
+  transactionType: 'BUY' | 'SELL';
+  orderType: 'MARKET' | 'LIMIT' | 'SL' | 'SL-M';
   quantity: number;
   price?: number;
   triggerPrice?: number;
-  product: "MIS" | "CNC" | "NRML" | "BO" | "CO";
+  product: 'MIS' | 'CNC' | 'NRML' | 'BO' | 'CO';
   metadata?: Record<string, unknown>;
 }
 

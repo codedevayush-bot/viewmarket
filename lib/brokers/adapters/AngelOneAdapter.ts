@@ -6,8 +6,8 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { generateTOTP } from "../utils/totp";
+} from '../types';
+import { generateTOTP } from '../utils/totp';
 
 export class AngelOneAdapter implements IBrokerAdapter {
   private apiKey: string;
@@ -15,7 +15,7 @@ export class AngelOneAdapter implements IBrokerAdapter {
   private brokerPin: string;
   private totpSecret: string;
   private accessToken?: string;
-  private baseUrl: string = "https://apiconnect.angelone.in";
+  private baseUrl: string = 'https://apiconnect.angelone.in';
 
   constructor(config: BrokerCredentials) {
     this.apiKey = config.api_key;
@@ -32,22 +32,22 @@ export class AngelOneAdapter implements IBrokerAdapter {
       const response = await fetch(
         `${this.baseUrl}/rest/auth/angelbroking/user/v1/loginByPassword`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "X-UserType": "USER",
-            "X-SourceID": "WEB",
-            "X-PrivateKey": this.apiKey,
-            "X-ClientLocalIP": "127.0.0.1",
-            "X-MACAddress": "00:00:00:00:00:00",
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'X-UserType': 'USER',
+            'X-SourceID': 'WEB',
+            'X-PrivateKey': this.apiKey,
+            'X-ClientLocalIP': '127.0.0.1',
+            'X-MACAddress': '00:00:00:00:00:00',
           },
           body: JSON.stringify({
             clientcode: this.clientCode,
             password: this.brokerPin,
             totp: totp,
           }),
-        },
+        }
       );
 
       const data = await response.json();
@@ -61,7 +61,7 @@ export class AngelOneAdapter implements IBrokerAdapter {
       } else {
         return {
           success: false,
-          message: data.message || "Authentication failed",
+          message: data.message || 'Authentication failed',
         };
       }
     } catch (error: unknown) {
@@ -74,21 +74,21 @@ export class AngelOneAdapter implements IBrokerAdapter {
 
   async getProfile(): Promise<UserProfile> {
     const data = await this.request(
-      "GET",
-      "/rest/auth/angelbroking/user/v1/getProfile",
+      'GET',
+      '/rest/auth/angelbroking/user/v1/getProfile'
     );
     return {
       id: data.data.clientcode,
       name: data.data.name,
       email: data.data.email,
-      brokerName: "Angel One",
+      brokerName: 'Angel One',
     };
   }
 
   async getFunds(): Promise<FundsData> {
     const data = await this.request(
-      "GET",
-      "/rest/auth/angelbroking/user/v1/getRMS",
+      'GET',
+      '/rest/auth/angelbroking/user/v1/getRMS'
     );
     return {
       availableCash: parseFloat(data.data.availablecash || 0),
@@ -100,22 +100,22 @@ export class AngelOneAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        variety: "NORMAL",
+        variety: 'NORMAL',
         tradingsymbol: order.symbol,
         symboltoken: order.metadata?.brokerToken || order.symbol,
         transactiontype: order.transactionType,
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         ordertype: order.orderType,
-        producttype: order.product === "CNC" ? "DELIVERY" : order.product,
-        duration: "DAY",
-        price: order.price?.toString() || "0",
+        producttype: order.product === 'CNC' ? 'DELIVERY' : order.product,
+        duration: 'DAY',
+        price: order.price?.toString() || '0',
         quantity: order.quantity.toString(),
       };
 
       const data = await this.request(
-        "POST",
-        "/rest/auth/angelbroking/order/v1/placeOrder",
-        payload,
+        'POST',
+        '/rest/auth/angelbroking/order/v1/placeOrder',
+        payload
       );
       return {
         success: data.status,
@@ -132,18 +132,18 @@ export class AngelOneAdapter implements IBrokerAdapter {
 
   private async request(method: string, endpoint: string, body?: unknown) {
     if (!this.accessToken)
-      throw new Error("No access token found. Please authenticate first.");
+      throw new Error('No access token found. Please authenticate first.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "X-UserType": "USER",
-        "X-SourceID": "WEB",
-        "X-PrivateKey": this.apiKey,
-        "X-ClientLocalIP": "127.0.0.1",
-        "X-MACAddress": "00:00:00:00:00:00",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-UserType': 'USER',
+        'X-SourceID': 'WEB',
+        'X-PrivateKey': this.apiKey,
+        'X-ClientLocalIP': '127.0.0.1',
+        'X-MACAddress': '00:00:00:00:00:00',
         Authorization: `Bearer ${this.accessToken}`,
       },
       body: body ? JSON.stringify(body) : undefined,
@@ -151,7 +151,7 @@ export class AngelOneAdapter implements IBrokerAdapter {
 
     const data = await response.json();
     if (!data.status) {
-      throw new Error(data.message || "Request failed");
+      throw new Error(data.message || 'Request failed');
     }
     return data;
   }

@@ -1,47 +1,51 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import styles from "./SymbolSearchModal.module.css";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import styles from './SymbolSearchModal.module.css';
 
 interface SymbolSearchModalProps {
   onClose: () => void;
+  onSelect?: (symbol: string) => void;
 }
 
 const CATEGORIES = [
-  "All",
-  "Stocks",
-  "Futures",
-  "Options",
-  "Forex",
-  "Commodity",
-  "Crypto",
+  'All',
+  'Stocks',
+  'Futures',
+  'Options',
+  'Forex',
+  'Commodity',
+  'Crypto',
 ];
 
 const MOCK_SYMBOLS = [
-  { symbol: "BTCUSD", name: "Bitcoin / US Dollar", type: "Crypto" },
-  { symbol: "AAPL", name: "Apple Inc.", type: "Stocks" },
-  { symbol: "ETHUSD", name: "Ethereum / US Dollar", type: "Crypto" },
-  { symbol: "TSLA", name: "Tesla, Inc.", type: "Stocks" },
-  { symbol: "EURUSD", name: "Euro / US Dollar", type: "Forex" },
-  { symbol: "GOLD", name: "Gold / US Dollar", type: "Commodity" },
-  { symbol: "CRUDE", name: "Crude Oil", type: "Commodity" },
-  { symbol: "NIFTY", name: "Nifty 50 Index", type: "Futures" },
-  { symbol: "RELIANCE", name: "Reliance Industries", type: "Stocks" },
-  { symbol: "GBPUSD", name: "British Pound / US Dollar", type: "Forex" },
-  { symbol: "USOIL", name: "WTI Crude Oil", type: "Commodity" },
-  { symbol: "SOLUSD", name: "Solana / US Dollar", type: "Crypto" },
+  { symbol: 'BTCUSD', name: 'Bitcoin / US Dollar', type: 'Crypto' },
+  { symbol: 'AAPL', name: 'Apple Inc.', type: 'Stocks' },
+  { symbol: 'ETHUSD', name: 'Ethereum / US Dollar', type: 'Crypto' },
+  { symbol: 'TSLA', name: 'Tesla, Inc.', type: 'Stocks' },
+  { symbol: 'EURUSD', name: 'Euro / US Dollar', type: 'Forex' },
+  { symbol: 'GOLD', name: 'Gold / US Dollar', type: 'Commodity' },
+  { symbol: 'CRUDE', name: 'Crude Oil', type: 'Commodity' },
+  { symbol: 'NIFTY', name: 'Nifty 50 Index', type: 'Futures' },
+  { symbol: 'RELIANCE', name: 'Reliance Industries', type: 'Stocks' },
+  { symbol: 'GBPUSD', name: 'British Pound / US Dollar', type: 'Forex' },
+  { symbol: 'USOIL', name: 'WTI Crude Oil', type: 'Commodity' },
+  { symbol: 'SOLUSD', name: 'Solana / US Dollar', type: 'Crypto' },
 ];
 
-export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+export default function SymbolSearchModal({
+  onClose,
+  onSelect,
+}: SymbolSearchModalProps) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
   const [highlightIndex, setHighlightIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const symbolListRef = useRef<HTMLDivElement>(null);
 
   // Drag state
   const [position, setPosition] = useState<{ x: number; y: number } | null>(
-    null,
+    null
   );
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
@@ -52,7 +56,7 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
       s.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
       s.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory =
-      activeCategory === "All" || s.type === activeCategory;
+      activeCategory === 'All' || s.type === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -69,10 +73,10 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
   // Auto-focus and Escape handler
   useEffect(() => {
     inputRef.current?.focus();
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, []);
 
@@ -82,7 +86,7 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
     if (!list) return;
     const activeItem = list.children[highlightIndex] as HTMLElement | undefined;
     if (activeItem) {
-      activeItem.scrollIntoView({ block: "nearest" });
+      activeItem.scrollIntoView({ block: 'nearest' });
     }
   }, [highlightIndex]);
 
@@ -90,29 +94,29 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       switch (e.key) {
-        case "Escape":
+        case 'Escape':
           onClose();
           break;
-        case "ArrowDown":
+        case 'ArrowDown':
           e.preventDefault();
           setHighlightIndex((prev) =>
-            prev < filteredSymbols.length - 1 ? prev + 1 : 0,
+            prev < filteredSymbols.length - 1 ? prev + 1 : 0
           );
           break;
-        case "ArrowUp":
+        case 'ArrowUp':
           e.preventDefault();
           setHighlightIndex((prev) =>
-            prev > 0 ? prev - 1 : filteredSymbols.length - 1,
+            prev > 0 ? prev - 1 : filteredSymbols.length - 1
           );
           break;
-        case "Enter":
+        case 'Enter':
           e.preventDefault();
           if (filteredSymbols[highlightIndex]) {
-            // Symbol selected — close modal
+            onSelect?.(filteredSymbols[highlightIndex].symbol);
             onClose();
           }
           break;
-        case "Tab":
+        case 'Tab':
           e.preventDefault();
           setActiveCategory((prev) => {
             const idx = CATEGORIES.indexOf(prev);
@@ -121,7 +125,7 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
           break;
       }
     },
-    [filteredSymbols, highlightIndex, onClose],
+    [filteredSymbols, highlightIndex, onClose, onSelect]
   );
 
   // --- Drag handlers ---
@@ -132,7 +136,7 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
       setIsDragging(true);
 
       const modal = (e.currentTarget as HTMLElement).closest(
-        `.${styles.modal}`,
+        `.${styles.modal}`
       ) as HTMLElement;
       if (!modal) return;
 
@@ -150,7 +154,7 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
         });
       }
     },
-    [position],
+    [position]
   );
 
   useEffect(() => {
@@ -167,21 +171,21 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
       setIsDragging(false);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging]);
 
   // Build modal style for positioning
   const modalStyle: React.CSSProperties = position
     ? {
-        position: "fixed",
+        position: 'fixed',
         left: position.x,
         top: position.y,
-        transform: "none",
+        transform: 'none',
       }
     : {};
 
@@ -193,7 +197,7 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`${styles.dragHandle} ${isDragging ? styles.dragging : ""}`}
+          className={`${styles.dragHandle} ${isDragging ? styles.dragging : ''}`}
           onMouseDown={handleDragStart}
         >
           <h2 className={styles.heading}>Search symbols</h2>
@@ -217,7 +221,7 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
           {CATEGORIES.map((category) => (
             <button
               key={category}
-              className={`${styles.filterButton} ${activeCategory === category ? styles.active : ""}`}
+              className={`${styles.filterButton} ${activeCategory === category ? styles.active : ''}`}
               onClick={() => setActiveCategory(category)}
             >
               {category}
@@ -230,8 +234,11 @@ export default function SymbolSearchModal({ onClose }: SymbolSearchModalProps) {
             filteredSymbols.map((s, i) => (
               <div
                 key={s.symbol}
-                className={`${styles.symbolItem} ${i === highlightIndex ? styles.highlighted : ""}`}
-                onClick={onClose}
+                className={`${styles.symbolItem} ${i === highlightIndex ? styles.highlighted : ''}`}
+                onClick={() => {
+                  onSelect?.(s.symbol);
+                  onClose();
+                }}
                 onMouseEnter={() => setHighlightIndex(i)}
               >
                 <div className={styles.symbolMain}>

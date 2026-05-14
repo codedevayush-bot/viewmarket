@@ -151,7 +151,7 @@
   padding: 16px 8px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 .section {
@@ -160,12 +160,22 @@
   gap: 2px;
 }
 
+.sidebarItemWrapper {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 8px;
+}
+
+.sidebarItemWrapper:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
 .sectionHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 6px;
-  padding: 4px 12px;
+  padding: 6px 12px;
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--text-placeholder);
@@ -197,12 +207,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 4px 12px;
   border-radius: 6px;
   text-decoration: none;
   color: var(--text-muted);
   transition: all 0.1s ease;
-  min-height: 34px;
+  min-height: 28px;
 }
 
 .navItem:hover {
@@ -377,7 +387,7 @@
 }
 
 .collapsed .sectionHeader::after {
-  content: "";
+  content: '';
   display: block;
   width: 16px;
   height: 1px;

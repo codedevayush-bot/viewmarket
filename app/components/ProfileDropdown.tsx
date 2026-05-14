@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
-import styles from "./ProfileDropdown.module.css";
+import { useState, useRef, useEffect } from 'react';
+import { signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import styles from './ProfileDropdown.module.css';
 
 export default function ProfileDropdown() {
   const { data: session, status } = useSession();
@@ -41,38 +41,38 @@ export default function ProfileDropdown() {
   // Close dropdown on Escape key
   useEffect(() => {
     function handleEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setIsOpen(false);
       }
     }
 
     if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-      return () => document.removeEventListener("keydown", handleEscape);
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
     }
   }, [isOpen]);
 
   // Handle sign out
   const handleSignOut = async () => {
     setIsOpen(false);
-    await signOut({ callbackUrl: "/" });
+    await signOut({ callbackUrl: '/' });
   };
 
   // Get user initials for avatar
   const getUserInitials = () => {
     if (session?.user?.name) {
       return session.user.name
-        .split(" ")
+        .split(' ')
         .map((n) => n[0])
-        .join("")
+        .join('')
         .toUpperCase()
         .slice(0, 2);
     }
-    return session?.user?.email?.[0]?.toUpperCase() || "U";
+    return session?.user?.email?.[0]?.toUpperCase() || 'U';
   };
 
   // Show loading state
-  if (status === "loading") {
+  if (status === 'loading') {
     return (
       <div className={styles.profileContainer}>
         <div className={styles.avatarSkeleton} />
@@ -81,7 +81,7 @@ export default function ProfileDropdown() {
   }
 
   // Not authenticated - don't show anything (Navbar handles sign-in button)
-  if (status === "unauthenticated" || !session) {
+  if (status === 'unauthenticated' || !session) {
     return null;
   }
 
@@ -99,13 +99,13 @@ export default function ProfileDropdown() {
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-label="User menu"
-        title={`${session.user?.name || "User"} - Hover for menu`}
+        title={`${session.user?.name || 'User'} - Hover for menu`}
       >
         {session.user?.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={session.user.image}
-            alt={session.user.name || "User"}
+            alt={session.user.name || 'User'}
             className={styles.avatarImage}
             referrerPolicy="no-referrer"
           />
@@ -145,8 +145,8 @@ export default function ProfileDropdown() {
               )}
             </div>
             <div className={styles.userDetails}>
-              <p className={styles.userName}>{session.user?.name || "User"}</p>
-              <p className={styles.userEmail} title={session.user?.email || ""}>
+              <p className={styles.userName}>{session.user?.name || 'User'}</p>
+              <p className={styles.userEmail} title={session.user?.email || ''}>
                 {session.user?.email}
               </p>
             </div>

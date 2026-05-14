@@ -1,13 +1,13 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { JainamXtsAdapter } from "@/lib/brokers/adapters/JainamXtsAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { JainamXtsAdapter } from '@/lib/brokers/adapters/JainamXtsAdapter';
 
-describe("JainamXtsAdapter", () => {
+describe('JainamXtsAdapter', () => {
   const mockConfig = {
-    interactive_api_key: "int_key",
-    interactive_api_secret: "int_sec",
-    market_data_api_key: "mkt_key",
-    market_data_api_secret: "mkt_sec",
-    base_url: "https://test.jainam.in",
+    interactive_api_key: 'int_key',
+    interactive_api_secret: 'int_sec',
+    market_data_api_key: 'mkt_key',
+    market_data_api_secret: 'mkt_sec',
+    base_url: 'https://test.jainam.in',
   };
 
   beforeEach(() => {
@@ -15,15 +15,15 @@ describe("JainamXtsAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should authenticate successfully", async () => {
+  it('should authenticate successfully', async () => {
     const mockInteractiveResponse = {
-      type: "success",
-      result: { token: "token1" },
+      type: 'success',
+      result: { token: 'token1' },
     };
 
     const mockMarketResponse = {
-      type: "success",
-      result: { token: "token2" },
+      type: 'success',
+      result: { token: 'token2' },
     };
 
     vi.mocked(fetch)
@@ -40,13 +40,13 @@ describe("JainamXtsAdapter", () => {
     const result = await adapter.authenticate();
 
     expect(result.success).toBe(true);
-    expect(result.accessToken).toBe("token1|token2");
+    expect(result.accessToken).toBe('token1|token2');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
-      type: "success",
-      result: { clientCode: "JAI001", clientName: "Jainam User" },
+      type: 'success',
+      result: { clientCode: 'JAI001', clientName: 'Jainam User' },
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -56,23 +56,23 @@ describe("JainamXtsAdapter", () => {
 
     const adapter = new JainamXtsAdapter({
       ...mockConfig,
-      access_token: "t1|t2",
+      access_token: 't1|t2',
     });
     const profile = await adapter.getProfile();
 
-    expect(profile.id).toBe("JAI001");
-    expect(profile.name).toBe("Jainam User");
+    expect(profile.id).toBe('JAI001');
+    expect(profile.name).toBe('Jainam User');
   });
 
-  it("should fetch funds successfully", async () => {
+  it('should fetch funds successfully', async () => {
     const mockFundsResponse = {
-      type: "success",
+      type: 'success',
       result: {
         balanceList: [
           {
-            limitMargin: "10000.00",
-            utilizedMargin: "1000.00",
-            totalMargin: "11000.00",
+            limitMargin: '10000.00',
+            utilizedMargin: '1000.00',
+            totalMargin: '11000.00',
           },
         ],
       },
@@ -85,7 +85,7 @@ describe("JainamXtsAdapter", () => {
 
     const adapter = new JainamXtsAdapter({
       ...mockConfig,
-      access_token: "t1|t2",
+      access_token: 't1|t2',
     });
     const funds = await adapter.getFunds();
 
@@ -93,13 +93,13 @@ describe("JainamXtsAdapter", () => {
     expect(funds.utilizedMargin).toBe(1000);
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      type: "success",
+      type: 'success',
       result: {
-        AppOrderID: "JAI_ORD_999",
+        AppOrderID: 'JAI_ORD_999',
       },
-      description: "Order placed",
+      description: 'Order placed',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -109,18 +109,18 @@ describe("JainamXtsAdapter", () => {
 
     const adapter = new JainamXtsAdapter({
       ...mockConfig,
-      access_token: "t1|t2",
+      access_token: 't1|t2',
     });
     const result = await adapter.placeOrder({
-      symbol: "12345",
-      exchange: "NSECM",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: '12345',
+      exchange: 'NSECM',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 1,
-      product: "MIS",
+      product: 'MIS',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("JAI_ORD_999");
+    expect(result.orderId).toBe('JAI_ORD_999');
   });
 });

@@ -34,7 +34,7 @@
   outline-offset: 2px;
 }
 
-.avatarButton[aria-expanded="true"] {
+.avatarButton[aria-expanded='true'] {
   border-color: var(--border-strong);
   background: var(--bg-overlay-emphasis);
 }
@@ -77,7 +77,7 @@
 /* ── Dropdown Menu ── */
 .dropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 16px);
   right: 0;
   width: 280px;
   background: var(--bg-surface);

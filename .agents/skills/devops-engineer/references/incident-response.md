@@ -172,13 +172,13 @@ metadata:
 spec:
   action: pod-failure
   mode: one
-  duration: "30s"
+  duration: '30s'
   selector:
     namespaces: [production]
     labelSelectors:
       app: api
   scheduler:
-    cron: "@every 2h"
+    cron: '@every 2h'
 ```
 
 ```bash

@@ -1,9 +1,9 @@
 export type AdminIcon =
-  | "console"
-  | "users"
-  | "brokers"
-  | "settings"
-  | "support";
+  | 'console'
+  | 'users'
+  | 'brokers'
+  | 'settings'
+  | 'support';
 
 export interface AdminNavItem {
   label: string;
@@ -19,51 +19,51 @@ export interface AdminNavSection {
 
 export const adminNavSections: AdminNavSection[] = [
   {
-    title: "Overview",
-    icon: "console",
+    title: 'Overview',
+    icon: 'console',
     items: [
       {
-        label: "Console",
-        href: "/admin",
-        icon: "console",
+        label: 'Console',
+        href: '/admin',
+        icon: 'console',
       },
     ],
   },
   {
-    title: "Management",
-    icon: "users",
+    title: 'Management',
+    icon: 'users',
     items: [
       {
-        label: "Users",
-        href: "/admin/users",
-        icon: "users",
+        label: 'Users',
+        href: '/admin/users',
+        icon: 'users',
       },
       {
-        label: "Brokers",
-        href: "/admin/brokers",
-        icon: "brokers",
-      },
-    ],
-  },
-  {
-    title: "System",
-    icon: "settings",
-    items: [
-      {
-        label: "Settings",
-        href: "/admin/settings",
-        icon: "settings",
+        label: 'Brokers',
+        href: '/admin/brokers',
+        icon: 'brokers',
       },
     ],
   },
   {
-    title: "Support",
-    icon: "support",
+    title: 'System',
+    icon: 'settings',
     items: [
       {
-        label: "Tickets",
-        href: "/admin/tickets",
-        icon: "support",
+        label: 'Settings',
+        href: '/admin/settings',
+        icon: 'settings',
+      },
+    ],
+  },
+  {
+    title: 'Support',
+    icon: 'support',
+    items: [
+      {
+        label: 'Tickets',
+        href: '/admin/tickets',
+        icon: 'support',
       },
     ],
   },

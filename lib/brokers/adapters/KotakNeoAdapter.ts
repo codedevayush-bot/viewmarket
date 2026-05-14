@@ -6,8 +6,8 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { generateTOTP } from "../utils/totp";
+} from '../types';
+import { generateTOTP } from '../utils/totp';
 
 export class KotakNeoAdapter implements IBrokerAdapter {
   private ucc: string;
@@ -18,7 +18,7 @@ export class KotakNeoAdapter implements IBrokerAdapter {
   private totpSecret: string;
   private tradingToken?: string;
   private tradingSid?: string;
-  private baseUrl: string = "https://cis.kotaksecurities.com";
+  private baseUrl: string = 'https://cis.kotaksecurities.com';
 
   constructor(credentials: BrokerCredentials) {
     this.ucc = credentials.ucc;
@@ -28,8 +28,8 @@ export class KotakNeoAdapter implements IBrokerAdapter {
     this.mpin = credentials.mpin;
     this.totpSecret = credentials.totp_secret;
 
-    if (credentials.access_token && credentials.access_token.includes(":::")) {
-      const [token, sid, url] = credentials.access_token.split(":::");
+    if (credentials.access_token && credentials.access_token.includes(':::')) {
+      const [token, sid, url] = credentials.access_token.split(':::');
       this.tradingToken = token;
       this.tradingSid = sid;
       if (url) this.baseUrl = url;
@@ -42,29 +42,29 @@ export class KotakNeoAdapter implements IBrokerAdapter {
 
       // Step 1: Login with TOTP
       const loginRes = await fetch(
-        "https://mis.kotaksecurities.com/login/1.0/tradeApiLogin",
+        'https://mis.kotaksecurities.com/login/1.0/tradeApiLogin',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
             Authorization: this.apiKey,
-            "neo-fin-key": "neotradeapi",
-            "Content-Type": "application/json",
+            'neo-fin-key': 'neotradeapi',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            mobileNumber: this.mobileNumber.startsWith("+91")
+            mobileNumber: this.mobileNumber.startsWith('+91')
               ? this.mobileNumber
               : `+91${this.mobileNumber}`,
             ucc: this.ucc,
             totp: totp,
           }),
-        },
+        }
       );
 
       const loginData = await loginRes.json();
-      if (!loginData.data || loginData.data.status !== "success") {
+      if (!loginData.data || loginData.data.status !== 'success') {
         return {
           success: false,
-          message: loginData.errMsg || loginData.message || "TOTP Login failed",
+          message: loginData.errMsg || loginData.message || 'TOTP Login failed',
         };
       }
 
@@ -73,28 +73,28 @@ export class KotakNeoAdapter implements IBrokerAdapter {
 
       // Step 2: Validate with MPIN
       const validateRes = await fetch(
-        "https://mis.kotaksecurities.com/login/1.0/tradeApiValidate",
+        'https://mis.kotaksecurities.com/login/1.0/tradeApiValidate',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
             Authorization: this.apiKey,
-            "neo-fin-key": "neotradeapi",
+            'neo-fin-key': 'neotradeapi',
             sid: viewSid,
             Auth: viewToken,
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ mpin: this.mpin }),
-        },
+        }
       );
 
       const validateData = await validateRes.json();
-      if (!validateData.data || validateData.data.status !== "success") {
+      if (!validateData.data || validateData.data.status !== 'success') {
         return {
           success: false,
           message:
             validateData.errMsg ||
             validateData.message ||
-            "MPIN validation failed",
+            'MPIN validation failed',
         };
       }
 
@@ -119,13 +119,13 @@ export class KotakNeoAdapter implements IBrokerAdapter {
     // Kotak Neo profile API is limited, returning UCC
     return {
       id: this.ucc,
-      name: "Kotak Neo User",
-      brokerName: "Kotak Neo",
+      name: 'Kotak Neo User',
+      brokerName: 'Kotak Neo',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/neoapi/1.0/funds/limits");
+    const data = await this.request('GET', '/neoapi/1.0/funds/limits');
     return {
       availableCash: parseFloat(data.data?.availableMargin || 0),
       utilizedMargin: parseFloat(data.data?.marginUsed || 0),
@@ -136,25 +136,25 @@ export class KotakNeoAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        variety: "regular",
+        variety: 'regular',
         tradingsymbol: order.symbol,
         symboltoken: order.metadata?.brokerToken || order.symbol,
         transactiontype: order.transactionType,
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         ordertype: order.orderType,
-        product: order.product === "CNC" ? "DELIVERY" : order.product,
+        product: order.product === 'CNC' ? 'DELIVERY' : order.product,
         quantity: order.quantity.toString(),
-        price: order.price?.toString() || "0",
-        validity: "DAY",
+        price: order.price?.toString() || '0',
+        validity: 'DAY',
       };
 
       const data = await this.request(
-        "POST",
-        "/neoapi/1.0/orders/place",
-        payload,
+        'POST',
+        '/neoapi/1.0/orders/place',
+        payload
       );
       return {
-        success: data.status === "success" || data.stat === "Ok",
+        success: data.status === 'success' || data.stat === 'Ok',
         orderId: data.data?.orderId,
         message: data.message || data.emsg,
       };
@@ -168,7 +168,7 @@ export class KotakNeoAdapter implements IBrokerAdapter {
 
   private async request(method: string, endpoint: string, body?: unknown) {
     if (!this.tradingToken || !this.tradingSid)
-      throw new Error("No trading token/sid found.");
+      throw new Error('No trading token/sid found.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
@@ -176,16 +176,16 @@ export class KotakNeoAdapter implements IBrokerAdapter {
         Authorization: this.apiKey,
         Auth: this.tradingToken,
         sid: this.tradingSid,
-        "neo-fin-key": "neotradeapi",
-        "Content-Type": "application/json",
+        'neo-fin-key': 'neotradeapi',
+        'Content-Type': 'application/json',
       },
       body: body ? JSON.stringify(body) : undefined,
     });
 
     const data = await response.json();
     // Some endpoints return 'stat', some return 'status'
-    if (data.status === "error" || data.stat === "Not_Ok") {
-      throw new Error(data.message || data.emsg || "Request failed");
+    if (data.status === 'error' || data.stat === 'Not_Ok') {
+      throw new Error(data.message || data.emsg || 'Request failed');
     }
     return data;
   }

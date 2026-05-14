@@ -5,7 +5,7 @@ description: Generate TradingView-style candlestick charts with indicators. Use 
 
 metadata:
   starchild:
-    emoji: "📊"
+    emoji: '📊'
     skillKey: charting
     requires:
       env: [COINGECKO_API_KEY]

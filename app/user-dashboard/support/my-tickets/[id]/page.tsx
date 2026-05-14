@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
-import styles from "./TicketDetail.module.css";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import useSWR from 'swr';
+import styles from './TicketDetail.module.css';
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
-    if (!res.ok) throw new Error("Failed to load");
+    if (!res.ok) throw new Error('Failed to load');
     return res.json();
   });
 
@@ -47,23 +47,23 @@ export default function TicketDetailPage() {
     fetcher,
     {
       refreshInterval: 5000, // Poll every 5 seconds for chat updates
-    },
+    }
   );
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [uploadError, setUploadError] = useState("");
+  const [uploadError, setUploadError] = useState('');
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case "open":
+      case 'open':
         return styles.statusOpen;
-      case "in_progress":
+      case 'in_progress':
         return styles.statusInProgress;
-      case "resolved":
+      case 'resolved':
         return styles.statusResolved;
-      case "closed":
+      case 'closed':
         return styles.statusClosed;
       default:
         return styles.statusOpen;
@@ -71,7 +71,7 @@ export default function TicketDetailPage() {
   };
 
   const formatStatus = (status: string) => {
-    return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase());
+    return status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,9 +84,9 @@ export default function TicketDetailPage() {
         return;
       }
 
-      setUploadError("");
+      setUploadError('');
       setFiles((prev) => [...prev, ...selectedFiles]);
-      e.target.value = "";
+      e.target.value = '';
     }
   };
 
@@ -99,15 +99,15 @@ export default function TicketDetailPage() {
     if (!message.trim() && files.length === 0) return;
 
     setIsSubmitting(true);
-    setUploadError("");
+    setUploadError('');
 
     try {
       const attachments = [];
 
       for (const file of files) {
-        const presignedRes = await fetch("/api/tickets/presigned-url", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const presignedRes = await fetch('/api/tickets/presigned-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             fileName: file.name,
             fileType: file.type,
@@ -120,9 +120,9 @@ export default function TicketDetailPage() {
         const { signedUrl, fileUrl, fileKey } = await presignedRes.json();
 
         const uploadRes = await fetch(signedUrl, {
-          method: "PUT",
+          method: 'PUT',
           body: file,
-          headers: { "Content-Type": file.type },
+          headers: { 'Content-Type': file.type },
         });
 
         if (!uploadRes.ok) throw new Error(`Failed to upload ${file.name}`);
@@ -137,23 +137,23 @@ export default function TicketDetailPage() {
       }
 
       const res = await fetch(`/api/tickets/${id}/messages`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message,
           attachments,
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to send message");
+      if (!res.ok) throw new Error('Failed to send message');
 
-      setMessage("");
+      setMessage('');
       setFiles([]);
       mutate(); // Immediately re-fetch messages
     } catch (err) {
       console.error(err);
       setUploadError(
-        err instanceof Error ? err.message : "An unexpected error occurred",
+        err instanceof Error ? err.message : 'An unexpected error occurred'
       );
     } finally {
       setIsSubmitting(false);
@@ -172,7 +172,7 @@ export default function TicketDetailPage() {
   }
 
   const { ticket, messages } = ticketData;
-  const isClosed = ticket.status === "resolved" || ticket.status === "closed";
+  const isClosed = ticket.status === 'resolved' || ticket.status === 'closed';
 
   return (
     <div className={styles.container}>
@@ -208,17 +208,17 @@ export default function TicketDetailPage() {
         {messages.map((msg: Message, index: number) => (
           <div
             key={msg.id}
-            className={`${styles.message} ${msg.sender_role === "admin" ? styles.messageAdmin : styles.messageUser}`}
+            className={`${styles.message} ${msg.sender_role === 'admin' ? styles.messageAdmin : styles.messageUser}`}
           >
             <div className={styles.messageHeader}>
               <span className={styles.messageSender}>
                 {index === 0
-                  ? msg.sender_role === "admin"
-                    ? "Support Team"
-                    : "You (Original Request)"
-                  : msg.sender_role === "admin"
-                    ? "Support Team"
-                    : "You"}
+                  ? msg.sender_role === 'admin'
+                    ? 'Support Team'
+                    : 'You (Original Request)'
+                  : msg.sender_role === 'admin'
+                    ? 'Support Team'
+                    : 'You'}
               </span>
               <span>{new Date(msg.created_at).toLocaleString()}</span>
             </div>
@@ -282,7 +282,7 @@ export default function TicketDetailPage() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
+                if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleReply(e as unknown as React.FormEvent);
                 }
@@ -300,7 +300,7 @@ export default function TicketDetailPage() {
               {isSubmitting ? (
                 <div
                   className={styles.spinner}
-                  style={{ width: "16px", height: "16px", borderWidth: "1px" }}
+                  style={{ width: '16px', height: '16px', borderWidth: '1px' }}
                 ></div>
               ) : (
                 <svg viewBox="0 0 24 24" className={styles.sendIcon}>
@@ -314,9 +314,9 @@ export default function TicketDetailPage() {
       ) : (
         <div
           style={{
-            textAlign: "center",
-            color: "var(--text-secondary)",
-            padding: "24px",
+            textAlign: 'center',
+            color: 'var(--text-secondary)',
+            padding: '24px',
           }}
         >
           This ticket is {ticket.status}. No further replies can be added.

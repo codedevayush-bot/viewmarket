@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import styles from "./Broker.module.css";
-import BrokerModal from "./BrokerModal";
-import Link from "next/link";
+import { useState, useEffect } from 'react';
+import styles from './Broker.module.css';
+import BrokerModal from './BrokerModal';
+import Link from 'next/link';
 
 interface Broker {
   id: string;
@@ -28,46 +28,46 @@ interface Connection {
 
 const BROKER_CATEGORIES: Record<string, string> = {
   // Indian
-  zerodha: "Indian",
-  upstox: "Indian",
-  angelone: "Indian",
-  fyers: "Indian",
-  dhan: "Indian",
-  dhan_sandbox: "Indian",
-  aliceblue: "Indian",
-  kotakneo: "Indian",
-  shoonya: "Indian",
-  paytm: "Indian",
-  fivepaisa: "Indian",
-  fivepaisaxts: "Indian",
-  groww: "Indian",
-  iifl: "Indian",
-  iiflcapital: "Indian",
-  samco: "Indian",
-  motilal: "Indian",
-  mstock: "Indian",
-  pocketful: "Indian",
-  tradejini: "Indian",
-  wisdom: "Indian",
-  zebu: "Indian",
-  flattrade: "Indian",
-  firstock: "Indian",
-  rmoney: "Indian",
-  definedge: "Indian",
-  jainamxts: "Indian",
-  compositedge: "Indian",
-  indmoney: "Indian",
-  nubra: "Indian",
+  zerodha: 'Indian',
+  upstox: 'Indian',
+  angelone: 'Indian',
+  fyers: 'Indian',
+  dhan: 'Indian',
+  dhan_sandbox: 'Indian',
+  aliceblue: 'Indian',
+  kotakneo: 'Indian',
+  shoonya: 'Indian',
+  paytm: 'Indian',
+  fivepaisa: 'Indian',
+  fivepaisaxts: 'Indian',
+  groww: 'Indian',
+  iifl: 'Indian',
+  iiflcapital: 'Indian',
+  samco: 'Indian',
+  motilal: 'Indian',
+  mstock: 'Indian',
+  pocketful: 'Indian',
+  tradejini: 'Indian',
+  wisdom: 'Indian',
+  zebu: 'Indian',
+  flattrade: 'Indian',
+  firstock: 'Indian',
+  rmoney: 'Indian',
+  definedge: 'Indian',
+  jainamxts: 'Indian',
+  compositedge: 'Indian',
+  indmoney: 'Indian',
+  nubra: 'Indian',
   // Crypto
-  binance: "Crypto",
-  deltaexchange: "Crypto",
+  binance: 'Crypto',
+  deltaexchange: 'Crypto',
   // Forex
-  ibkr: "Forex",
+  ibkr: 'Forex',
 };
 
 export default function BrokerPage() {
-  const [filter, setFilter] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [brokers, setBrokers] = useState<Broker[]>([]);
   const [connections, setConnections] = useState<Connection[]>([]);
@@ -79,8 +79,8 @@ export default function BrokerPage() {
     setLoading(true);
     try {
       const [brokerRes, connRes] = await Promise.all([
-        fetch("/api/brokers"),
-        fetch("/api/user/brokers"),
+        fetch('/api/brokers'),
+        fetch('/api/user/brokers'),
       ]);
 
       if (brokerRes.ok) {
@@ -93,7 +93,7 @@ export default function BrokerPage() {
         setConnections(data.connections || []);
       }
     } catch (err) {
-      console.error("Failed to fetch brokers data", err);
+      console.error('Failed to fetch brokers data', err);
     } finally {
       setLoading(false);
     }
@@ -115,16 +115,16 @@ export default function BrokerPage() {
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
 
-      const category = BROKER_CATEGORIES[b.name.toLowerCase()] || "Other";
+      const category = BROKER_CATEGORIES[b.name.toLowerCase()] || 'Other';
 
-      if (filter === "All") return matchesSearch;
-      if (filter === "Connected") {
+      if (filter === 'All') return matchesSearch;
+      if (filter === 'Connected') {
         return matchesSearch && connections.some((c) => c.brokerId === b.id);
       }
       return matchesSearch && category === filter;
     })
     .sort((a, b) =>
-      (a.display_name || a.name).localeCompare(b.display_name || b.name),
+      (a.display_name || a.name).localeCompare(b.display_name || b.name)
     );
 
   return (
@@ -163,11 +163,11 @@ export default function BrokerPage() {
           </div>
 
           <div className={styles.filterSwitch}>
-            {["All", "Indian", "Forex", "Crypto", "Connected"].map((t) => (
+            {['All', 'Indian', 'Forex', 'Crypto', 'Connected'].map((t) => (
               <button
                 key={t}
                 onClick={() => setFilter(t)}
-                className={`${styles.filterTab} ${filter === t ? styles.active : ""}`}
+                className={`${styles.filterTab} ${filter === t ? styles.active : ''}`}
               >
                 {t}
               </button>
@@ -180,11 +180,11 @@ export default function BrokerPage() {
         {loading ? (
           <div
             style={{
-              color: "rgba(255,255,255,0.45)",
-              textAlign: "center",
-              padding: "80px",
-              fontSize: "0.875rem",
-              letterSpacing: "-0.01em",
+              color: 'rgba(255,255,255,0.45)',
+              textAlign: 'center',
+              padding: '80px',
+              fontSize: '0.875rem',
+              letterSpacing: '-0.01em',
             }}
           >
             Fetching broker registry...
@@ -194,7 +194,7 @@ export default function BrokerPage() {
             <div className={styles.brokerList}>
               {filteredBrokers.map((broker) => {
                 const connection = connections.find(
-                  (c) => c.brokerId === broker.id,
+                  (c) => c.brokerId === broker.id
                 );
 
                 return (
@@ -209,7 +209,7 @@ export default function BrokerPage() {
                         </span>
                         <span className={styles.brokerCategory}>
                           {BROKER_CATEGORIES[broker.name.toLowerCase()] ||
-                            "Broker"}
+                            'Broker'}
                         </span>
                       </div>
                     </div>
@@ -218,47 +218,47 @@ export default function BrokerPage() {
                       {connection ? (
                         <>
                           <span
-                            className={`${styles.connectedBadge} ${!connection.isValid ? styles.invalidBadge : ""}`}
+                            className={`${styles.connectedBadge} ${!connection.isValid ? styles.invalidBadge : ''}`}
                           >
-                            {connection.isValid ? "Connected" : "Expired"}
+                            {connection.isValid ? 'Connected' : 'Expired'}
                           </span>
-                          {connection.authType === "OAUTH" &&
+                          {connection.authType === 'OAUTH' &&
                             (!connection.hasAccessToken ||
                               !connection.isValid) && (
                               <Link
                                 href={`/api/brokers/oauth?connectionId=${connection.id}`}
                                 className={styles.connectBtn}
                                 style={{
-                                  background: "var(--text-primary)",
-                                  color: "var(--bg-page)",
-                                  textDecoration: "none",
-                                  padding: "6px 12px",
-                                  fontSize: "0.75rem",
+                                  background: 'var(--text-primary)',
+                                  color: 'var(--bg-page)',
+                                  textDecoration: 'none',
+                                  padding: '6px 12px',
+                                  fontSize: '0.75rem',
                                 }}
                               >
                                 Login
                               </Link>
                             )}
-                          {connection.authType === "API_KEY" &&
+                          {connection.authType === 'API_KEY' &&
                             (!connection.hasAccessToken ||
                               !connection.isValid) && (
                               <button
                                 className={styles.connectBtn}
                                 style={{
-                                  background: "var(--text-primary)",
-                                  color: "var(--bg-page)",
-                                  padding: "6px 12px",
-                                  fontSize: "0.75rem",
+                                  background: 'var(--text-primary)',
+                                  color: 'var(--bg-page)',
+                                  padding: '6px 12px',
+                                  fontSize: '0.75rem',
                                 }}
                                 onClick={() => {
                                   const token = prompt(
-                                    "Please enter the generated Request Token / TOTP:",
+                                    'Please enter the generated Request Token / TOTP:'
                                   );
                                   if (token) {
-                                    fetch("/api/user/brokers/token-exchange", {
-                                      method: "POST",
+                                    fetch('/api/user/brokers/token-exchange', {
+                                      method: 'POST',
                                       headers: {
-                                        "Content-Type": "application/json",
+                                        'Content-Type': 'application/json',
                                       },
                                       body: JSON.stringify({
                                         connectionId: connection.id,
@@ -266,10 +266,10 @@ export default function BrokerPage() {
                                       }),
                                     }).then((res) => {
                                       if (res.ok) {
-                                        alert("Successfully authenticated!");
+                                        alert('Successfully authenticated!');
                                         fetchBrokers();
                                       } else {
-                                        alert("Authentication failed.");
+                                        alert('Authentication failed.');
                                       }
                                     });
                                   }
@@ -314,10 +314,10 @@ export default function BrokerPage() {
               {filteredBrokers.length === 0 && (
                 <div
                   style={{
-                    padding: "80px",
-                    textAlign: "center",
-                    color: "rgba(255,255,255,0.25)",
-                    fontSize: "0.875rem",
+                    padding: '80px',
+                    textAlign: 'center',
+                    color: 'rgba(255,255,255,0.25)',
+                    fontSize: '0.875rem',
                   }}
                 >
                   No brokers found matching your criteria.

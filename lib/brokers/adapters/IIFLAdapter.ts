@@ -6,7 +6,7 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
+} from '../types';
 
 export class IIFLAdapter implements IBrokerAdapter {
   private appKey: string;
@@ -16,7 +16,7 @@ export class IIFLAdapter implements IBrokerAdapter {
   private accessToken?: string;
   private feedToken?: string;
   private userId?: string;
-  private baseUrl: string = "https://ttblaze.iifl.com";
+  private baseUrl: string = 'https://ttblaze.iifl.com';
 
   constructor(credentials: BrokerCredentials) {
     this.appKey = credentials.app_key;
@@ -24,8 +24,8 @@ export class IIFLAdapter implements IBrokerAdapter {
     this.appKeyMarket = credentials.app_key_market;
     this.apiSecretMarket = credentials.api_secret_market;
 
-    if (credentials.access_token && credentials.access_token.includes(":::")) {
-      const [token, feedToken, userId] = credentials.access_token.split(":::");
+    if (credentials.access_token && credentials.access_token.includes(':::')) {
+      const [token, feedToken, userId] = credentials.access_token.split(':::');
       this.accessToken = token;
       this.feedToken = feedToken;
       this.userId = userId;
@@ -38,21 +38,21 @@ export class IIFLAdapter implements IBrokerAdapter {
       const sessionRes = await fetch(
         `${this.baseUrl}/interactive/user/session`,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             appKey: this.appKey,
             secretKey: this.apiSecret,
-            source: "WebAPI",
+            source: 'WebAPI',
           }),
-        },
+        }
       );
 
       const sessionData = await sessionRes.json();
-      if (sessionData.type !== "success") {
+      if (sessionData.type !== 'success') {
         return {
           success: false,
-          message: sessionData.message || "Interactive login failed",
+          message: sessionData.message || 'Interactive login failed',
         };
       }
       const interactiveToken = sessionData.result.token;
@@ -61,21 +61,21 @@ export class IIFLAdapter implements IBrokerAdapter {
       const marketRes = await fetch(
         `${this.baseUrl}/apimarketdata/auth/login`,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             appKey: this.appKeyMarket,
             secretKey: this.apiSecretMarket,
-            source: "WebAPI",
+            source: 'WebAPI',
           }),
-        },
+        }
       );
 
       const marketData = await marketRes.json();
-      if (marketData.type !== "success") {
+      if (marketData.type !== 'success') {
         return {
           success: false,
-          message: marketData.description || "Market data login failed",
+          message: marketData.description || 'Market data login failed',
         };
       }
 
@@ -97,14 +97,14 @@ export class IIFLAdapter implements IBrokerAdapter {
 
   async getProfile(): Promise<UserProfile> {
     return {
-      id: this.userId || "IIFLUser",
-      name: "IIFL User",
-      brokerName: "IIFL",
+      id: this.userId || 'IIFLUser',
+      name: 'IIFL User',
+      brokerName: 'IIFL',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/interactive/margin");
+    const data = await this.request('GET', '/interactive/margin');
     return {
       availableCash: parseFloat(data.result?.[0]?.availableMargin || 0),
       utilizedMargin: parseFloat(data.result?.[0]?.utilizedMargin || 0),
@@ -115,20 +115,20 @@ export class IIFLAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         symbol: order.symbol,
         orderType: order.orderType,
         transactionType: order.transactionType,
         quantity: order.quantity,
         price: order.price || 0,
         product: order.product,
-        validity: "DAY",
-        orderSide: order.transactionType === "BUY" ? "BUY" : "SELL",
+        validity: 'DAY',
+        orderSide: order.transactionType === 'BUY' ? 'BUY' : 'SELL',
       };
 
-      const data = await this.request("POST", "/interactive/orders", payload);
+      const data = await this.request('POST', '/interactive/orders', payload);
       return {
-        success: data.type === "success",
+        success: data.type === 'success',
         orderId: data.result?.orderID,
         message: data.message,
       };
@@ -141,20 +141,20 @@ export class IIFLAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: this.accessToken,
       },
       body: body ? JSON.stringify(body) : undefined,
     });
 
     const data = await response.json();
-    if (data.type !== "success") {
-      throw new Error(data.message || "Request failed");
+    if (data.type !== 'success') {
+      throw new Error(data.message || 'Request failed');
     }
     return data;
   }

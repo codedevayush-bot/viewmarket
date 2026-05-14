@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import styles from "./Cart.module.css";
-import { Suspense } from "react";
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import styles from './Cart.module.css';
+import { Suspense } from 'react';
 
 const PLANS = [
   {
-    name: "Starter",
+    name: 'Starter',
     priceMonthly: 999,
     priceYearly: 799,
-    description: "Advanced tools and metrics for retail traders.",
+    description: 'Advanced tools and metrics for retail traders.',
   },
   {
-    name: "Pro",
+    name: 'Pro',
     priceMonthly: 2500,
     priceYearly: 2000,
-    description: "Built for quantitative developers and serious traders.",
+    description: 'Built for quantitative developers and serious traders.',
   },
   {
-    name: "Premium",
+    name: 'Premium',
     priceMonthly: 4500,
     priceYearly: 3600,
-    description: "The ultimate trading infrastructure for funds.",
+    description: 'The ultimate trading infrastructure for funds.',
   },
 ];
 
@@ -45,8 +45,8 @@ const LockIcon = () => (
 
 function CartContent() {
   const searchParams = useSearchParams();
-  const planName = searchParams.get("plan");
-  const billingCycle = searchParams.get("billingCycle") || "monthly";
+  const planName = searchParams.get('plan');
+  const billingCycle = searchParams.get('billingCycle') || 'monthly';
 
   const selectedPlan = PLANS.find((p) => p.name === planName);
 
@@ -55,7 +55,7 @@ function CartContent() {
       <div className={styles.container}>
         <div
           className={styles.checkoutCard}
-          style={{ display: "block", padding: "60px", textAlign: "center" }}
+          style={{ display: 'block', padding: '60px', textAlign: 'center' }}
         >
           <h1 className={styles.title}>Selection Expired</h1>
           <p className={styles.subtitle}>
@@ -64,7 +64,7 @@ function CartContent() {
           <Link
             href="/pricing"
             className={styles.backLink}
-            style={{ display: "block", marginTop: "40px" }}
+            style={{ display: 'block', marginTop: '40px' }}
           >
             ← Back to Pricing
           </Link>
@@ -74,10 +74,10 @@ function CartContent() {
   }
 
   const price =
-    billingCycle === "monthly"
+    billingCycle === 'monthly'
       ? selectedPlan.priceMonthly
       : selectedPlan.priceYearly;
-  const total = billingCycle === "monthly" ? price : price * 12;
+  const total = billingCycle === 'monthly' ? price : price * 12;
 
   return (
     <div className={styles.container}>
@@ -99,10 +99,10 @@ function CartContent() {
           <div className={styles.planDisplay}>
             <div
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "8px",
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '8px',
               }}
             >
               <h2 className={styles.planName}>{selectedPlan.name}</h2>
@@ -126,10 +126,10 @@ function CartContent() {
             <span>₹{price.toLocaleString()} / mo</span>
           </div>
 
-          {billingCycle === "yearly" && (
+          {billingCycle === 'yearly' && (
             <div
               className={styles.summaryItem}
-              style={{ color: "var(--text-primary)" }}
+              style={{ color: 'var(--text-primary)' }}
             >
               <span className={styles.label}>Annual Discount</span>
               <span>-20% included</span>

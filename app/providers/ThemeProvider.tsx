@@ -1,38 +1,38 @@
-"use client";
+'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ResolvedTheme, Theme, ThemeContext } from "./ThemeContext";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { ResolvedTheme, Theme, ThemeContext } from './ThemeContext';
 
-const STORAGE_KEY = "vm-theme";
+const STORAGE_KEY = 'vm-theme';
 
 function getSystemTheme(): ResolvedTheme {
-  if (typeof window === "undefined") return "dark";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  if (typeof window === 'undefined') return 'dark';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
 }
 
 function readStoredTheme(): Theme {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "dark" || stored === "light" || stored === "system") {
+    if (stored === 'dark' || stored === 'light' || stored === 'system') {
       return stored;
     }
   } catch {
     // localStorage unavailable (SSR, strict-mode incognito, etc.)
   }
-  return "dark"; // default
+  return 'dark'; // default
 }
 
 function applyTheme(resolved: ResolvedTheme) {
   const html = document.documentElement;
-  html.setAttribute("data-theme", resolved);
+  html.setAttribute('data-theme', resolved);
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Initialise with a fixed value to match SSR, then update in useEffect
-  const [theme, setThemeState] = useState<Theme>("dark");
-  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>("dark");
+  const [theme, setThemeState] = useState<Theme>('dark');
+  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>('dark');
 
   useEffect(() => {
     // Wrap in a promise to move updates out of the synchronous effect body,
@@ -44,7 +44,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const resolvedTheme = useMemo<ResolvedTheme>(() => {
-    if (theme === "system") return systemTheme;
+    if (theme === 'system') return systemTheme;
     return theme;
   }, [theme, systemTheme]);
 
@@ -55,21 +55,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Listen for OS preference changes when theme is 'system'
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {
-      setSystemTheme(mq.matches ? "dark" : "light");
+      setSystemTheme(mq.matches ? 'dark' : 'light');
     };
 
     handleChange();
-    mq.addEventListener("change", handleChange);
-    return () => mq.removeEventListener("change", handleChange);
+    mq.addEventListener('change', handleChange);
+    return () => mq.removeEventListener('change', handleChange);
   }, []);
 
   // Enable CSS transitions after first mount (prevents flash of transition on initial paint)
   useEffect(() => {
     // Small delay ensures the browser has applied the correct theme first
     const timer = setTimeout(() => {
-      document.documentElement.setAttribute("data-theme-ready", "true");
+      document.documentElement.setAttribute('data-theme-ready', 'true');
     }, 50);
     return () => clearTimeout(timer);
   }, []);
@@ -85,7 +85,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo(
     () => ({ theme, resolvedTheme, setTheme }),
-    [theme, resolvedTheme, setTheme],
+    [theme, resolvedTheme, setTheme]
   );
 
   return (

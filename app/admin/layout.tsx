@@ -1,5 +1,5 @@
-import AdminSidebar from "../components/AdminSidebar/AdminSidebar";
-import styles from "../user-dashboard/UserDashboard.module.css";
+import AdminSidebar from '../components/AdminSidebar/AdminSidebar';
+import styles from '../user-dashboard/UserDashboard.module.css';
 
 export default function AdminLayout({
   children,

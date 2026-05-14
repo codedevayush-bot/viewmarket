@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Description: ViewMarket production infrastructure on ECS Fargate with automated rollback.
 
 Parameters:
@@ -16,7 +16,7 @@ Parameters:
     Default: master
   AlertEmail:
     Type: String
-    Default: ""
+    Default: ''
   VpcCidr:
     Type: String
     Default: 10.0.0.0/16
@@ -43,29 +43,29 @@ Parameters:
     Default: 10
   Cpu:
     Type: String
-    Default: "512"
+    Default: '512'
     AllowedValues:
-      - "256"
-      - "512"
-      - "1024"
-      - "2048"
-      - "4096"
+      - '256'
+      - '512'
+      - '1024'
+      - '2048'
+      - '4096'
   Memory:
     Type: String
-    Default: "1024"
+    Default: '1024'
     AllowedValues:
-      - "512"
-      - "1024"
-      - "2048"
-      - "3072"
-      - "4096"
-      - "5120"
-      - "6144"
-      - "7168"
-      - "8192"
+      - '512'
+      - '1024'
+      - '2048'
+      - '3072'
+      - '4096'
+      - '5120'
+      - '6144'
+      - '7168'
+      - '8192'
 
 Conditions:
-  HasAlertEmail: !Not [!Equals [!Ref AlertEmail, ""]]
+  HasAlertEmail: !Not [!Equals [!Ref AlertEmail, '']]
 
 Resources:
   Vpc:
@@ -92,7 +92,7 @@ Resources:
     Properties:
       VpcId: !Ref Vpc
       CidrBlock: !Ref PublicSubnetOneCidr
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [0, !GetAZs '']
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -103,7 +103,7 @@ Resources:
     Properties:
       VpcId: !Ref Vpc
       CidrBlock: !Ref PublicSubnetTwoCidr
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [1, !GetAZs '']
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -114,7 +114,7 @@ Resources:
     Properties:
       VpcId: !Ref Vpc
       CidrBlock: !Ref PrivateSubnetOneCidr
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [0, !GetAZs '']
       Tags:
         - Key: Name
           Value: !Sub ${AppName}-${Environment}-private-a
@@ -124,7 +124,7 @@ Resources:
     Properties:
       VpcId: !Ref Vpc
       CidrBlock: !Ref PrivateSubnetTwoCidr
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [1, !GetAZs '']
       Tags:
         - Key: Name
           Value: !Sub ${AppName}-${Environment}-private-b
@@ -320,7 +320,7 @@ Resources:
     Properties:
       RoleName: !Sub ${AppName}-${Environment}-ecs-exec
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
@@ -331,21 +331,21 @@ Resources:
       Policies:
         - PolicyName: secrets-access
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
                   - secretsmanager:GetSecretValue
                   - ssm:GetParameters
                   - kms:Decrypt
-                Resource: "*"
+                Resource: '*'
 
   TaskRole:
     Type: AWS::IAM::Role
     Properties:
       RoleName: !Sub ${AppName}-${Environment}-ecs-task
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
@@ -378,7 +378,7 @@ Resources:
     Properties:
       RoleName: !Sub ${AppName}-${Environment}-github-actions
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
@@ -392,7 +392,7 @@ Resources:
       Policies:
         - PolicyName: deploy-policy
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -413,7 +413,7 @@ Resources:
                   - elasticloadbalancing:DescribeLoadBalancers
                   - ssm:PutParameter
                   - ssm:GetParameter
-                Resource: "*"
+                Resource: '*'
 
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -583,7 +583,7 @@ Resources:
     Properties:
       RoleName: !Sub ${AppName}-${Environment}-rollback-lambda
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
@@ -594,14 +594,14 @@ Resources:
       Policies:
         - PolicyName: rollback-policy
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
                   - ecs:DescribeServices
                   - ecs:UpdateService
                   - ssm:GetParameter
-                Resource: "*"
+                Resource: '*'
 
   RollbackFunction:
     Type: AWS::Lambda::Function

@@ -6,8 +6,8 @@ import {
   OrderPayload,
   OrderResponse,
   UserProfile,
-} from "../types";
-import crypto from "crypto";
+} from '../types';
+import crypto from 'crypto';
 
 export class UpstoxAdapter implements IBrokerAdapter {
   private clientId: string;
@@ -23,7 +23,7 @@ export class UpstoxAdapter implements IBrokerAdapter {
 
     if (!this.clientId || !this.clientSecret || !this.redirectUri) {
       throw new Error(
-        "Upstox requires client_id, client_secret, and redirect_uri in credentials",
+        'Upstox requires client_id, client_secret, and redirect_uri in credentials'
       );
     }
   }
@@ -36,7 +36,7 @@ export class UpstoxAdapter implements IBrokerAdapter {
       success: true,
       isOAuth: true,
       redirectUrl,
-      message: "Redirect to OAuth URL",
+      message: 'Redirect to OAuth URL',
     };
   }
 
@@ -47,19 +47,19 @@ export class UpstoxAdapter implements IBrokerAdapter {
         client_id: this.clientId,
         client_secret: this.clientSecret,
         redirect_uri: this.redirectUri,
-        grant_type: "authorization_code",
+        grant_type: 'authorization_code',
       });
 
       const response = await fetch(
-        "https://api.upstox.com/v2/login/authorization/token",
+        'https://api.upstox.com/v2/login/authorization/token',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Accept: "application/json",
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Accept: 'application/json',
           },
           body: params,
-        },
+        }
       );
 
       const data = await response.json();
@@ -80,7 +80,7 @@ export class UpstoxAdapter implements IBrokerAdapter {
       return {
         success: false,
         message:
-          data.errors?.[0]?.message || "Failed to authenticate with Upstox",
+          data.errors?.[0]?.message || 'Failed to authenticate with Upstox',
       };
     } catch (error: unknown) {
       return {
@@ -91,44 +91,44 @@ export class UpstoxAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    if (!this.accessToken) throw new Error("Not authenticated");
+    if (!this.accessToken) throw new Error('Not authenticated');
 
-    const response = await fetch("https://api.upstox.com/v2/user/profile", {
+    const response = await fetch('https://api.upstox.com/v2/user/profile', {
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${this.accessToken}`,
       },
     });
 
     const data = await response.json();
     if (!response.ok)
-      throw new Error(data.errors?.[0]?.message || "Failed to fetch profile");
+      throw new Error(data.errors?.[0]?.message || 'Failed to fetch profile');
 
     return {
       id: data.data.user_id,
       name: data.data.user_name,
       email: data.data.email,
-      brokerName: "upstox",
+      brokerName: 'upstox',
       metadata: data.data,
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    if (!this.accessToken) throw new Error("Not authenticated");
+    if (!this.accessToken) throw new Error('Not authenticated');
 
     const response = await fetch(
-      "https://api.upstox.com/v2/user/get-funds-and-margin?segment=SEC",
+      'https://api.upstox.com/v2/user/get-funds-and-margin?segment=SEC',
       {
         headers: {
-          Accept: "application/json",
+          Accept: 'application/json',
           Authorization: `Bearer ${this.accessToken}`,
         },
-      },
+      }
     );
 
     const data = await response.json();
     if (!response.ok)
-      throw new Error(data.errors?.[0]?.message || "Failed to fetch funds");
+      throw new Error(data.errors?.[0]?.message || 'Failed to fetch funds');
 
     return {
       availableCash: data.data.equity.available_margin,
@@ -139,21 +139,21 @@ export class UpstoxAdapter implements IBrokerAdapter {
   }
 
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
-    if (!this.accessToken) throw new Error("Not authenticated");
+    if (!this.accessToken) throw new Error('Not authenticated');
 
-    const response = await fetch("https://api.upstox.com/v2/order/place", {
-      method: "POST",
+    const response = await fetch('https://api.upstox.com/v2/order/place', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${this.accessToken}`,
       },
       body: JSON.stringify({
         quantity: order.quantity,
-        product: order.product === "MIS" ? "I" : "D", // Simplified mapping
-        validity: "DAY",
+        product: order.product === 'MIS' ? 'I' : 'D', // Simplified mapping
+        validity: 'DAY',
         price: order.price || 0,
-        tag: "viewmarket",
+        tag: 'viewmarket',
         instrument_token: order.symbol, // Upstox expects their specific instrument_token
         order_type: order.orderType,
         transaction_type: order.transactionType,
@@ -168,13 +168,13 @@ export class UpstoxAdapter implements IBrokerAdapter {
       return {
         success: true,
         orderId: data.data.order_id,
-        message: "Order placed successfully",
+        message: 'Order placed successfully',
       };
     }
 
     return {
       success: false,
-      message: data.errors?.[0]?.message || "Failed to place order",
+      message: data.errors?.[0]?.message || 'Failed to place order',
     };
   }
 }

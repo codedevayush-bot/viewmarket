@@ -44,15 +44,15 @@ import {
   varchar,
   timestamp,
   boolean,
-} from "drizzle-orm/pg-core";
+} from 'drizzle-orm/pg-core';
 
-export const tableName = pgTable("table_name", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(),
-  description: text("description"),
-  isActive: boolean("is_active").default(true),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+export const tableName = pgTable('table_name', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 255 }).notNull(),
+  description: text('description'),
+  isActive: boolean('is_active').default(true),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 ```
 
@@ -69,26 +69,26 @@ export const tableName = pgTable("table_name", {
 **One-to-Many:**
 
 ```typescript
-import { pgTable, serial, text, timestamp, index } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, index } from 'drizzle-orm/pg-core';
 
-export const authors = pgTable("authors", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+export const authors = pgTable('authors', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
 });
 
 export const posts = pgTable(
-  "posts",
+  'posts',
   {
-    id: serial("id").primaryKey(),
-    authorId: serial("author_id")
+    id: serial('id').primaryKey(),
+    authorId: serial('author_id')
       .notNull()
       .references(() => authors.id),
-    title: text("title").notNull(),
-    content: text("content").notNull(),
+    title: text('title').notNull(),
+    content: text('content').notNull(),
   },
   (table) => ({
-    authorIdIdx: index("posts_author_id_idx").on(table.authorId),
-  }),
+    authorIdIdx: index('posts_author_id_idx').on(table.authorId),
+  })
 );
 ```
 
@@ -97,29 +97,29 @@ export const posts = pgTable(
 **Many-to-Many:**
 
 ```typescript
-export const posts = pgTable("posts", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
+export const posts = pgTable('posts', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
 });
 
-export const tags = pgTable("tags", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+export const tags = pgTable('tags', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
 });
 
 export const postsTags = pgTable(
-  "posts_tags",
+  'posts_tags',
   {
-    postId: serial("post_id")
+    postId: serial('post_id')
       .notNull()
       .references(() => posts.id),
-    tagId: serial("tag_id")
+    tagId: serial('tag_id')
       .notNull()
       .references(() => tags.id),
   },
   (table) => ({
-    pk: index("posts_tags_pk").on(table.postId, table.tagId),
-  }),
+    pk: index('posts_tags_pk').on(table.postId, table.tagId),
+  })
 );
 ```
 
@@ -128,7 +128,7 @@ export const postsTags = pgTable(
 Enable relational queries:
 
 ```typescript
-import { relations } from "drizzle-orm";
+import { relations } from 'drizzle-orm';
 
 export const authorsRelations = relations(authors, ({ many }) => ({
   posts: many(posts),
@@ -159,28 +159,28 @@ import {
   varchar,
   timestamp,
   boolean,
-} from "drizzle-orm/pg-core";
+} from 'drizzle-orm/pg-core';
 
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
-  passwordHash: varchar("password_hash", { length: 255 }),
-  name: varchar("name", { length: 255 }).notNull(),
-  emailVerified: boolean("email_verified").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
-  lastLoginAt: timestamp("last_login_at"),
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull().unique(),
+  passwordHash: varchar('password_hash', { length: 255 }),
+  name: varchar('name', { length: 255 }).notNull(),
+  emailVerified: boolean('email_verified').default(false),
+  createdAt: timestamp('created_at').defaultNow(),
+  lastLoginAt: timestamp('last_login_at'),
 });
 ```
 
 ### 2.2. Soft Deletes
 
 ```typescript
-export const posts = pgTable("posts", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  content: text("content").notNull(),
-  deletedAt: timestamp("deleted_at"),
-  createdAt: timestamp("created_at").defaultNow(),
+export const posts = pgTable('posts', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  deletedAt: timestamp('deleted_at'),
+  createdAt: timestamp('created_at').defaultNow(),
 });
 ```
 
@@ -196,26 +196,26 @@ const activePosts = await db
 ### 2.3. Enums
 
 ```typescript
-import { pgEnum, pgTable, serial, text } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, serial, text } from 'drizzle-orm/pg-core';
 
-export const statusEnum = pgEnum("status", ["draft", "published", "archived"]);
+export const statusEnum = pgEnum('status', ['draft', 'published', 'archived']);
 
-export const posts = pgTable("posts", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  status: statusEnum("status").default("draft"),
+export const posts = pgTable('posts', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  status: statusEnum('status').default('draft'),
 });
 ```
 
 ### 2.4. JSON Fields
 
 ```typescript
-import { pgTable, serial, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, serial, jsonb } from 'drizzle-orm/pg-core';
 
-export const products = pgTable("products", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  metadata: jsonb("metadata").$type<{
+export const products = pgTable('products', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  metadata: jsonb('metadata').$type<{
     color?: string;
     size?: string;
     tags?: string[];
@@ -230,10 +230,10 @@ export const products = pgTable("products", {
 **Step 1:** Update schema:
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull(),
-  phoneNumber: varchar("phone_number", { length: 20 }), // NEW
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull(),
+  phoneNumber: varchar('phone_number', { length: 20 }), // NEW
 });
 ```
 
@@ -257,9 +257,9 @@ export DATABASE_URL="$(grep DATABASE_URL .env.local | cut -d '=' -f2)" && \
 **Step 1:** Update schema:
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  fullName: varchar("full_name", { length: 255 }), // was 'name'
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  fullName: varchar('full_name', { length: 255 }), // was 'name'
 });
 ```
 
@@ -291,9 +291,9 @@ ALTER TABLE users RENAME COLUMN name TO full_name;
 **Step 1:** Remove from schema:
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull(),
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull(),
   // removed: phoneNumber
 });
 ```
@@ -312,9 +312,9 @@ export const users = pgTable("users", {
 **Step 1:** Update schema:
 
 ```typescript
-export const posts = pgTable("posts", {
-  id: serial("id").primaryKey(),
-  views: bigint("views", { mode: "number" }), // was: integer
+export const posts = pgTable('posts', {
+  id: serial('id').primaryKey(),
+  views: bigint('views', { mode: 'number' }), // was: integer
 });
 ```
 
@@ -333,19 +333,19 @@ export const posts = pgTable("posts", {
 **Single column:**
 
 ```typescript
-import { pgTable, serial, text, index } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, index } from 'drizzle-orm/pg-core';
 
 export const posts = pgTable(
-  "posts",
+  'posts',
   {
-    id: serial("id").primaryKey(),
-    title: text("title").notNull(),
-    authorId: serial("author_id").notNull(),
+    id: serial('id').primaryKey(),
+    title: text('title').notNull(),
+    authorId: serial('author_id').notNull(),
   },
   (table) => ({
-    titleIdx: index("posts_title_idx").on(table.title),
-    authorIdIdx: index("posts_author_id_idx").on(table.authorId),
-  }),
+    titleIdx: index('posts_title_idx').on(table.title),
+    authorIdIdx: index('posts_author_id_idx').on(table.authorId),
+  })
 );
 ```
 
@@ -353,18 +353,18 @@ export const posts = pgTable(
 
 ```typescript
 export const posts = pgTable(
-  "posts",
+  'posts',
   {
-    id: serial("id").primaryKey(),
-    authorId: serial("author_id").notNull(),
-    status: text("status").notNull(),
+    id: serial('id').primaryKey(),
+    authorId: serial('author_id').notNull(),
+    status: text('status').notNull(),
   },
   (table) => ({
-    authorStatusIdx: index("posts_author_status_idx").on(
+    authorStatusIdx: index('posts_author_status_idx').on(
       table.authorId,
-      table.status,
+      table.status
     ),
-  }),
+  })
 );
 ```
 
@@ -373,45 +373,45 @@ export const posts = pgTable(
 **Single column:**
 
 ```typescript
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull().unique(),
 });
 ```
 
 **Multiple columns:**
 
 ```typescript
-import { pgTable, serial, text, unique } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, unique } from 'drizzle-orm/pg-core';
 
 export const postsTags = pgTable(
-  "posts_tags",
+  'posts_tags',
   {
-    postId: serial("post_id").notNull(),
-    tagId: serial("tag_id").notNull(),
+    postId: serial('post_id').notNull(),
+    tagId: serial('tag_id').notNull(),
   },
   (table) => ({
-    unq: unique("posts_tags_unique").on(table.postId, table.tagId),
-  }),
+    unq: unique('posts_tags_unique').on(table.postId, table.tagId),
+  })
 );
 ```
 
 ### 4.3. Check Constraints
 
 ```typescript
-import { pgTable, serial, integer, check } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, check } from 'drizzle-orm/pg-core';
 
 export const products = pgTable(
-  "products",
+  'products',
   {
-    id: serial("id").primaryKey(),
-    price: integer("price").notNull(),
-    discountedPrice: integer("discounted_price"),
+    id: serial('id').primaryKey(),
+    price: integer('price').notNull(),
+    discountedPrice: integer('discounted_price'),
   },
   (table) => ({
-    priceCheck: check("price_check", "price >= 0"),
-    discountCheck: check("discount_check", "discounted_price < price"),
-  }),
+    priceCheck: check('price_check', 'price >= 0'),
+    discountCheck: check('discount_check', 'discounted_price < price'),
+  })
 );
 ```
 
@@ -453,11 +453,11 @@ psql $DATABASE_URL -c "\d table_name"
 **Test with queries:**
 
 ```typescript
-import { db } from "./src/db";
-import { tableName } from "./src/db/schema";
+import { db } from './src/db';
+import { tableName } from './src/db/schema';
 
 const result = await db.select().from(tableName);
-console.log("Schema works:", result);
+console.log('Schema works:', result);
 ```
 
 ## Phase 6: Advanced Patterns

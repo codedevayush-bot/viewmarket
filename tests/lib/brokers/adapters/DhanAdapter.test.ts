@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { DhanAdapter } from "@/lib/brokers/adapters/DhanAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { DhanAdapter } from '@/lib/brokers/adapters/DhanAdapter';
 
-describe("DhanAdapter", () => {
+describe('DhanAdapter', () => {
   const mockConfig = {
-    client_id: "test_client_id",
-    access_token: "test_token",
+    client_id: 'test_client_id',
+    access_token: 'test_token',
   };
 
   beforeEach(() => {
@@ -12,17 +12,17 @@ describe("DhanAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should authenticate successfully", async () => {
+  it('should authenticate successfully', async () => {
     const adapter = new DhanAdapter(mockConfig);
     const result = await adapter.authenticate();
 
     expect(result.success).toBe(true);
-    expect(result.accessToken).toBe("test_token");
+    expect(result.accessToken).toBe('test_token');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
-      dhanClientName: "Dhan User",
+      dhanClientName: 'Dhan User',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -33,21 +33,21 @@ describe("DhanAdapter", () => {
     const adapter = new DhanAdapter(mockConfig);
     const profile = await adapter.getProfile();
 
-    expect(profile.name).toBe("Dhan User");
-    expect(profile.brokerName).toBe("dhan");
+    expect(profile.name).toBe('Dhan User');
+    expect(profile.brokerName).toBe('dhan');
     expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining("/v2/profile"),
+      expect.stringContaining('/v2/profile'),
       expect.objectContaining({
         headers: expect.objectContaining({
-          "access-token": "test_token",
+          'access-token': 'test_token',
         }),
-      }),
+      })
     );
   });
 
-  it("should fetch funds successfully", async () => {
+  it('should fetch funds successfully', async () => {
     const mockFundsResponse = {
-      availableBalance: "5000.75",
+      availableBalance: '5000.75',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -61,9 +61,9 @@ describe("DhanAdapter", () => {
     expect(funds.availableCash).toBe(5000.75);
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      orderId: "DHAN_ORDER_123",
+      orderId: 'DHAN_ORDER_123',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -73,15 +73,15 @@ describe("DhanAdapter", () => {
 
     const adapter = new DhanAdapter(mockConfig);
     const result = await adapter.placeOrder({
-      symbol: "RELIANCE",
-      exchange: "NSE",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: 'RELIANCE',
+      exchange: 'NSE',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 5,
-      product: "CNC",
+      product: 'CNC',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("DHAN_ORDER_123");
+    expect(result.orderId).toBe('DHAN_ORDER_123');
   });
 });

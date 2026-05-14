@@ -1,58 +1,58 @@
-import type { Metadata } from "next";
-import styles from "../TradingWorkspace.module.css";
+import type { Metadata } from 'next';
+import styles from '../TradingWorkspace.module.css';
 
 const executionMetrics = [
-  { label: "Orders Today", value: "31", detail: "12 open, 19 completed" },
-  { label: "Trade Fills", value: "24", detail: "Across 7 strategies" },
-  { label: "Fill Ratio", value: "77%", detail: "Market and limit mix" },
+  { label: 'Orders Today', value: '31', detail: '12 open, 19 completed' },
+  { label: 'Trade Fills', value: '24', detail: 'Across 7 strategies' },
+  { label: 'Fill Ratio', value: '77%', detail: 'Market and limit mix' },
 ];
 
 const orderbookRows = [
   {
-    symbol: "SBIN",
-    type: "Limit buy",
-    status: "Open · 150 qty",
-    value: "622.40",
+    symbol: 'SBIN',
+    type: 'Limit buy',
+    status: 'Open · 150 qty',
+    value: '622.40',
   },
   {
-    symbol: "NIFTY FUT",
-    type: "Stop loss",
-    status: "Triggered · 25 qty",
-    value: "22,418.00",
+    symbol: 'NIFTY FUT',
+    type: 'Stop loss',
+    status: 'Triggered · 25 qty',
+    value: '22,418.00',
   },
   {
-    symbol: "ICICIBANK",
-    type: "Market sell",
-    status: "Completed · 80 qty",
-    value: "1,168.30",
+    symbol: 'ICICIBANK',
+    type: 'Market sell',
+    status: 'Completed · 80 qty',
+    value: '1,168.30',
   },
 ];
 
 const tradeRows = [
   {
-    symbol: "AXISBANK",
-    side: "Buy fill",
-    note: "VWAP aligned entry · 100 qty",
-    value: "1,121.85",
+    symbol: 'AXISBANK',
+    side: 'Buy fill',
+    note: 'VWAP aligned entry · 100 qty',
+    value: '1,121.85',
   },
   {
-    symbol: "BANKNIFTY 48000 PE",
-    side: "Sell fill",
-    note: "Hedge unwind · 45 qty",
-    value: "214.60",
+    symbol: 'BANKNIFTY 48000 PE',
+    side: 'Sell fill',
+    note: 'Hedge unwind · 45 qty',
+    value: '214.60',
   },
   {
-    symbol: "TCS",
-    side: "Buy fill",
-    note: "Swing add-on · 30 qty",
-    value: "3,982.10",
+    symbol: 'TCS',
+    side: 'Buy fill',
+    note: 'Swing add-on · 30 qty',
+    value: '3,982.10',
   },
 ];
 
 export const metadata: Metadata = {
-  title: "Tradebook",
+  title: 'Tradebook',
   description:
-    "Unified execution workspace for orderbook and tradebook activity in the ViewMarket dashboard.",
+    'Unified execution workspace for orderbook and tradebook activity in the ViewMarket dashboard.',
 };
 
 export default function TradebookPage() {

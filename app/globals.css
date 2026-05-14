@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ─────────────────────────────────────────
    Design Tokens — Dark (default)
@@ -78,7 +78,7 @@
 /* ─────────────────────────────────────────
    Design Tokens — Light Override
 ───────────────────────────────────────── */
-[data-theme="light"] {
+[data-theme='light'] {
   /* ── Core Backgrounds ── */
   --bg-page: #e4e4e7; /* Zinc 200 - The gray base you requested */
   --bg-surface: #fafafa; /* Zinc 50 - Lighter cards to pop */
@@ -165,10 +165,10 @@ body {
   background: var(--bg-page);
   color: var(--text-primary);
   font-family:
-    "Inter",
+    'Inter',
     -apple-system,
     BlinkMacSystemFont,
-    "Segoe UI",
+    'Segoe UI',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -189,8 +189,8 @@ body {
 /* Re-enable for inputs, textareas, and editable content */
 input,
 textarea,
-[contenteditable="true"],
-[contenteditable="plaintext-only"],
+[contenteditable='true'],
+[contenteditable='plaintext-only'],
 .selectable,
 code,
 pre {
@@ -729,7 +729,7 @@ pre {
 }
 
 .issue-code {
-  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -778,7 +778,7 @@ pre {
   padding: 2px 6px;
   background: var(--border-subtle);
   border-radius: 4px;
-  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
   font-size: 0.8125rem;
   color: rgba(255, 255, 255, 0.85);
 }
@@ -979,7 +979,7 @@ pre {
 }
 
 .code-block code {
-  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
   font-size: 0.75rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.7);
@@ -1012,7 +1012,7 @@ pre {
 
 .changes-detail {
   margin: 0;
-  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -1708,7 +1708,7 @@ pre {
 
 .issue-id {
   font-size: 0.75rem;
-  font-family: "SF Mono", "Monaco", "Courier New", monospace;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
   color: rgba(255, 255, 255, 0.4);
 }
 

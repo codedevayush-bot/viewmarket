@@ -1,4 +1,4 @@
-import styles from "./LogoSection.module.css";
+import styles from './LogoSection.module.css';
 
 export default function LogoSection() {
   return (

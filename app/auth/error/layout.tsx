@@ -1,8 +1,8 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Auth Error",
-  description: "An authentication error occurred.",
+  title: 'Auth Error',
+  description: 'An authentication error occurred.',
 };
 
 export default function AuthErrorLayout({

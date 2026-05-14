@@ -1,57 +1,57 @@
-import type { Metadata } from "next";
-import styles from "../TradingWorkspace.module.css";
+import type { Metadata } from 'next';
+import styles from '../TradingWorkspace.module.css';
 
 const summaryMetrics = [
-  { label: "Open Positions", value: "08", detail: "3 intraday, 5 carry" },
-  { label: "Holdings", value: "12", detail: "Across equity and ETF books" },
-  { label: "Day PnL", value: "+2.84%", detail: "Net of charges and slippage" },
+  { label: 'Open Positions', value: '08', detail: '3 intraday, 5 carry' },
+  { label: 'Holdings', value: '12', detail: 'Across equity and ETF books' },
+  { label: 'Day PnL', value: '+2.84%', detail: 'Net of charges and slippage' },
 ];
 
 const positionRows = [
   {
-    symbol: "NIFTY MAY 22400 CE",
-    side: "Long",
-    exposure: "120 qty",
-    mark: "+1.42%",
+    symbol: 'NIFTY MAY 22400 CE',
+    side: 'Long',
+    exposure: '120 qty',
+    mark: '+1.42%',
   },
   {
-    symbol: "BANKNIFTY FUT",
-    side: "Short",
-    exposure: "25 qty",
-    mark: "-0.34%",
+    symbol: 'BANKNIFTY FUT',
+    side: 'Short',
+    exposure: '25 qty',
+    mark: '-0.34%',
   },
   {
-    symbol: "RELIANCE",
-    side: "Long",
-    exposure: "160 qty",
-    mark: "+0.88%",
+    symbol: 'RELIANCE',
+    side: 'Long',
+    exposure: '160 qty',
+    mark: '+0.88%',
   },
 ];
 
 const holdingsRows = [
-  { symbol: "HDFCBANK", quantity: "45 shares", allocation: "18%" },
-  { symbol: "INFY", quantity: "60 shares", allocation: "12%" },
-  { symbol: "NIFTYBEES", quantity: "220 units", allocation: "26%" },
+  { symbol: 'HDFCBANK', quantity: '45 shares', allocation: '18%' },
+  { symbol: 'INFY', quantity: '60 shares', allocation: '12%' },
+  { symbol: 'NIFTYBEES', quantity: '220 units', allocation: '26%' },
 ];
 
 const pnlRows = [
   {
-    bucket: "Intraday",
-    value: "+14,820",
-    note: "Best contributor: FinServ basket",
+    bucket: 'Intraday',
+    value: '+14,820',
+    note: 'Best contributor: FinServ basket',
   },
-  { bucket: "Swing", value: "+8,410", note: "3 active strategy sleeves" },
+  { bucket: 'Swing', value: '+8,410', note: '3 active strategy sleeves' },
   {
-    bucket: "Charges",
-    value: "-1,275",
-    note: "Brokerage, taxes, and exchange fees",
+    bucket: 'Charges',
+    value: '-1,275',
+    note: 'Brokerage, taxes, and exchange fees',
   },
 ];
 
 export const metadata: Metadata = {
-  title: "Action Center",
+  title: 'Action Center',
   description:
-    "Unified monitoring workspace for positions, holdings, and PnL in the ViewMarket dashboard.",
+    'Unified monitoring workspace for positions, holdings, and PnL in the ViewMarket dashboard.',
 };
 
 export default function ActionCenterPage() {

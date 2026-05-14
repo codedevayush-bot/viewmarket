@@ -1,36 +1,36 @@
-import { IBrokerAdapter, BrokerCredentials } from "./types";
-import { ZerodhaAdapter } from "./adapters/ZerodhaAdapter";
-import { UpstoxAdapter } from "./adapters/UpstoxAdapter";
-import { AngelOneAdapter } from "./adapters/AngelOneAdapter";
-import { FyersAdapter } from "./adapters/FyersAdapter";
-import { DhanAdapter } from "./adapters/DhanAdapter";
-import { AliceBlueAdapter } from "./adapters/AliceBlueAdapter";
-import { KotakNeoAdapter } from "./adapters/KotakNeoAdapter";
-import { ShoonyaAdapter } from "./adapters/ShoonyaAdapter";
-import { PaytmMoneyAdapter } from "./adapters/PaytmMoneyAdapter";
-import { FivePaisaAdapter } from "./adapters/FivePaisaAdapter";
-import { GrowwAdapter } from "./adapters/GrowwAdapter";
-import { IIFLAdapter } from "./adapters/IIFLAdapter";
-import { SamcoAdapter } from "./adapters/SamcoAdapter";
-import { MotilalAdapter } from "./adapters/MotilalAdapter";
-import { MStockAdapter } from "./adapters/MStockAdapter";
-import { PocketfulAdapter } from "./adapters/PocketfulAdapter";
-import { TradejiniAdapter } from "./adapters/TradejiniAdapter";
-import { WisdomAdapter } from "./adapters/WisdomAdapter";
-import { ZebuAdapter } from "./adapters/ZebuAdapter";
-import { FlattradeAdapter } from "./adapters/FlattradeAdapter";
-import { FirstockAdapter } from "./adapters/FirstockAdapter";
-import { DeltaAdapter } from "./adapters/DeltaAdapter";
-import { IBullsAdapter } from "./adapters/IBullsAdapter";
-import { RMoneyAdapter } from "./adapters/RMoneyAdapter";
-import { DefinedgeAdapter } from "./adapters/DefinedgeAdapter";
-import { JainamXtsAdapter } from "./adapters/JainamXtsAdapter";
-import { CompositeAdapter } from "./adapters/CompositeAdapter";
-import { IndmoneyAdapter } from "./adapters/IndmoneyAdapter";
-import { NubraAdapter } from "./adapters/NubraAdapter";
-import { FivePaisaXtsAdapter } from "./adapters/FivePaisaXtsAdapter";
-import { IIFLCapitalAdapter } from "./adapters/IIFLCapitalAdapter";
-import { DhanSandboxAdapter } from "./adapters/DhanSandboxAdapter";
+import { IBrokerAdapter, BrokerCredentials } from './types';
+import { ZerodhaAdapter } from './adapters/ZerodhaAdapter';
+import { UpstoxAdapter } from './adapters/UpstoxAdapter';
+import { AngelOneAdapter } from './adapters/AngelOneAdapter';
+import { FyersAdapter } from './adapters/FyersAdapter';
+import { DhanAdapter } from './adapters/DhanAdapter';
+import { AliceBlueAdapter } from './adapters/AliceBlueAdapter';
+import { KotakNeoAdapter } from './adapters/KotakNeoAdapter';
+import { ShoonyaAdapter } from './adapters/ShoonyaAdapter';
+import { PaytmMoneyAdapter } from './adapters/PaytmMoneyAdapter';
+import { FivePaisaAdapter } from './adapters/FivePaisaAdapter';
+import { GrowwAdapter } from './adapters/GrowwAdapter';
+import { IIFLAdapter } from './adapters/IIFLAdapter';
+import { SamcoAdapter } from './adapters/SamcoAdapter';
+import { MotilalAdapter } from './adapters/MotilalAdapter';
+import { MStockAdapter } from './adapters/MStockAdapter';
+import { PocketfulAdapter } from './adapters/PocketfulAdapter';
+import { TradejiniAdapter } from './adapters/TradejiniAdapter';
+import { WisdomAdapter } from './adapters/WisdomAdapter';
+import { ZebuAdapter } from './adapters/ZebuAdapter';
+import { FlattradeAdapter } from './adapters/FlattradeAdapter';
+import { FirstockAdapter } from './adapters/FirstockAdapter';
+import { DeltaAdapter } from './adapters/DeltaAdapter';
+import { IBullsAdapter } from './adapters/IBullsAdapter';
+import { RMoneyAdapter } from './adapters/RMoneyAdapter';
+import { DefinedgeAdapter } from './adapters/DefinedgeAdapter';
+import { JainamXtsAdapter } from './adapters/JainamXtsAdapter';
+import { CompositeAdapter } from './adapters/CompositeAdapter';
+import { IndmoneyAdapter } from './adapters/IndmoneyAdapter';
+import { NubraAdapter } from './adapters/NubraAdapter';
+import { FivePaisaXtsAdapter } from './adapters/FivePaisaXtsAdapter';
+import { IIFLCapitalAdapter } from './adapters/IIFLCapitalAdapter';
+import { DhanSandboxAdapter } from './adapters/DhanSandboxAdapter';
 
 export class BrokerFactory {
   /**
@@ -43,7 +43,7 @@ export class BrokerFactory {
   static createAdapter(
     brokerName: string,
     encryptedCredentials: BrokerCredentials = {},
-    sessionData: BrokerCredentials = {},
+    sessionData: BrokerCredentials = {}
   ): IBrokerAdapter {
     const config = {
       ...encryptedCredentials,
@@ -54,73 +54,73 @@ export class BrokerFactory {
       sessionData.accessToken) as string | undefined;
 
     switch (brokerName.toLowerCase()) {
-      case "zerodha":
+      case 'zerodha':
         return new ZerodhaAdapter(config, accessToken);
-      case "upstox":
+      case 'upstox':
         return new UpstoxAdapter(config, accessToken);
-      case "angelone":
+      case 'angelone':
         return new AngelOneAdapter(config);
-      case "fyers":
+      case 'fyers':
         return new FyersAdapter(config);
-      case "dhan":
+      case 'dhan':
         return new DhanAdapter(config);
-      case "dhan_sandbox":
+      case 'dhan_sandbox':
         return new DhanSandboxAdapter(config);
-      case "aliceblue":
+      case 'aliceblue':
         return new AliceBlueAdapter(config);
-      case "kotakneo":
+      case 'kotakneo':
         return new KotakNeoAdapter(config);
-      case "shoonya":
+      case 'shoonya':
         return new ShoonyaAdapter(config);
-      case "paytm":
+      case 'paytm':
         return new PaytmMoneyAdapter(config);
-      case "fivepaisa":
+      case 'fivepaisa':
         return new FivePaisaAdapter(config);
-      case "groww":
+      case 'groww':
         return new GrowwAdapter(config);
-      case "iifl":
+      case 'iifl':
         return new IIFLAdapter(config);
-      case "samco":
+      case 'samco':
         return new SamcoAdapter(config);
-      case "motilal":
+      case 'motilal':
         return new MotilalAdapter(config);
-      case "mstock":
+      case 'mstock':
         return new MStockAdapter(config);
-      case "pocketful":
+      case 'pocketful':
         return new PocketfulAdapter(config);
-      case "tradejini":
+      case 'tradejini':
         return new TradejiniAdapter(config);
-      case "wisdom":
+      case 'wisdom':
         return new WisdomAdapter(config);
-      case "zebu":
+      case 'zebu':
         return new ZebuAdapter(config);
-      case "flattrade":
+      case 'flattrade':
         return new FlattradeAdapter(config);
-      case "firstock":
+      case 'firstock':
         return new FirstockAdapter(config);
-      case "deltaexchange":
+      case 'deltaexchange':
         return new DeltaAdapter(config);
-      case "ibulls":
+      case 'ibulls':
         return new IBullsAdapter(config);
-      case "rmoney":
+      case 'rmoney':
         return new RMoneyAdapter(config);
-      case "definedge":
+      case 'definedge':
         return new DefinedgeAdapter(config);
-      case "jainamxts":
+      case 'jainamxts':
         return new JainamXtsAdapter(config);
-      case "compositedge":
+      case 'compositedge':
         return new CompositeAdapter(config);
-      case "indmoney":
+      case 'indmoney':
         return new IndmoneyAdapter(config);
-      case "nubra":
+      case 'nubra':
         return new NubraAdapter(config);
-      case "fivepaisaxts":
+      case 'fivepaisaxts':
         return new FivePaisaXtsAdapter(config);
-      case "iiflcapital":
+      case 'iiflcapital':
         return new IIFLCapitalAdapter(config);
       default:
         throw new Error(
-          `Broker adapter for '${brokerName}' is not implemented.`,
+          `Broker adapter for '${brokerName}' is not implemented.`
         );
     }
   }

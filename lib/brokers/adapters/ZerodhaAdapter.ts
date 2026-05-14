@@ -6,8 +6,8 @@ import {
   OrderPayload,
   OrderResponse,
   UserProfile,
-} from "../types";
-import crypto from "crypto";
+} from '../types';
+import crypto from 'crypto';
 
 export class ZerodhaAdapter implements IBrokerAdapter {
   private apiKey: string;
@@ -20,7 +20,7 @@ export class ZerodhaAdapter implements IBrokerAdapter {
     this.accessToken = accessToken || config.access_token || config.accessToken;
 
     if (!this.apiKey || !this.apiSecret) {
-      throw new Error("Zerodha requires api_key and api_secret in credentials");
+      throw new Error('Zerodha requires api_key and api_secret in credentials');
     }
   }
 
@@ -34,22 +34,22 @@ export class ZerodhaAdapter implements IBrokerAdapter {
   async authenticate(authPayload: BrokerCredentials): Promise<AuthResponse> {
     const { requestToken } = authPayload;
     if (!requestToken) {
-      return { success: false, message: "Missing request token" };
+      return { success: false, message: 'Missing request token' };
     }
 
     try {
       // Calculate checksum: sha256(api_key + request_token + api_secret)
       const checksumInput = `${this.apiKey}${requestToken}${this.apiSecret}`;
       const checksum = crypto
-        .createHash("sha256")
+        .createHash('sha256')
         .update(checksumInput)
-        .digest("hex");
+        .digest('hex');
 
-      const response = await fetch("https://api.kite.trade/session/token", {
-        method: "POST",
+      const response = await fetch('https://api.kite.trade/session/token', {
+        method: 'POST',
         headers: {
-          "X-Kite-Version": "3",
-          "Content-Type": "application/x-www-form-urlencoded",
+          'X-Kite-Version': '3',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
           api_key: this.apiKey,
@@ -72,7 +72,7 @@ export class ZerodhaAdapter implements IBrokerAdapter {
 
       return {
         success: false,
-        message: data.message || "Failed to authenticate with Zerodha",
+        message: data.message || 'Failed to authenticate with Zerodha',
       };
     } catch (error: unknown) {
       return {
@@ -83,40 +83,40 @@ export class ZerodhaAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    if (!this.accessToken) throw new Error("Not authenticated");
+    if (!this.accessToken) throw new Error('Not authenticated');
 
-    const response = await fetch("https://api.kite.trade/user/profile", {
+    const response = await fetch('https://api.kite.trade/user/profile', {
       headers: {
-        "X-Kite-Version": "3",
+        'X-Kite-Version': '3',
         Authorization: `token ${this.apiKey}:${this.accessToken}`,
       },
     });
 
     const data = await response.json();
     if (!response.ok)
-      throw new Error(data.message || "Failed to fetch profile");
+      throw new Error(data.message || 'Failed to fetch profile');
 
     return {
       id: data.data.user_id,
       name: data.data.user_name,
       email: data.data.email,
-      brokerName: "zerodha",
+      brokerName: 'zerodha',
       metadata: { broker: data.data.broker },
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    if (!this.accessToken) throw new Error("Not authenticated");
+    if (!this.accessToken) throw new Error('Not authenticated');
 
-    const response = await fetch("https://api.kite.trade/user/margins", {
+    const response = await fetch('https://api.kite.trade/user/margins', {
       headers: {
-        "X-Kite-Version": "3",
+        'X-Kite-Version': '3',
         Authorization: `token ${this.apiKey}:${this.accessToken}`,
       },
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch funds");
+    if (!response.ok) throw new Error(data.message || 'Failed to fetch funds');
 
     const equity = data.data.equity;
     return {
@@ -129,7 +129,7 @@ export class ZerodhaAdapter implements IBrokerAdapter {
   }
 
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
-    if (!this.accessToken) throw new Error("Not authenticated");
+    if (!this.accessToken) throw new Error('Not authenticated');
 
     // Map unified order types to Zerodha specific parameters
     const params = new URLSearchParams({
@@ -139,18 +139,18 @@ export class ZerodhaAdapter implements IBrokerAdapter {
       order_type: order.orderType,
       quantity: order.quantity.toString(),
       product: order.product,
-      validity: "DAY",
+      validity: 'DAY',
     });
 
-    if (order.price) params.append("price", order.price.toString());
+    if (order.price) params.append('price', order.price.toString());
     if (order.triggerPrice)
-      params.append("trigger_price", order.triggerPrice.toString());
+      params.append('trigger_price', order.triggerPrice.toString());
 
-    const response = await fetch("https://api.kite.trade/orders/regular", {
-      method: "POST",
+    const response = await fetch('https://api.kite.trade/orders/regular', {
+      method: 'POST',
       headers: {
-        "X-Kite-Version": "3",
-        "Content-Type": "application/x-www-form-urlencoded",
+        'X-Kite-Version': '3',
+        'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `token ${this.apiKey}:${this.accessToken}`,
       },
       body: params,
@@ -161,13 +161,13 @@ export class ZerodhaAdapter implements IBrokerAdapter {
       return {
         success: true,
         orderId: data.data.order_id,
-        message: "Order placed successfully",
+        message: 'Order placed successfully',
       };
     }
 
     return {
       success: false,
-      message: data.message || "Failed to place order",
+      message: data.message || 'Failed to place order',
     };
   }
 }

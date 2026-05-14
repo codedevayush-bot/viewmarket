@@ -1,4 +1,4 @@
-import styles from "./ChangelogSection.module.css";
+import styles from './ChangelogSection.module.css';
 
 export default function ChangelogSection() {
   return (

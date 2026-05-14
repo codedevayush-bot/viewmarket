@@ -131,9 +131,9 @@ await updateAnalytics(event);
 return response; // Waits 5+ seconds
 
 // After: Async
-await queue.add("send-email", { userId });
-await queue.add("process-payment", { orderId });
-await queue.add("update-analytics", { event });
+await queue.add('send-email', { userId });
+await queue.add('process-payment', { orderId });
+await queue.add('update-analytics', { event });
 return response; // Returns immediately
 ```
 

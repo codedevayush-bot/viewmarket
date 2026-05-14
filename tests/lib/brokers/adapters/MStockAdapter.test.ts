@@ -1,16 +1,16 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { MStockAdapter } from "@/lib/brokers/adapters/MStockAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { MStockAdapter } from '@/lib/brokers/adapters/MStockAdapter';
 
-vi.mock("@/lib/brokers/utils/totp", () => ({
-  generateTOTP: vi.fn(() => "123456"),
+vi.mock('@/lib/brokers/utils/totp', () => ({
+  generateTOTP: vi.fn(() => '123456'),
 }));
 
-describe("MStockAdapter", () => {
+describe('MStockAdapter', () => {
   const mockConfig = {
-    api_key: "MS123",
-    api_secret: "ms_sec",
-    password: "ms_password",
-    totp_secret: "ms_totp_sec",
+    api_key: 'MS123',
+    api_secret: 'ms_sec',
+    password: 'ms_password',
+    totp_secret: 'ms_totp_sec',
   };
 
   beforeEach(() => {
@@ -18,15 +18,15 @@ describe("MStockAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should authenticate successfully", async () => {
+  it('should authenticate successfully', async () => {
     const mockLoginResponse = {
       status: true,
-      data: { jwtToken: "ms_jwt_token" },
+      data: { jwtToken: 'ms_jwt_token' },
     };
 
     const mockVerifyResponse = {
       status: true,
-      data: { jwtToken: "ms_jwt_token_final" },
+      data: { jwtToken: 'ms_jwt_token_final' },
     };
 
     vi.mocked(fetch)
@@ -43,13 +43,13 @@ describe("MStockAdapter", () => {
     const result = await adapter.authenticate();
 
     expect(result.success).toBe(true);
-    expect(result.accessToken).toBe("ms_jwt_token_final");
+    expect(result.accessToken).toBe('ms_jwt_token_final');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
       status: true,
-      data: { clientName: "MStock Tester" },
+      data: { clientName: 'MStock Tester' },
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -59,19 +59,19 @@ describe("MStockAdapter", () => {
 
     const adapter = new MStockAdapter({
       ...mockConfig,
-      access_token: "valid_jwt",
+      access_token: 'valid_jwt',
     });
     const profile = await adapter.getProfile();
 
-    expect(profile.id).toBe("MS123");
-    expect(profile.name).toBe("MStock Tester");
+    expect(profile.id).toBe('MS123');
+    expect(profile.name).toBe('MStock Tester');
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
       status: true,
-      data: { orderNumber: "MS_ORD_777" },
-      message: "Placed",
+      data: { orderNumber: 'MS_ORD_777' },
+      message: 'Placed',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -81,18 +81,18 @@ describe("MStockAdapter", () => {
 
     const adapter = new MStockAdapter({
       ...mockConfig,
-      access_token: "valid_jwt",
+      access_token: 'valid_jwt',
     });
     const result = await adapter.placeOrder({
-      symbol: "INFY",
-      exchange: "NSE",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: 'INFY',
+      exchange: 'NSE',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 1,
-      product: "CNC",
+      product: 'CNC',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("MS_ORD_777");
+    expect(result.orderId).toBe('MS_ORD_777');
   });
 });

@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from 'crypto';
 import {
   IBrokerAdapter,
   BrokerCredentials,
@@ -7,14 +7,14 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
+} from '../types';
 
 export class ShoonyaAdapter implements IBrokerAdapter {
   private userId: string;
   private apiKey: string;
   private apiSecret: string;
   private accessToken?: string;
-  private baseUrl: string = "https://api.shoonya.com";
+  private baseUrl: string = 'https://api.shoonya.com';
 
   constructor(credentials: BrokerCredentials) {
     this.userId = credentials.user_id;
@@ -29,15 +29,15 @@ export class ShoonyaAdapter implements IBrokerAdapter {
       if (!code) {
         return {
           success: false,
-          message: "Auth code is required for Shoonya login",
+          message: 'Auth code is required for Shoonya login',
         };
       }
 
       const checksumInput = `${this.apiKey}${this.apiSecret}${code}`;
       const checksum = crypto
-        .createHash("sha256")
+        .createHash('sha256')
         .update(checksumInput)
-        .digest("hex");
+        .digest('hex');
 
       const payload = {
         code: code,
@@ -47,17 +47,17 @@ export class ShoonyaAdapter implements IBrokerAdapter {
       const response = await fetch(
         `${this.baseUrl}/NorenWClientAPI/GenAcsTok`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "text/plain",
+            'Content-Type': 'text/plain',
           },
           body: `jData=${JSON.stringify(payload)}`,
-        },
+        }
       );
 
       const data = await response.json();
 
-      if (data.stat === "Ok" && data.access_token) {
+      if (data.stat === 'Ok' && data.access_token) {
         return {
           success: true,
           accessToken: data.access_token,
@@ -66,7 +66,7 @@ export class ShoonyaAdapter implements IBrokerAdapter {
       } else {
         return {
           success: false,
-          message: data.emsg || "Authentication failed",
+          message: data.emsg || 'Authentication failed',
         };
       }
     } catch (error: unknown) {
@@ -78,16 +78,16 @@ export class ShoonyaAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("POST", "/NorenWClientAPI/UserDetails", {});
+    const data = await this.request('POST', '/NorenWClientAPI/UserDetails', {});
     return {
       id: this.userId,
-      name: data.uname || "Shoonya User",
-      brokerName: "Shoonya",
+      name: data.uname || 'Shoonya User',
+      brokerName: 'Shoonya',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("POST", "/NorenWClientAPI/Limits", {});
+    const data = await this.request('POST', '/NorenWClientAPI/Limits', {});
     return {
       availableCash: parseFloat(data.cash || 0),
       utilizedMargin: parseFloat(data.margin_used || 0),
@@ -103,21 +103,21 @@ export class ShoonyaAdapter implements IBrokerAdapter {
         actid: this.userId,
         tsym: order.symbol,
         qty: order.quantity.toString(),
-        prd: order.product === "CNC" ? "C" : "M",
-        trantype: order.transactionType === "BUY" ? "B" : "S",
-        prctyp: order.orderType === "MARKET" ? "MKT" : "LMT",
-        price: order.price?.toString() || "0",
-        ret: "DAY",
-        exch: order.exchange || "NSE",
+        prd: order.product === 'CNC' ? 'C' : 'M',
+        trantype: order.transactionType === 'BUY' ? 'B' : 'S',
+        prctyp: order.orderType === 'MARKET' ? 'MKT' : 'LMT',
+        price: order.price?.toString() || '0',
+        ret: 'DAY',
+        exch: order.exchange || 'NSE',
       };
 
       const data = await this.request(
-        "POST",
-        "/NorenWClientAPI/PlaceOrder",
-        payload,
+        'POST',
+        '/NorenWClientAPI/PlaceOrder',
+        payload
       );
       return {
-        success: data.stat === "Ok",
+        success: data.stat === 'Ok',
         orderId: data.norenordno,
         message: data.emsg,
       };
@@ -132,9 +132,9 @@ export class ShoonyaAdapter implements IBrokerAdapter {
   private async request(
     method: string,
     endpoint: string,
-    body: BrokerCredentials,
+    body: BrokerCredentials
   ) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const payload = {
       ...body,
@@ -145,14 +145,14 @@ export class ShoonyaAdapter implements IBrokerAdapter {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "text/plain",
+        'Content-Type': 'text/plain',
       },
       body: `jData=${JSON.stringify(payload)}`,
     });
 
     const data = await response.json();
-    if (data.stat !== "Ok") {
-      throw new Error(data.emsg || "Request failed");
+    if (data.stat !== 'Ok') {
+      throw new Error(data.emsg || 'Request failed');
     }
     return data;
   }

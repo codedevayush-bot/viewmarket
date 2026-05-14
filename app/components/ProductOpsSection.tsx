@@ -1,4 +1,4 @@
-import styles from "./ProductOpsSection.module.css";
+import styles from './ProductOpsSection.module.css';
 
 export default function ProductOpsSection() {
   return (
@@ -94,7 +94,7 @@ export default function ProductOpsSection() {
                   <div className={styles.chatCommand}>
                     <span className={styles.commandMention}>@ViewMarket</span>
                     <span className={styles.commandText}>
-                      {" "}
+                      {' '}
                       create urgent issues and assign to me
                     </span>
                   </div>
@@ -366,7 +366,7 @@ export default function ProductOpsSection() {
                   <div className={styles.chatCommand}>
                     <span className={styles.commandMention}>@ViewMarket</span>
                     <span className={styles.commandText}>
-                      {" "}
+                      {' '}
                       create feature request and assign to design team
                     </span>
                   </div>
@@ -553,7 +553,7 @@ export default function ProductOpsSection() {
                   <div className={styles.chatCommand}>
                     <span className={styles.commandMention}>@ViewMarket</span>
                     <span className={styles.commandText}>
-                      {" "}
+                      {' '}
                       create project for mobile improvements
                     </span>
                   </div>
@@ -739,7 +739,7 @@ export default function ProductOpsSection() {
                   <div className={styles.chatCommand}>
                     <span className={styles.commandMention}>@ViewMarket</span>
                     <span className={styles.commandText}>
-                      {" "}
+                      {' '}
                       generate quarterly metrics report
                     </span>
                   </div>
@@ -924,7 +924,7 @@ export default function ProductOpsSection() {
                   <div className={styles.chatCommand}>
                     <span className={styles.commandMention}>@ViewMarket</span>
                     <span className={styles.commandText}>
-                      {" "}
+                      {' '}
                       notify team about code review
                     </span>
                   </div>

@@ -1,24 +1,24 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import AuthSessionProvider from "./components/SessionProvider";
-import { ThemeProvider } from "./providers/ThemeProvider";
-import { auth } from "@/auth";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import AuthSessionProvider from './components/SessionProvider';
+import { ThemeProvider } from './providers/ThemeProvider';
+import { auth } from '@/auth';
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+  variable: '--font-inter',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "View Market",
-    template: "View Market | %s",
+    default: 'View Market',
+    template: 'View Market | %s',
   },
   description:
-    "ViewMarket — Algorithmic trading platform with 30+ broker integrations",
+    'ViewMarket — Algorithmic trading platform with 30+ broker integrations',
   icons: {
-    icon: "/icon.svg",
+    icon: '/icon.svg',
   },
 };
 

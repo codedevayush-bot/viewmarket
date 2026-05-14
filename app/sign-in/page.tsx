@@ -1,38 +1,38 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
-import styles from "./SignIn.module.css";
+import Link from 'next/link';
+import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+import styles from './SignIn.module.css';
 
 function SignInContent() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/user-dashboard";
-  const error = searchParams.get("error");
+  const callbackUrl = searchParams.get('callbackUrl') || '/user-dashboard';
+  const error = searchParams.get('error');
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl });
+    signIn('google', { callbackUrl });
   };
 
   const handleGitHubSignIn = () => {
-    signIn("github", { callbackUrl });
+    signIn('github', { callbackUrl });
   };
 
   const getErrorMessage = (error: string) => {
     switch (error) {
-      case "OAuthSignin":
-        return "Error starting OAuth sign-in. Please try again.";
-      case "OAuthCallback":
-        return "Error completing OAuth sign-in. Please try again.";
-      case "OAuthCreateAccount":
-        return "Error creating account. Please try again.";
-      case "OAuthAccountNotLinked":
-        return "Email already exists with different provider. Please sign in with the same account you used originally.";
-      case "SessionRequired":
-        return "Please sign in to access this page.";
+      case 'OAuthSignin':
+        return 'Error starting OAuth sign-in. Please try again.';
+      case 'OAuthCallback':
+        return 'Error completing OAuth sign-in. Please try again.';
+      case 'OAuthCreateAccount':
+        return 'Error creating account. Please try again.';
+      case 'OAuthAccountNotLinked':
+        return 'Email already exists with different provider. Please sign in with the same account you used originally.';
+      case 'SessionRequired':
+        return 'Please sign in to access this page.';
       default:
-        return "An error occurred during sign in. Please try again.";
+        return 'An error occurred during sign in. Please try again.';
     }
   };
 
@@ -111,11 +111,11 @@ function SignInContent() {
 
         <div className={styles.footer}>
           <p className={styles.footerText}>
-            By signing in, you agree to our{" "}
+            By signing in, you agree to our{' '}
             <Link href="/legal/terms-of-service" className={styles.footerLink}>
               Terms of Service
-            </Link>{" "}
-            and{" "}
+            </Link>{' '}
+            and{' '}
             <Link href="/legal/privacy" className={styles.footerLink}>
               Privacy Policy
             </Link>

@@ -1,7 +1,7 @@
 ---
 name: neon-drizzle
 description: Creates a fully functional Drizzle ORM setup with a provisioned Neon database. Installs dependencies, provisions database credentials, configures connections, generates schemas, and runs migrations. Results in working code that can immediately connect to and query the database. Use when creating new projects with Drizzle, adding ORM to existing applications, or modifying database schemas.
-allowed-tools: ["bash", "write", "read_file"]
+allowed-tools: ['bash', 'write', 'read_file']
 ---
 
 # Neon Drizzle Integration

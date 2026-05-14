@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
-export type Theme = "dark" | "light" | "system";
-export type ResolvedTheme = "dark" | "light";
+export type Theme = 'dark' | 'light' | 'system';
+export type ResolvedTheme = 'dark' | 'light';
 
 export interface ThemeContextValue {
   /** The stored preference: 'dark' | 'light' | 'system' */
@@ -15,8 +15,8 @@ export interface ThemeContextValue {
 }
 
 export const ThemeContext = createContext<ThemeContextValue>({
-  theme: "dark",
-  resolvedTheme: "dark",
+  theme: 'dark',
+  resolvedTheme: 'dark',
   setTheme: () => {},
 });
 

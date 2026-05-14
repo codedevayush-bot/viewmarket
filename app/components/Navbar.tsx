@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import ProfileDropdown from "./ProfileDropdown";
-import styles from "./Navbar.module.css";
+import Link from 'next/link';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import ProfileDropdown from './ProfileDropdown';
+import styles from './Navbar.module.css';
 
 const navLinks = [
-  { label: "Product", href: "#" },
-  { label: "Resources", href: "#" },
-  { label: "Customers", href: "#" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Now", href: "#" },
-  { label: "Contact", href: "/contact" },
+  { label: 'Product', href: '#' },
+  { label: 'Resources', href: '#' },
+  { label: 'Customers', href: '#' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Now', href: '#' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { status } = useSession();
 
-  const isAuthenticated = status === "authenticated";
-  const isLoading = status === "loading";
+  const isAuthenticated = status === 'authenticated';
+  const isLoading = status === 'loading';
 
   return (
     <header className={styles.navbarRoot}>
@@ -81,18 +81,18 @@ export default function Navbar() {
         <button
           id="navbar-mobile-toggle"
           className={styles.navbarHamburger}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}
         >
           <span
-            className={`${styles.hamburgerLine} ${mobileOpen ? styles.openTop : ""}`}
+            className={`${styles.hamburgerLine} ${mobileOpen ? styles.openTop : ''}`}
           />
           <span
-            className={`${styles.hamburgerLine} ${mobileOpen ? styles.openMid : ""}`}
+            className={`${styles.hamburgerLine} ${mobileOpen ? styles.openMid : ''}`}
           />
           <span
-            className={`${styles.hamburgerLine} ${mobileOpen ? styles.openBot : ""}`}
+            className={`${styles.hamburgerLine} ${mobileOpen ? styles.openBot : ''}`}
           />
         </button>
       </nav>

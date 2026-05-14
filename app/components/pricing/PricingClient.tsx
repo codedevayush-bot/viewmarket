@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useState, Fragment } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import styles from "./PricingClient.module.css";
+import { useState, Fragment } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import styles from './PricingClient.module.css';
 
-type PricingCategory = "Platform" | "Api" | "Static IP" | "Virtual Machine";
-type BillingCycle = "monthly" | "yearly";
+type PricingCategory = 'Platform' | 'Api' | 'Static IP' | 'Virtual Machine';
+type BillingCycle = 'monthly' | 'yearly';
 
 export default function PricingClient() {
   const [activeCategory, setActiveCategory] =
-    useState<PricingCategory>("Platform");
-  const [billingCycle, setBillingCycle] = useState<BillingCycle>("monthly");
+    useState<PricingCategory>('Platform');
+  const [billingCycle, setBillingCycle] = useState<BillingCycle>('monthly');
 
   const categories: {
     id: PricingCategory;
@@ -19,12 +19,12 @@ export default function PricingClient() {
     disabled?: boolean;
     comingSoon?: boolean;
   }[] = [
-    { id: "Platform", label: "Platform" },
-    { id: "Api", label: "API" },
-    { id: "Static IP", label: "Static IP" },
+    { id: 'Platform', label: 'Platform' },
+    { id: 'Api', label: 'API' },
+    { id: 'Static IP', label: 'Static IP' },
     {
-      id: "Virtual Machine",
-      label: "Virtual Machine",
+      id: 'Virtual Machine',
+      label: 'Virtual Machine',
       disabled: true,
       comingSoon: true,
     },
@@ -67,7 +67,7 @@ export default function PricingClient() {
         })}
       </div>
 
-      {activeCategory === "Virtual Machine" ? (
+      {activeCategory === 'Virtual Machine' ? (
         <div className={styles.vmSection}>
           <div className={styles.vmIconWrapper}>
             <svg
@@ -96,14 +96,14 @@ export default function PricingClient() {
           <div className={styles.billingToggleWrapper}>
             <div className={styles.billingToggle}>
               <button
-                onClick={() => setBillingCycle("monthly")}
-                className={`${styles.billingBtn} ${billingCycle === "monthly" ? styles.billingBtnActive : ""}`}
+                onClick={() => setBillingCycle('monthly')}
+                className={`${styles.billingBtn} ${billingCycle === 'monthly' ? styles.billingBtnActive : ''}`}
               >
                 Monthly
               </button>
               <button
-                onClick={() => setBillingCycle("yearly")}
-                className={`${styles.billingBtn} ${billingCycle === "yearly" ? styles.billingBtnActive : ""}`}
+                onClick={() => setBillingCycle('yearly')}
+                className={`${styles.billingBtn} ${billingCycle === 'yearly' ? styles.billingBtnActive : ''}`}
               >
                 Yearly
                 <span className={styles.saveBadge}>Save 20%</span>
@@ -137,11 +137,11 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
   const router = useRouter();
 
   const handlePlanSelection = (plan: string) => {
-    if (plan === "Free") {
+    if (plan === 'Free') {
       if (session) {
-        router.push("/user-dashboard");
+        router.push('/user-dashboard');
       } else {
-        router.push("/sign-in");
+        router.push('/sign-in');
       }
       return;
     }
@@ -156,65 +156,65 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
 
   const plans = [
     {
-      name: "Free",
+      name: 'Free',
       priceMonthly: 0,
       priceYearly: 0,
       description:
-        "Perfect for testing strategies in paper trading environments.",
+        'Perfect for testing strategies in paper trading environments.',
       features: [
-        "1 Live Strategy",
-        "Standard Backtesting",
-        "Community Support",
-        "Basic Charting",
+        '1 Live Strategy',
+        'Standard Backtesting',
+        'Community Support',
+        'Basic Charting',
       ],
-      cta: "Start Free",
+      cta: 'Start Free',
       highlight: false,
     },
     {
-      name: "Starter",
+      name: 'Starter',
       priceMonthly: 999,
       priceYearly: 799,
-      description: "Advanced tools and metrics for small retail traders.",
+      description: 'Advanced tools and metrics for small retail traders.',
       features: [
-        "10 Live Strategies",
-        "Unlimited Backtesting",
-        "Email Support",
-        "Custom Indicators",
-        "Webhooks",
+        '10 Live Strategies',
+        'Unlimited Backtesting',
+        'Email Support',
+        'Custom Indicators',
+        'Webhooks',
       ],
-      cta: "Get Starter",
+      cta: 'Get Starter',
       highlight: false,
     },
     {
-      name: "Pro",
+      name: 'Pro',
       priceMonthly: 2500,
       priceYearly: 2000,
       description:
-        "Designed for advanced retail traders and quantitative developers.",
+        'Designed for advanced retail traders and quantitative developers.',
       features: [
-        "50 Live Strategies",
-        "Priority Support",
-        "Multiple Brokers",
-        "API Access",
-        "Ultra-low Latency",
+        '50 Live Strategies',
+        'Priority Support',
+        'Multiple Brokers',
+        'API Access',
+        'Ultra-low Latency',
       ],
-      cta: "Upgrade to Pro",
+      cta: 'Upgrade to Pro',
       highlight: true,
     },
     {
-      name: "Premium",
+      name: 'Premium',
       priceMonthly: 4500,
       priceYearly: 3600,
       description:
-        "Custom solutions for funds and institutional trading desks.",
+        'Custom solutions for funds and institutional trading desks.',
       features: [
-        "Unlimited Strategies",
-        "Dedicated Manager",
-        "Colocation Options",
-        "White-labeling",
-        "Custom Dev",
+        'Unlimited Strategies',
+        'Dedicated Manager',
+        'Colocation Options',
+        'White-labeling',
+        'Custom Dev',
       ],
-      cta: "Contact Sales",
+      cta: 'Contact Sales',
       highlight: false,
     },
   ];
@@ -224,7 +224,7 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
       {plans.map((plan) => (
         <div
           key={plan.name}
-          className={`${styles.card} ${plan.highlight ? styles.cardHighlight : ""}`}
+          className={`${styles.card} ${plan.highlight ? styles.cardHighlight : ''}`}
         >
           {plan.highlight && (
             <div className={styles.popularBadge}>Most Popular</div>
@@ -238,7 +238,7 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
           <div className={styles.cardPriceBox}>
             <span className={styles.cardPrice}>
               ₹
-              {(billingCycle === "monthly"
+              {(billingCycle === 'monthly'
                 ? plan.priceMonthly
                 : plan.priceYearly
               ).toLocaleString()}
@@ -259,7 +259,7 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
 
           <button
             onClick={() => handlePlanSelection(plan.name)}
-            className={`${styles.ctaBtn} ${plan.highlight ? styles.ctaBtnHighlight : ""}`}
+            className={`${styles.ctaBtn} ${plan.highlight ? styles.ctaBtnHighlight : ''}`}
           >
             {plan.cta}
           </button>
@@ -272,47 +272,47 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
 function PricingComparator() {
   const categories = [
     {
-      name: "Core Features",
+      name: 'Core Features',
       features: [
-        { name: "Live Strategies", values: ["1", "10", "50", "Unlimited"] },
+        { name: 'Live Strategies', values: ['1', '10', '50', 'Unlimited'] },
         {
-          name: "Backtesting",
-          values: ["Daily", "Unlimited", "Unlimited", "Unlimited"],
+          name: 'Backtesting',
+          values: ['Daily', 'Unlimited', 'Unlimited', 'Unlimited'],
         },
-        { name: "Custom Indicators", values: ["✗", "✓", "✓", "✓"] },
-        { name: "Multiple Brokers", values: ["✗", "✗", "✓", "✓"] },
-        { name: "Webhooks", values: ["✗", "✓", "✓", "✓"] },
+        { name: 'Custom Indicators', values: ['✗', '✓', '✓', '✓'] },
+        { name: 'Multiple Brokers', values: ['✗', '✗', '✓', '✓'] },
+        { name: 'Webhooks', values: ['✗', '✓', '✓', '✓'] },
       ],
     },
     {
-      name: "Performance & Integration",
+      name: 'Performance & Integration',
       features: [
         {
-          name: "Execution Speed",
-          values: ["Standard", "Fast", "Ultra-low Latency", "Colocated"],
+          name: 'Execution Speed',
+          values: ['Standard', 'Fast', 'Ultra-low Latency', 'Colocated'],
         },
-        { name: "API Access", values: ["✗", "✗", "✓", "✓"] },
+        { name: 'API Access', values: ['✗', '✗', '✓', '✓'] },
         {
-          name: "Rate Limits",
-          values: ["60/min", "300/min", "1000/min", "Unlimited"],
+          name: 'Rate Limits',
+          values: ['60/min', '300/min', '1000/min', 'Unlimited'],
         },
       ],
     },
     {
-      name: "Support & Services",
+      name: 'Support & Services',
       features: [
         {
-          name: "Support Level",
-          values: ["Community", "Email", "Priority", "Dedicated 24/7"],
+          name: 'Support Level',
+          values: ['Community', 'Email', 'Priority', 'Dedicated 24/7'],
         },
-        { name: "SLA Guarantee", values: ["✗", "✗", "99.9%", "99.99%"] },
-        { name: "Account Manager", values: ["✗", "✗", "✗", "✓"] },
-        { name: "Onboarding Session", values: ["✗", "✗", "✓", "✓"] },
+        { name: 'SLA Guarantee', values: ['✗', '✗', '99.9%', '99.99%'] },
+        { name: 'Account Manager', values: ['✗', '✗', '✗', '✓'] },
+        { name: 'Onboarding Session', values: ['✗', '✗', '✓', '✓'] },
       ],
     },
   ];
 
-  const plans = ["Free", "Starter", "Pro", "Premium"];
+  const plans = ['Free', 'Starter', 'Pro', 'Premium'];
 
   return (
     <div className={styles.tableWrapper}>
@@ -323,7 +323,7 @@ function PricingComparator() {
             {plans.map((plan) => (
               <th
                 key={plan}
-                className={`${styles.compareTh} ${plan === "Pro" ? styles.compareThPro : ""}`}
+                className={`${styles.compareTh} ${plan === 'Pro' ? styles.compareThPro : ''}`}
               >
                 {plan}
               </th>
@@ -342,8 +342,8 @@ function PricingComparator() {
                 <tr key={feature.name} className={styles.compareFeatureRow}>
                   <td className={styles.compareFeatureName}>{feature.name}</td>
                   {feature.values.map((val, vIdx) => {
-                    const isCheck = val === "✓";
-                    const isCross = val === "✗";
+                    const isCheck = val === '✓';
+                    const isCross = val === '✗';
                     return (
                       <td key={vIdx} className={styles.compareFeatureValue}>
                         {isCheck ? (

@@ -1,9 +1,9 @@
-import LegalLayout from "../../components/LegalLayout";
-import styles from "../../components/LegalLayout.module.css";
+import LegalLayout from '../../components/LegalLayout';
+import styles from '../../components/LegalLayout.module.css';
 
 export const metadata = {
-  title: "Cookie Policy",
-  description: "Cookie Policy for ViewMarket algorithmic trading platform",
+  title: 'Cookie Policy',
+  description: 'Cookie Policy for ViewMarket algorithmic trading platform',
 };
 
 export default function CookiesPage() {
@@ -28,12 +28,12 @@ export default function CookiesPage() {
         </p>
         <ul className={styles.sectionList}>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Essential Cookies:</span>{" "}
+            <span className={styles.highlight}>Essential Cookies:</span>{' '}
             Required for the platform to function properly, including session
             management, authentication, and security features.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Functional Cookies:</span>{" "}
+            <span className={styles.highlight}>Functional Cookies:</span>{' '}
             Remember your preferences and settings within the platform, such as
             chart configurations, layout preferences, and selected broker.
           </li>
@@ -43,7 +43,7 @@ export default function CookiesPage() {
             improve features, performance, and user experience.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Performance Cookies:</span>{" "}
+            <span className={styles.highlight}>Performance Cookies:</span>{' '}
             Monitor and optimize platform speed, latency, and reliability —
             critical for an algorithmic trading environment.
           </li>
@@ -74,7 +74,7 @@ export default function CookiesPage() {
             cloud infrastructure services.
           </li>
           <li className={styles.sectionListItem}>
-            <span className={styles.highlight}>Local Storage & IndexedDB:</span>{" "}
+            <span className={styles.highlight}>Local Storage & IndexedDB:</span>{' '}
             Used to store larger amounts of data locally on your device, such as
             chart state, cached market data, and strategy configurations for
             faster platform performance.

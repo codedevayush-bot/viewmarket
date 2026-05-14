@@ -69,3 +69,7 @@ _System Directive:_ Think step-by-step. Identify the domain -> Consult the relev
 - **Layered Monochrome:** Use alpha-transparent overlays (e.g., `rgba(255, 255, 255, 0.015)`) for surface elevation instead of solid gray tones.
 - **Full-Width Lists:** For dashboard lists (like Brokers), use edge-to-edge horizontal separators (`border-top`/`border-bottom`) instead of floating "island" containers.
 - **Interactive Precision:** Implement high-precision hover states (subtle vertical lift, background brightness shift) for all interactive rows and buttons.
+
+## 8. Planning Methodology
+
+For complex tasks requiring >5 tool calls, I must use the planning-setup skill to maintain persistent planning files (`planning/task_plan.md`, `planning/findings.md`, `planning/progress.md`) and adhere to `planning/planning-rules.md`.

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useTheme } from "@/app/providers/ThemeContext";
-import styles from "./ThemeSwitcher.module.css";
-import type { Theme } from "@/app/providers/ThemeContext";
-import { useEffect, useState } from "react";
+import { useTheme } from '@/app/providers/ThemeContext';
+import styles from './ThemeSwitcher.module.css';
+import type { Theme } from '@/app/providers/ThemeContext';
+import { useEffect, useState } from 'react';
 
 // Monochrome SVG icons
 function MoonIcon() {
@@ -57,9 +57,9 @@ function SystemIcon() {
 }
 
 const OPTIONS: { id: Theme; label: string; Icon: React.FC }[] = [
-  { id: "dark", label: "Dark", Icon: MoonIcon },
-  { id: "system", label: "System", Icon: SystemIcon },
-  { id: "light", label: "Light", Icon: SunIcon },
+  { id: 'dark', label: 'Dark', Icon: MoonIcon },
+  { id: 'system', label: 'System', Icon: SystemIcon },
+  { id: 'light', label: 'Light', Icon: SunIcon },
 ];
 
 export default function ThemeSwitcher() {
@@ -75,13 +75,13 @@ export default function ThemeSwitcher() {
     <div className={styles.switcher} role="group" aria-label="Theme switcher">
       {OPTIONS.map((opt, i) => {
         // During SSR and initial hydration, theme is 'dark' (the default)
-        const isActive = mounted ? theme === opt.id : opt.id === "dark";
+        const isActive = mounted ? theme === opt.id : opt.id === 'dark';
 
         return (
           <div key={opt.id}>
             {i > 0 && <div className={styles.divider} />}
             <button
-              className={`${styles.option} ${isActive ? styles.active : ""}`}
+              className={`${styles.option} ${isActive ? styles.active : ''}`}
               onClick={() => setTheme(opt.id)}
               aria-label={`Switch to ${opt.label} theme`}
               aria-pressed={isActive}

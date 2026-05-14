@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import styles from "./TimeframeDropdown.module.css";
+import React, { useState, useEffect, useRef } from 'react';
+import styles from './TimeframeDropdown.module.css';
 
 interface TimeframeDropdownProps {
   activeTimeframe: string;
@@ -15,14 +15,14 @@ interface TimeframeSection {
 }
 
 const SECTIONS: TimeframeSection[] = [
-  { label: "Seconds", values: ["1s", "2s", "5s", "15s", "45s"] },
+  { label: 'Seconds', values: ['1s', '2s', '5s', '15s', '45s'] },
   {
-    label: "Minutes",
-    values: ["1m", "2m", "3m", "5m", "10m", "15m", "30m", "45m"],
+    label: 'Minutes',
+    values: ['1m', '2m', '3m', '5m', '10m', '15m', '30m', '45m'],
   },
-  { label: "Hours", values: ["1H", "2H", "3H", "4H"] },
-  { label: "Days", values: ["1D", "2D", "3D"] },
-  { label: "Months", values: ["1M", "3M", "6M", "12M"] },
+  { label: 'Hours', values: ['1H', '2H', '3H', '4H'] },
+  { label: 'Days', values: ['1D', '2D', '3D'] },
+  { label: 'Months', values: ['1M', '3M', '6M', '12M'] },
 ];
 
 function getDefaultExpanded(activeTimeframe: string): Record<string, boolean> {
@@ -32,7 +32,7 @@ function getDefaultExpanded(activeTimeframe: string): Record<string, boolean> {
   }
   // Always ensure at least Minutes is expanded
   if (!Object.values(expanded).some(Boolean)) {
-    expanded["Minutes"] = true;
+    expanded['Minutes'] = true;
   }
   return expanded;
 }
@@ -43,7 +43,7 @@ export default function TimeframeDropdown({
   onClose,
 }: TimeframeDropdownProps) {
   const [expanded, setExpanded] = useState(() =>
-    getDefaultExpanded(activeTimeframe),
+    getDefaultExpanded(activeTimeframe)
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,13 +57,13 @@ export default function TimeframeDropdown({
       }
     };
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === 'Escape') onClose();
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
     };
   }, [onClose]);
 
@@ -81,7 +81,7 @@ export default function TimeframeDropdown({
           >
             <span className={styles.sectionLabel}>{section.label}</span>
             <svg
-              className={`${styles.chevron} ${expanded[section.label] ? styles.open : ""}`}
+              className={`${styles.chevron} ${expanded[section.label] ? styles.open : ''}`}
               width="12"
               height="12"
               viewBox="0 0 24 24"
@@ -100,7 +100,7 @@ export default function TimeframeDropdown({
               {section.values.map((val) => (
                 <button
                   key={val}
-                  className={`${styles.valueButton} ${activeTimeframe === val ? styles.active : ""}`}
+                  className={`${styles.valueButton} ${activeTimeframe === val ? styles.active : ''}`}
                   onClick={() => {
                     onSelect(val);
                     onClose();

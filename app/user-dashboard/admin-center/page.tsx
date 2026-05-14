@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "../TradingWorkspace.module.css";
+import { useState } from 'react';
+import styles from '../TradingWorkspace.module.css';
 
-type AdminTab = "overview" | "settings" | "config";
+type AdminTab = 'overview' | 'settings' | 'config';
 
 interface AdminSetting {
   id: string;
   name: string;
   description: string;
-  type: "toggle" | "input" | "select";
+  type: 'toggle' | 'input' | 'select';
   value: boolean | string;
 }
 
@@ -20,59 +20,59 @@ interface Holiday {
 }
 
 const tabConfig: { id: AdminTab; label: string; description: string }[] = [
-  { id: "overview", label: "Overview", description: "Admin dashboard" },
-  { id: "settings", label: "Settings", description: "System settings" },
-  { id: "config", label: "Config", description: "Market configuration" },
+  { id: 'overview', label: 'Overview', description: 'Admin dashboard' },
+  { id: 'settings', label: 'Settings', description: 'System settings' },
+  { id: 'config', label: 'Config', description: 'Market configuration' },
 ];
 
 const mockSettings: AdminSetting[] = [
   {
-    id: "1",
-    name: "Allow Demo Trading",
-    description: "Enable paper trading for users",
-    type: "toggle",
+    id: '1',
+    name: 'Allow Demo Trading',
+    description: 'Enable paper trading for users',
+    type: 'toggle',
     value: true,
   },
   {
-    id: "2",
-    name: "Auto-square off",
-    description: "Auto-square positions at market close",
-    type: "toggle",
+    id: '2',
+    name: 'Auto-square off',
+    description: 'Auto-square positions at market close',
+    type: 'toggle',
     value: true,
   },
   {
-    id: "3",
-    name: "Max Open Positions",
-    description: "Maximum positions per user",
-    type: "input",
-    value: "10",
+    id: '3',
+    name: 'Max Open Positions',
+    description: 'Maximum positions per user',
+    type: 'input',
+    value: '10',
   },
   {
-    id: "4",
-    name: "Default Broker",
-    description: "Default broker for new users",
-    type: "select",
-    value: "zerodha",
+    id: '4',
+    name: 'Default Broker',
+    description: 'Default broker for new users',
+    type: 'select',
+    value: 'zerodha',
   },
 ];
 
 const mockHolidays: Holiday[] = [
-  { date: "2024-05-15", name: "Ramzan Eid", day: "Wednesday" },
-  { date: "2024-08-15", name: "Independence Day", day: "Thursday" },
-  { date: "2024-10-02", name: "Mahatma Gandhi Jayanti", day: "Wednesday" },
-  { date: "2024-11-01", name: "Diwali", day: "Friday" },
-  { date: "2024-12-25", name: "Christmas", day: "Wednesday" },
+  { date: '2024-05-15', name: 'Ramzan Eid', day: 'Wednesday' },
+  { date: '2024-08-15', name: 'Independence Day', day: 'Thursday' },
+  { date: '2024-10-02', name: 'Mahatma Gandhi Jayanti', day: 'Wednesday' },
+  { date: '2024-11-01', name: 'Diwali', day: 'Friday' },
+  { date: '2024-12-25', name: 'Christmas', day: 'Wednesday' },
 ];
 
 const mockMarketTimings = [
-  { segment: "Equity", open: "09:15", close: "15:30", status: "Active" },
-  { segment: "Futures", open: "09:15", close: "15:30", status: "Active" },
-  { segment: "Options", open: "09:15", close: "15:30", status: "Active" },
-  { segment: "Commodity", open: "09:00", close: "17:00", status: "Active" },
+  { segment: 'Equity', open: '09:15', close: '15:30', status: 'Active' },
+  { segment: 'Futures', open: '09:15', close: '15:30', status: 'Active' },
+  { segment: 'Options', open: '09:15', close: '15:30', status: 'Active' },
+  { segment: 'Commodity', open: '09:00', close: '17:00', status: 'Active' },
 ];
 
 export default function AdminCenterPage() {
-  const [activeTab, setActiveTab] = useState<AdminTab>("overview");
+  const [activeTab, setActiveTab] = useState<AdminTab>('overview');
 
   return (
     <div className={styles.page}>
@@ -95,7 +95,7 @@ export default function AdminCenterPage() {
           <button
             key={tab.id}
             className={`${styles.tabButton} ${
-              activeTab === tab.id ? styles.tabButtonActive : ""
+              activeTab === tab.id ? styles.tabButtonActive : ''
             }`}
             onClick={() => setActiveTab(tab.id)}
           >
@@ -134,14 +134,14 @@ export default function AdminCenterPage() {
               </h2>
             </div>
             <span className={styles.badge}>
-              {activeTab === "overview" && "Summary"}
-              {activeTab === "settings" && "8 settings"}
-              {activeTab === "config" && "Market"}
+              {activeTab === 'overview' && 'Summary'}
+              {activeTab === 'settings' && '8 settings'}
+              {activeTab === 'config' && 'Market'}
             </span>
           </div>
 
           <div className={styles.list}>
-            {activeTab === "overview" && (
+            {activeTab === 'overview' && (
               <div className={styles.adminOverview}>
                 <div className={styles.overviewCard}>
                   <h3>Recent Activity</h3>
@@ -196,7 +196,7 @@ export default function AdminCenterPage() {
               </div>
             )}
 
-            {activeTab === "settings" && (
+            {activeTab === 'settings' && (
               <div className={styles.settingsList}>
                 {mockSettings.map((setting) => (
                   <div key={setting.id} className={styles.settingItem}>
@@ -207,7 +207,7 @@ export default function AdminCenterPage() {
                       </p>
                     </div>
                     <div className={styles.settingControl}>
-                      {setting.type === "toggle" && (
+                      {setting.type === 'toggle' && (
                         <label className={styles.toggleSwitch}>
                           <input
                             type="checkbox"
@@ -216,14 +216,14 @@ export default function AdminCenterPage() {
                           <span className={styles.toggleSlider} />
                         </label>
                       )}
-                      {setting.type === "input" && (
+                      {setting.type === 'input' && (
                         <input
                           type="text"
                           className={styles.settingInput}
                           defaultValue={setting.value as string}
                         />
                       )}
-                      {setting.type === "select" && (
+                      {setting.type === 'select' && (
                         <select
                           className={styles.settingSelect}
                           defaultValue={setting.value as string}
@@ -239,7 +239,7 @@ export default function AdminCenterPage() {
               </div>
             )}
 
-            {activeTab === "config" && (
+            {activeTab === 'config' && (
               <div className={styles.configSection}>
                 <div className={styles.configBlock}>
                   <h3 className={styles.configTitle}>Market Timings</h3>
@@ -269,8 +269,8 @@ export default function AdminCenterPage() {
                       <div key={i} className={styles.holidayItem}>
                         <div className={styles.holidayDate}>
                           <span className={styles.holidayMonth}>
-                            {new Date(holiday.date).toLocaleString("default", {
-                              month: "short",
+                            {new Date(holiday.date).toLocaleString('default', {
+                              month: 'short',
                             })}
                           </span>
                           <span className={styles.holidayDay}>

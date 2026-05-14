@@ -6,9 +6,9 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { createHash } from "crypto";
-import { generateTOTP } from "../utils/totp";
+} from '../types';
+import { createHash } from 'crypto';
+import { generateTOTP } from '../utils/totp';
 
 export class FirstockAdapter implements IBrokerAdapter {
   private userId: string;
@@ -29,11 +29,11 @@ export class FirstockAdapter implements IBrokerAdapter {
 
   async authenticate(): Promise<AuthResponse> {
     try {
-      const passwordHash = createHash("sha256")
+      const passwordHash = createHash('sha256')
         .update(this.password)
-        .digest("hex");
+        .digest('hex');
 
-      let totp = "";
+      let totp = '';
       if (this.totpSecret) {
         totp = generateTOTP(this.totpSecret);
       }
@@ -46,17 +46,17 @@ export class FirstockAdapter implements IBrokerAdapter {
         apiKey: this.apiKey,
       };
 
-      const response = await fetch("https://api.firstock.in/V1/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('https://api.firstock.in/V1/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
       const data = await response.json();
-      if (data.status !== "success") {
+      if (data.status !== 'success') {
         return {
           success: false,
-          message: data.message || "Authentication failed",
+          message: data.message || 'Authentication failed',
         };
       }
 
@@ -76,16 +76,16 @@ export class FirstockAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const response = await this.request("POST", "/V1/userDetails", {});
+    const response = await this.request('POST', '/V1/userDetails', {});
     return {
       id: this.userId,
-      name: response.data.userName || "Firstock User",
-      brokerName: "Firstock",
+      name: response.data.userName || 'Firstock User',
+      brokerName: 'Firstock',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const response = await this.request("POST", "/V1/limits", {});
+    const response = await this.request('POST', '/V1/limits', {});
     return {
       availableCash: parseFloat(response.data.cash || 0),
       utilizedMargin: 0,
@@ -96,19 +96,19 @@ export class FirstockAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        exchange: order.exchange || "NSE",
+        exchange: order.exchange || 'NSE',
         tradingSymbol: order.symbol,
         transactionType: order.transactionType,
         quantity: order.quantity.toString(),
-        price: order.price?.toString() || "0",
+        price: order.price?.toString() || '0',
         orderType: order.orderType,
         product: order.product,
-        retention: "DAY",
+        retention: 'DAY',
       };
 
-      const response = await this.request("POST", "/V1/placeOrder", payload);
+      const response = await this.request('POST', '/V1/placeOrder', payload);
       return {
-        success: response.status === "success",
+        success: response.status === 'success',
         orderId: response.data.orderNumber,
         message: response.message,
       };
@@ -123,13 +123,13 @@ export class FirstockAdapter implements IBrokerAdapter {
   private async request(
     method: string,
     endpoint: string,
-    body: BrokerCredentials,
+    body: BrokerCredentials
   ) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const response = await fetch(`https://api.firstock.in${endpoint}`, {
       method,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...body,
         userId: this.userId,
@@ -142,8 +142,8 @@ export class FirstockAdapter implements IBrokerAdapter {
     }
 
     const data = await response.json();
-    if (data.status !== "success") {
-      throw new Error(data.message || "Request failed");
+    if (data.status !== 'success') {
+      throw new Error(data.message || 'Request failed');
     }
     return data;
   }

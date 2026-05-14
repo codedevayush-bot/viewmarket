@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
-import styles from "./AdminTicketDetail.module.css";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import useSWR from 'swr';
+import styles from './AdminTicketDetail.module.css';
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
-    if (!res.ok) throw new Error("Failed to load");
+    if (!res.ok) throw new Error('Failed to load');
     return res.json();
   });
 
@@ -49,29 +49,29 @@ export default function AdminTicketDetailPage() {
     fetcher,
     {
       refreshInterval: 5000,
-    },
+    }
   );
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [uploadError, setUploadError] = useState("");
+  const [uploadError, setUploadError] = useState('');
 
   const handleStatusChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const newStatus = e.target.value;
     try {
       const res = await fetch(`/api/tickets/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
       });
-      if (!res.ok) throw new Error("Failed to update status");
+      if (!res.ok) throw new Error('Failed to update status');
       mutate();
     } catch (err) {
       console.error(err);
-      alert("Failed to update ticket status.");
+      alert('Failed to update ticket status.');
     }
   };
 
@@ -83,9 +83,9 @@ export default function AdminTicketDetailPage() {
         setUploadError(`File ${invalidFile.name} exceeds 5MB limit`);
         return;
       }
-      setUploadError("");
+      setUploadError('');
       setFiles((prev) => [...prev, ...selectedFiles]);
-      e.target.value = "";
+      e.target.value = '';
     }
   };
 
@@ -98,15 +98,15 @@ export default function AdminTicketDetailPage() {
     if (!message.trim() && files.length === 0) return;
 
     setIsSubmitting(true);
-    setUploadError("");
+    setUploadError('');
 
     try {
       const attachments = [];
 
       for (const file of files) {
-        const presignedRes = await fetch("/api/tickets/presigned-url", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const presignedRes = await fetch('/api/tickets/presigned-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             fileName: file.name,
             fileType: file.type,
@@ -119,9 +119,9 @@ export default function AdminTicketDetailPage() {
         const { signedUrl, fileUrl, fileKey } = await presignedRes.json();
 
         const uploadRes = await fetch(signedUrl, {
-          method: "PUT",
+          method: 'PUT',
           body: file,
-          headers: { "Content-Type": file.type },
+          headers: { 'Content-Type': file.type },
         });
 
         if (!uploadRes.ok) throw new Error(`Failed to upload ${file.name}`);
@@ -136,23 +136,23 @@ export default function AdminTicketDetailPage() {
       }
 
       const res = await fetch(`/api/tickets/${id}/messages`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message,
           attachments,
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to send message");
+      if (!res.ok) throw new Error('Failed to send message');
 
-      setMessage("");
+      setMessage('');
       setFiles([]);
       mutate();
     } catch (err) {
       console.error(err);
       setUploadError(
-        err instanceof Error ? err.message : "An unexpected error occurred",
+        err instanceof Error ? err.message : 'An unexpected error occurred'
       );
     } finally {
       setIsSubmitting(false);
@@ -179,10 +179,10 @@ export default function AdminTicketDetailPage() {
           <svg
             viewBox="0 0 24 24"
             style={{
-              width: "16px",
-              height: "16px",
-              fill: "none",
-              stroke: "currentColor",
+              width: '16px',
+              height: '16px',
+              fill: 'none',
+              stroke: 'currentColor',
               strokeWidth: 2,
             }}
           >
@@ -201,7 +201,7 @@ export default function AdminTicketDetailPage() {
               <span>•</span>
               <span>{ticket.category}</span>
               <span>•</span>
-              <span>User: {ticket.user_name || "Unknown"}</span>
+              <span>User: {ticket.user_name || 'Unknown'}</span>
               <span>•</span>
               <span>{new Date(ticket.created_at).toLocaleString()}</span>
             </div>
@@ -226,17 +226,17 @@ export default function AdminTicketDetailPage() {
         {messages.map((msg: Message, index: number) => (
           <div
             key={msg.id}
-            className={`${styles.message} ${msg.sender_role === "admin" ? styles.messageAdmin : styles.messageUser}`}
+            className={`${styles.message} ${msg.sender_role === 'admin' ? styles.messageAdmin : styles.messageUser}`}
           >
             <div className={styles.messageHeader}>
               <span className={styles.messageSender}>
                 {index === 0
-                  ? msg.sender_role === "admin"
-                    ? "Support Team"
-                    : (ticket.user_name || "User") + " (Original Request)"
-                  : msg.sender_role === "admin"
-                    ? "Support Team"
-                    : msg.sender_name || "User"}
+                  ? msg.sender_role === 'admin'
+                    ? 'Support Team'
+                    : (ticket.user_name || 'User') + ' (Original Request)'
+                  : msg.sender_role === 'admin'
+                    ? 'Support Team'
+                    : msg.sender_name || 'User'}
               </span>
               <span>{new Date(msg.created_at).toLocaleString()}</span>
             </div>
@@ -299,7 +299,7 @@ export default function AdminTicketDetailPage() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
+              if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleReply(e as unknown as React.FormEvent);
               }
@@ -317,7 +317,7 @@ export default function AdminTicketDetailPage() {
             {isSubmitting ? (
               <div
                 className={styles.spinner}
-                style={{ width: "16px", height: "16px", borderWidth: "1px" }}
+                style={{ width: '16px', height: '16px', borderWidth: '1px' }}
               ></div>
             ) : (
               <svg viewBox="0 0 24 24" className={styles.sendIcon}>

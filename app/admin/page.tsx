@@ -1,28 +1,28 @@
-import { auth } from "@/auth";
-import styles from "../user-dashboard/UserDashboard.module.css";
-import { query } from "@/lib/db";
+import { auth } from '@/auth';
+import styles from '../user-dashboard/UserDashboard.module.css';
+import { query } from '@/lib/db';
 
 async function getSystemStats() {
   try {
     const [userCount, brokerCount, tradeCount] = await Promise.all([
-      query("SELECT COUNT(*) FROM users"),
-      query("SELECT COUNT(*) FROM broker_connections"),
-      query("SELECT COUNT(*) FROM trades"),
+      query('SELECT COUNT(*) FROM users'),
+      query('SELECT COUNT(*) FROM broker_connections'),
+      query('SELECT COUNT(*) FROM trades'),
     ]);
 
     return {
       totalUsers: userCount.rows[0].count,
       activeConnections: brokerCount.rows[0].count,
       totalTrades: tradeCount.rows[0].count,
-      systemHealth: "Optimal",
+      systemHealth: 'Optimal',
     };
   } catch (error) {
-    console.error("Failed to fetch admin stats:", error);
+    console.error('Failed to fetch admin stats:', error);
     return {
-      totalUsers: "N/A",
-      activeConnections: "N/A",
-      totalTrades: "N/A",
-      systemHealth: "Degraded",
+      totalUsers: 'N/A',
+      activeConnections: 'N/A',
+      totalTrades: 'N/A',
+      systemHealth: 'Degraded',
     };
   }
 }
@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
         <div className={styles.statCard}>
           <div
             className={styles.statNumber}
-            style={{ color: "var(--text-primary)", fontSize: "1.2rem" }}
+            style={{ color: 'var(--text-primary)', fontSize: '1.2rem' }}
           >
             {stats.systemHealth}
           </div>
@@ -95,7 +95,7 @@ export default async function AdminDashboardPage() {
             <div className={styles.activityIcon}>ℹ️</div>
             <div className={styles.activityContent}>
               <p className={styles.activityText}>
-                Admin Dashboard successfully initialized for{" "}
+                Admin Dashboard successfully initialized for{' '}
                 <strong>{session?.user?.email}</strong>
               </p>
               <span className={styles.activityTime}>Just now</span>

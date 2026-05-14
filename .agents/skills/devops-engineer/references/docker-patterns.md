@@ -51,7 +51,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ## Docker Compose (Development)
 
 ```yaml
-version: "3.8"
+version: '3.8'
 services:
   app:
     build:
@@ -61,7 +61,7 @@ services:
       - .:/app
       - /app/node_modules
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - DATABASE_URL=postgres://user:pass@db:5432/app
     depends_on:
@@ -77,7 +77,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d app"]
+      test: ['CMD-SHELL', 'pg_isready -U user -d app']
       interval: 5s
       timeout: 5s
       retries: 5

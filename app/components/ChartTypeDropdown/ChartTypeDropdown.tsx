@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef } from "react";
-import styles from "./ChartTypeDropdown.module.css";
+import React, { useEffect, useRef } from 'react';
+import styles from './ChartTypeDropdown.module.css';
 
 export type ChartType =
-  | "candlestick"
-  | "bars"
-  | "line"
-  | "line-breaks"
-  | "baseline";
+  | 'candlestick'
+  | 'bars'
+  | 'line'
+  | 'line-breaks'
+  | 'baseline';
 
 interface ChartTypeDropdownProps {
   activeType: ChartType;
@@ -17,11 +17,11 @@ interface ChartTypeDropdownProps {
 }
 
 const CHART_TYPES: { id: ChartType; label: string }[] = [
-  { id: "candlestick", label: "Candlestick" },
-  { id: "bars", label: "Bars" },
-  { id: "line", label: "Line" },
-  { id: "line-breaks", label: "Line with Breaks" },
-  { id: "baseline", label: "Baseline" },
+  { id: 'candlestick', label: 'Candlestick' },
+  { id: 'bars', label: 'Bars' },
+  { id: 'line', label: 'Line' },
+  { id: 'line-breaks', label: 'Line with Breaks' },
+  { id: 'baseline', label: 'Baseline' },
 ];
 
 function ChartTypeIcon({
@@ -31,9 +31,9 @@ function ChartTypeIcon({
   type: ChartType;
   size?: number;
 }) {
-  const color = "currentColor";
+  const color = 'currentColor';
   switch (type) {
-    case "candlestick":
+    case 'candlestick':
       return (
         <svg
           width={size}
@@ -61,7 +61,7 @@ function ChartTypeIcon({
           <path d="M17 16v6" />
         </svg>
       );
-    case "bars":
+    case 'bars':
       return (
         <svg
           width={size}
@@ -80,7 +80,7 @@ function ChartTypeIcon({
           <path d="M16 16h3" />
         </svg>
       );
-    case "line":
+    case 'line':
       return (
         <svg
           width={size}
@@ -95,7 +95,7 @@ function ChartTypeIcon({
           <polyline points="3,17 8,11 13,14 21,6" />
         </svg>
       );
-    case "line-breaks":
+    case 'line-breaks':
       return (
         <svg
           width={size}
@@ -111,7 +111,7 @@ function ChartTypeIcon({
           <polyline points="3,17 8,11 13,14 21,6" />
         </svg>
       );
-    case "baseline":
+    case 'baseline':
       return (
         <svg
           width={size}
@@ -164,13 +164,13 @@ export default function ChartTypeDropdown({
       }
     };
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === 'Escape') onClose();
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
     };
   }, [onClose]);
 
@@ -179,7 +179,7 @@ export default function ChartTypeDropdown({
       {CHART_TYPES.map((ct) => (
         <button
           key={ct.id}
-          className={`${styles.option} ${activeType === ct.id ? styles.active : ""}`}
+          className={`${styles.option} ${activeType === ct.id ? styles.active : ''}`}
           onClick={() => {
             onSelect(ct.id);
             onClose();

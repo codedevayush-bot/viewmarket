@@ -1,48 +1,48 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "../../UserDashboard.module.css";
-import pageStyles from "./EmailPage.module.css";
+import { useState } from 'react';
+import styles from '../../UserDashboard.module.css';
+import pageStyles from './EmailPage.module.css';
 
 const emailCategories = [
   {
-    category: "Support",
+    category: 'Support',
     contacts: [
-      { label: "General Support", email: "support@viewmarket.in" },
-      { label: "Technical Support", email: "tech.support@viewmarket.in" },
-      { label: "Broker Integrations", email: "integrations@viewmarket.in" },
+      { label: 'General Support', email: 'support@viewmarket.in' },
+      { label: 'Technical Support', email: 'tech.support@viewmarket.in' },
+      { label: 'Broker Integrations', email: 'integrations@viewmarket.in' },
     ],
   },
   {
-    category: "Management",
+    category: 'Management',
     contacts: [
-      { label: "Chief Executive Officer", email: "ceo@viewmarket.in" },
-      { label: "Chief Technical Officer", email: "cto@viewmarket.in" },
-      { label: "Operations Head", email: "ops@viewmarket.in" },
+      { label: 'Chief Executive Officer', email: 'ceo@viewmarket.in' },
+      { label: 'Chief Technical Officer', email: 'cto@viewmarket.in' },
+      { label: 'Operations Head', email: 'ops@viewmarket.in' },
     ],
   },
   {
-    category: "Sales & Services",
+    category: 'Sales & Services',
     contacts: [
-      { label: "Enterprise Sales", email: "enterprise@viewmarket.in" },
-      { label: "Partnerships", email: "partners@viewmarket.in" },
-      { label: "Account Management", email: "accounts@viewmarket.in" },
+      { label: 'Enterprise Sales', email: 'enterprise@viewmarket.in' },
+      { label: 'Partnerships', email: 'partners@viewmarket.in' },
+      { label: 'Account Management', email: 'accounts@viewmarket.in' },
     ],
   },
   {
-    category: "Legal & Compliance",
+    category: 'Legal & Compliance',
     contacts: [
-      { label: "Legal Department", email: "legal@viewmarket.in" },
-      { label: "Privacy Officer", email: "privacy@viewmarket.in" },
-      { label: "Compliance Team", email: "compliance@viewmarket.in" },
+      { label: 'Legal Department', email: 'legal@viewmarket.in' },
+      { label: 'Privacy Officer', email: 'privacy@viewmarket.in' },
+      { label: 'Compliance Team', email: 'compliance@viewmarket.in' },
     ],
   },
   {
-    category: "Human Resources",
+    category: 'Human Resources',
     contacts: [
-      { label: "Careers / Jobs", email: "careers@viewmarket.in" },
-      { label: "HR Inquiry", email: "hr@viewmarket.in" },
-      { label: "General Information", email: "info@viewmarket.in" },
+      { label: 'Careers / Jobs', email: 'careers@viewmarket.in' },
+      { label: 'HR Inquiry', email: 'hr@viewmarket.in' },
+      { label: 'General Information', email: 'info@viewmarket.in' },
     ],
   },
 ];

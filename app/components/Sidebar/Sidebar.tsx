@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
-import styles from "./Sidebar.module.css";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import styles from './Sidebar.module.css';
 import {
   type DashboardIcon,
   type DashboardNavSection,
   dashboardNav,
-} from "../../user-dashboard/navigation";
+} from '../../user-dashboard/navigation';
 
 function SidebarIcon({
   icon,
@@ -20,7 +20,7 @@ function SidebarIcon({
 }) {
   const iconClass = className || styles.navIcon;
   switch (icon) {
-    case "console":
+    case 'console':
       return (
         <svg
           className={iconClass}
@@ -37,7 +37,7 @@ function SidebarIcon({
           <line x1="12" y1="19" x2="20" y2="19"></line>
         </svg>
       );
-    case "broker":
+    case 'broker':
       return (
         <svg
           className={iconClass}
@@ -54,7 +54,7 @@ function SidebarIcon({
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
         </svg>
       );
-    case "copy":
+    case 'copy':
       return (
         <svg
           className={iconClass}
@@ -71,7 +71,7 @@ function SidebarIcon({
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
       );
-    case "orders":
+    case 'orders':
       return (
         <svg
           className={iconClass}
@@ -92,7 +92,7 @@ function SidebarIcon({
           <line x1="3" y1="18" x2="3.01" y2="18"></line>
         </svg>
       );
-    case "positions":
+    case 'positions':
       return (
         <svg
           className={iconClass}
@@ -109,7 +109,7 @@ function SidebarIcon({
           <path d="m19 9-5 5-4-4-3 3"></path>
         </svg>
       );
-    case "chart":
+    case 'chart':
       return (
         <svg
           className={iconClass}
@@ -127,7 +127,7 @@ function SidebarIcon({
           <line x1="6" y1="20" x2="6" y2="14"></line>
         </svg>
       );
-    case "automation":
+    case 'automation':
       return (
         <svg
           className={iconClass}
@@ -144,7 +144,7 @@ function SidebarIcon({
           <circle cx="12" cy="12" r="3"></circle>
         </svg>
       );
-    case "tools":
+    case 'tools':
       return (
         <svg
           className={iconClass}
@@ -160,7 +160,7 @@ function SidebarIcon({
           <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2 2 0 1 1-2.83-2.83l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.77 3.77z"></path>
         </svg>
       );
-    case "integration":
+    case 'integration':
       return (
         <svg
           className={iconClass}
@@ -181,7 +181,7 @@ function SidebarIcon({
           <path d="M3 3h7v7"></path>
         </svg>
       );
-    case "data":
+    case 'data':
       return (
         <svg
           className={iconClass}
@@ -199,7 +199,7 @@ function SidebarIcon({
           <path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"></path>
         </svg>
       );
-    case "sandbox":
+    case 'sandbox':
       return (
         <svg
           className={iconClass}
@@ -218,7 +218,7 @@ function SidebarIcon({
           <path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path>
         </svg>
       );
-    case "monitoring":
+    case 'monitoring':
       return (
         <svg
           className={iconClass}
@@ -234,7 +234,7 @@ function SidebarIcon({
           <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
         </svg>
       );
-    case "admin":
+    case 'admin':
       return (
         <svg
           className={iconClass}
@@ -251,7 +251,7 @@ function SidebarIcon({
           <circle cx="12" cy="12" r="3"></circle>
         </svg>
       );
-    case "support":
+    case 'support':
       return (
         <svg
           className={iconClass}
@@ -269,7 +269,7 @@ function SidebarIcon({
           <line x1="12" y1="17" x2="12.01" y2="17"></line>
         </svg>
       );
-    case "settings":
+    case 'settings':
       return (
         <svg
           className={iconClass}
@@ -291,15 +291,15 @@ function SidebarIcon({
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const isChartsPage = pathname === "/user-dashboard/charts";
+  const isChartsPage = pathname === '/user-dashboard/charts';
   const [isCollapsed, setIsCollapsed] = useState(isChartsPage);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set(
       dashboardNav
-        .filter((item): item is DashboardNavSection => "title" in item)
+        .filter((item): item is DashboardNavSection => 'title' in item)
         .map((s) => s.title)
-        .concat(["Support"]),
-    ),
+        .concat(['Support'])
+    )
   );
   const { data: session, status } = useSession();
 
@@ -342,18 +342,18 @@ export default function Sidebar() {
   const getUserInitials = () => {
     if (session?.user?.name) {
       return session.user.name
-        .split(" ")
+        .split(' ')
         .map((n) => n[0])
-        .join("")
+        .join('')
         .toUpperCase()
         .slice(0, 2);
     }
-    return session?.user?.email?.[0]?.toUpperCase() || "U";
+    return session?.user?.email?.[0]?.toUpperCase() || 'U';
   };
 
   return (
     <aside
-      className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ""} ${isChartsPage ? styles.chartsPage : ""}`}
+      className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''} ${isChartsPage ? styles.chartsPage : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -361,14 +361,14 @@ export default function Sidebar() {
         {/* Top Header */}
         <div className={styles.header}>
           <div className={styles.workspaceInfo}>
-            {status === "loading" ? (
+            {status === 'loading' ? (
               <div className={styles.avatarSkeleton} />
             ) : session?.user?.image ? (
               <div className={styles.avatar}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={session.user.image}
-                  alt={session.user.name || "User"}
+                  alt={session.user.name || 'User'}
                   className={styles.avatarImage}
                   referrerPolicy="no-referrer"
                 />
@@ -379,7 +379,7 @@ export default function Sidebar() {
               </div>
             )}
             <span className={styles.workspaceName}>
-              {session?.user?.name || session?.user?.email || "User"}
+              {session?.user?.name || session?.user?.email || 'User'}
             </span>
             <svg
               className={styles.chevronIcon}
@@ -416,7 +416,7 @@ export default function Sidebar() {
             <button
               className={styles.actionButton}
               onClick={toggleCollapse}
-              title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
               {isCollapsed ? (
                 <svg
@@ -455,10 +455,10 @@ export default function Sidebar() {
 
         <div className={styles.scrollArea}>
           {dashboardNav.map((item) => {
-            if ("title" in item) {
+            if ('title' in item) {
               const isExpanded = expandedSections.has(item.title);
               return (
-                <div key={item.title} className={styles.section}>
+                <div key={item.title} className={styles.sidebarItemWrapper}>
                   <div
                     className={styles.sectionHeader}
                     onClick={() => toggleSection(item.title)}
@@ -471,7 +471,7 @@ export default function Sidebar() {
                       <span>{item.title}</span>
                     </div>
                     <svg
-                      className={`${styles.chevronIcon} ${!isExpanded ? styles.rotated : ""}`}
+                      className={`${styles.chevronIcon} ${!isExpanded ? styles.rotated : ''}`}
                       width="12"
                       height="12"
                       viewBox="0 0 24 24"
@@ -489,7 +489,7 @@ export default function Sidebar() {
                       <Link
                         key={subItem.href}
                         href={subItem.href}
-                        className={`${styles.navItem} ${pathname === subItem.href ? styles.active : ""}`}
+                        className={`${styles.navItem} ${pathname === subItem.href ? styles.active : ''}`}
                       >
                         <div className={styles.navItemContent}>
                           <SidebarIcon icon={subItem.icon} />
@@ -501,16 +501,17 @@ export default function Sidebar() {
               );
             } else {
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`${styles.navItem} ${pathname === item.href ? styles.active : ""}`}
-                >
-                  <div className={styles.navItemContent}>
-                    <SidebarIcon icon={item.icon} />
-                    <span>{item.label}</span>
-                  </div>
-                </Link>
+                <div key={item.href} className={styles.sidebarItemWrapper}>
+                  <Link
+                    href={item.href}
+                    className={`${styles.navItem} ${pathname === item.href ? styles.active : ''}`}
+                  >
+                    <div className={styles.navItemContent}>
+                      <SidebarIcon icon={item.icon} />
+                      <span>{item.label}</span>
+                    </div>
+                  </Link>
+                </div>
               );
             }
           })}

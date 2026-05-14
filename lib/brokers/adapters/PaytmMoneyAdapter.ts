@@ -6,7 +6,7 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
+} from '../types';
 
 export class PaytmMoneyAdapter implements IBrokerAdapter {
   private api_key: string;
@@ -39,18 +39,18 @@ export class PaytmMoneyAdapter implements IBrokerAdapter {
   async handleOAuthCallback(code: string): Promise<AuthResponse> {
     try {
       const response = await fetch(
-        "https://developer.paytmmoney.com/accounts/v2/gettoken",
+        'https://developer.paytmmoney.com/accounts/v2/gettoken',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             api_key: this.api_key,
             api_secret_key: this.api_secret,
             request_token: code,
           }),
-        },
+        }
       );
 
       const data = await response.json();
@@ -63,7 +63,7 @@ export class PaytmMoneyAdapter implements IBrokerAdapter {
           expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
         };
       } else {
-        const errorMsg = data.errors?.[0]?.message || "Authentication failed";
+        const errorMsg = data.errors?.[0]?.message || 'Authentication failed';
         return {
           success: false,
           message: errorMsg,
@@ -78,17 +78,17 @@ export class PaytmMoneyAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const response = await this.request("GET", "/accounts/v1/user/details");
+    const response = await this.request('GET', '/accounts/v1/user/details');
     return {
-      id: response.client_id || "PaytmUser",
-      name: response.user_name || "Paytm User",
-      brokerName: "paytm",
+      id: response.client_id || 'PaytmUser',
+      name: response.user_name || 'Paytm User',
+      brokerName: 'paytm',
       metadata: response,
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const response = await this.request("GET", "/accounts/v1/funds/details");
+    const response = await this.request('GET', '/accounts/v1/funds/details');
     return {
       availableCash: parseFloat(response.equity?.available_balance || 0),
       utilizedMargin: 0,
@@ -100,20 +100,20 @@ export class PaytmMoneyAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     const payload = {
       txn_type: order.transactionType,
-      exchange: order.exchange || "NSE",
-      segment: "EQUITY",
-      product: order.product || "CNC",
+      exchange: order.exchange || 'NSE',
+      segment: 'EQUITY',
+      product: order.product || 'CNC',
       security_id: order.symbol, // Paytm uses security_id, mapping usually required
       quantity: order.quantity,
       price: order.price || 0,
       order_type: order.orderType,
-      validity: "DAY",
+      validity: 'DAY',
     };
 
     const response = await this.request(
-      "POST",
-      "/orders/v1/place/regular",
-      payload,
+      'POST',
+      '/orders/v1/place/regular',
+      payload
     );
     return {
       success: !!response.order_id,
@@ -123,23 +123,23 @@ export class PaytmMoneyAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("Not authenticated");
+    if (!this.accessToken) throw new Error('Not authenticated');
 
     const response = await fetch(
       `https://developer.paytmmoney.com${endpoint}`,
       {
         method,
         headers: {
-          "Content-Type": "application/json",
-          "x-jwt-token": this.accessToken,
+          'Content-Type': 'application/json',
+          'x-jwt-token': this.accessToken,
         },
         body: body ? JSON.stringify(body) : undefined,
-      },
+      }
     );
 
     const data = await response.json();
     if (response.status !== 200) {
-      throw new Error(data.errors?.[0]?.message || "Request failed");
+      throw new Error(data.errors?.[0]?.message || 'Request failed');
     }
     return data;
   }

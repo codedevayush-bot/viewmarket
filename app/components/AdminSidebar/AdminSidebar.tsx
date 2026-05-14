@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
-import styles from "./AdminSidebar.module.css";
-import { type AdminIcon, adminNavSections } from "../../admin/navigation";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import styles from './AdminSidebar.module.css';
+import { type AdminIcon, adminNavSections } from '../../admin/navigation';
 
 function AdminSidebarIcon({
   icon,
@@ -16,7 +16,7 @@ function AdminSidebarIcon({
 }) {
   const iconClass = className || styles.navIcon;
   switch (icon) {
-    case "console":
+    case 'console':
       return (
         <svg
           className={iconClass}
@@ -33,7 +33,7 @@ function AdminSidebarIcon({
           <line x1="12" y1="19" x2="20" y2="19"></line>
         </svg>
       );
-    case "users":
+    case 'users':
       return (
         <svg
           className={iconClass}
@@ -52,7 +52,7 @@ function AdminSidebarIcon({
           <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
         </svg>
       );
-    case "brokers":
+    case 'brokers':
       return (
         <svg
           className={iconClass}
@@ -69,7 +69,7 @@ function AdminSidebarIcon({
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
         </svg>
       );
-    case "settings":
+    case 'settings':
       return (
         <svg
           className={iconClass}
@@ -86,7 +86,7 @@ function AdminSidebarIcon({
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
         </svg>
       );
-    case "support":
+    case 'support':
       return (
         <svg
           className={iconClass}
@@ -111,7 +111,7 @@ export default function AdminSidebar() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set(adminNavSections.map((s) => s.title)),
+    new Set(adminNavSections.map((s) => s.title))
   );
   const { data: session } = useSession();
 
@@ -134,18 +134,18 @@ export default function AdminSidebar() {
   const getUserInitials = () => {
     if (session?.user?.name) {
       return session.user.name
-        .split(" ")
+        .split(' ')
         .map((n) => n[0])
-        .join("")
+        .join('')
         .toUpperCase()
         .slice(0, 2);
     }
-    return session?.user?.email?.[0]?.toUpperCase() || "A";
+    return session?.user?.email?.[0]?.toUpperCase() || 'A';
   };
 
   return (
     <aside
-      className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ""}`}
+      className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}
     >
       <div className={styles.inner}>
         {/* Top Header */}
@@ -159,7 +159,7 @@ export default function AdminSidebar() {
           <button
             className={styles.actionButton}
             onClick={toggleCollapse}
-            title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {isCollapsed ? (
               <svg
@@ -208,7 +208,7 @@ export default function AdminSidebar() {
                     <span>{section.title}</span>
                   </div>
                   <svg
-                    className={`${styles.chevronIcon} ${!isExpanded ? styles.rotated : ""}`}
+                    className={`${styles.chevronIcon} ${!isExpanded ? styles.rotated : ''}`}
                     width="12"
                     height="12"
                     viewBox="0 0 24 24"
@@ -226,7 +226,7 @@ export default function AdminSidebar() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`${styles.navItem} ${pathname === item.href ? styles.active : ""}`}
+                      className={`${styles.navItem} ${pathname === item.href ? styles.active : ''}`}
                     >
                       <div className={styles.navItemContent}>
                         <AdminSidebarIcon icon={item.icon} />

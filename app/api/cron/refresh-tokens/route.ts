@@ -1,20 +1,20 @@
-import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { BrokerFactory } from "@/lib/brokers/BrokerFactory";
-import { decrypt, encrypt } from "@/lib/encryption";
+import { NextRequest, NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+import { BrokerFactory } from '@/lib/brokers/BrokerFactory';
+import { decrypt, encrypt } from '@/lib/encryption';
 
 // Configures this route to be executed on a serverless edge or node environment
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 minutes max duration
 
 export async function GET(req: NextRequest) {
   // Simple authentication for cron jobs (e.g. from Vercel Cron or AWS EventBridge)
-  const authHeader = req.headers.get("authorization");
+  const authHeader = req.headers.get('authorization');
   if (
     process.env.CRON_SECRET &&
     authHeader !== `Bearer ${process.env.CRON_SECRET}`
   ) {
-    return new NextResponse("Unauthorized", { status: 401 });
+    return new NextResponse('Unauthorized', { status: 401 });
   }
 
   try {
@@ -49,20 +49,20 @@ export async function GET(req: NextRequest) {
         // Process if expired or expiring within 30 minutes
         if (expiresAt && expiresAt.getTime() - now.getTime() < 30 * 60 * 1000) {
           const credentials = {
-            api_key: connection.api_key ? decrypt(connection.api_key) : "",
+            api_key: connection.api_key ? decrypt(connection.api_key) : '',
             api_secret: connection.api_secret
               ? decrypt(connection.api_secret)
-              : "",
-            client_id: connection.api_key ? decrypt(connection.api_key) : "",
+              : '',
+            client_id: connection.api_key ? decrypt(connection.api_key) : '',
             client_secret: connection.api_secret
               ? decrypt(connection.api_secret)
-              : "",
-            redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/brokers/callback`,
+              : '',
+            redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/brokers/callback`,
           };
 
           const adapter = BrokerFactory.createAdapter(
             connection.broker_name,
-            credentials,
+            credentials
           );
 
           if (adapter.refreshToken && connection.refresh_token) {
@@ -91,7 +91,7 @@ export async function GET(req: NextRequest) {
                   newEncryptedRefresh,
                   newExpiresAt.toISOString(),
                   connection.id,
-                ],
+                ]
               );
 
               results.refreshed++;
@@ -99,7 +99,7 @@ export async function GET(req: NextRequest) {
               // Refresh failed, mark as invalid
               await query(
                 `UPDATE broker_connections SET is_valid = false WHERE id = $1`,
-                [connection.id],
+                [connection.id]
               );
               results.expired++;
             }
@@ -108,7 +108,7 @@ export async function GET(req: NextRequest) {
             // Mark the connection as requiring manual re-authentication
             await query(
               `UPDATE broker_connections SET is_valid = false WHERE id = $1`,
-              [connection.id],
+              [connection.id]
             );
             results.expired++;
           }
@@ -127,10 +127,10 @@ export async function GET(req: NextRequest) {
       results,
     });
   } catch (error: unknown) {
-    console.error("Cron token refresh failed:", error);
+    console.error('Cron token refresh failed:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

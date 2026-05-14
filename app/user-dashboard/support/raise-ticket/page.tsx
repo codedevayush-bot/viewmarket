@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import styles from "./RaiseTicket.module.css";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import styles from './RaiseTicket.module.css';
 
 export default function RaiseTicketPage() {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("General");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState('General');
+  const [description, setDescription] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -21,9 +21,9 @@ export default function RaiseTicketPage() {
         setError(`File ${invalidFile.name} exceeds 5MB limit`);
         return;
       }
-      setError("");
+      setError('');
       setFiles((prev) => [...prev, ...selectedFiles]);
-      e.target.value = "";
+      e.target.value = '';
     }
   };
 
@@ -34,15 +34,15 @@ export default function RaiseTicketPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError("");
+    setError('');
 
     try {
       const attachments = [];
 
       for (const file of files) {
-        const presignedRes = await fetch("/api/tickets/presigned-url", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const presignedRes = await fetch('/api/tickets/presigned-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             fileName: file.name,
             fileType: file.type,
@@ -55,9 +55,9 @@ export default function RaiseTicketPage() {
         const { signedUrl, fileUrl, fileKey } = await presignedRes.json();
 
         const uploadRes = await fetch(signedUrl, {
-          method: "PUT",
+          method: 'PUT',
           body: file,
-          headers: { "Content-Type": file.type },
+          headers: { 'Content-Type': file.type },
         });
 
         if (!uploadRes.ok) throw new Error(`Failed to upload ${file.name}`);
@@ -72,9 +72,9 @@ export default function RaiseTicketPage() {
       }
 
       // 3. Create Ticket
-      const ticketRes = await fetch("/api/tickets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const ticketRes = await fetch('/api/tickets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title,
           category,
@@ -83,14 +83,14 @@ export default function RaiseTicketPage() {
         }),
       });
 
-      if (!ticketRes.ok) throw new Error("Failed to create ticket");
+      if (!ticketRes.ok) throw new Error('Failed to create ticket');
 
       const { id } = await ticketRes.json();
       router.push(`/user-dashboard/support/my-tickets/${id}`);
     } catch (err) {
       console.error(err);
       setError(
-        err instanceof Error ? err.message : "An unexpected error occurred",
+        err instanceof Error ? err.message : 'An unexpected error occurred'
       );
     } finally {
       setIsSubmitting(false);
@@ -180,7 +180,7 @@ export default function RaiseTicketPage() {
           className={styles.submitBtn}
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Submitting..." : "Submit Ticket"}
+          {isSubmitting ? 'Submitting...' : 'Submit Ticket'}
         </button>
       </form>
     </div>

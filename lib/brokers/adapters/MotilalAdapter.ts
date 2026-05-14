@@ -6,9 +6,9 @@ import {
   FundsData,
   OrderPayload,
   OrderResponse,
-} from "../types";
-import { generateTOTP } from "../utils/totp";
-import { createHash } from "crypto";
+} from '../types';
+import { generateTOTP } from '../utils/totp';
+import { createHash } from 'crypto';
 
 export class MotilalAdapter implements IBrokerAdapter {
   private apiKey: string;
@@ -17,7 +17,7 @@ export class MotilalAdapter implements IBrokerAdapter {
   private dob?: string;
   private totpSecret?: string;
   private accessToken?: string;
-  private baseUrl: string = "https://openapi.motilaloswal.com/rest";
+  private baseUrl: string = 'https://openapi.motilaloswal.com/rest';
 
   constructor(credentials: BrokerCredentials) {
     this.apiKey = credentials.api_key;
@@ -36,18 +36,18 @@ export class MotilalAdapter implements IBrokerAdapter {
       if (!this.password || !this.dob) {
         return {
           success: false,
-          message: "Password and Date of Birth (2FA) are required",
+          message: 'Password and Date of Birth (2FA) are required',
         };
       }
 
-      const passwordHash = createHash("sha256")
+      const passwordHash = createHash('sha256')
         .update(`${this.password}${this.apiKey}`)
-        .digest("hex");
+        .digest('hex');
 
       const payload: Record<string, string | number | boolean> = {
         userid: this.userId,
         password: passwordHash,
-        "2FA": this.dob,
+        '2FA': this.dob,
       };
 
       if (totpCode) {
@@ -55,34 +55,34 @@ export class MotilalAdapter implements IBrokerAdapter {
       }
 
       const headers = {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "User-Agent": "MOSL/V.1.1.0",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'User-Agent': 'MOSL/V.1.1.0',
         ApiKey: this.apiKey,
-        ClientLocalIp: "127.0.0.1",
-        ClientPublicIp: "127.0.0.1",
-        MacAddress: "00:00:00:00:00:00",
-        SourceId: "WEB",
+        ClientLocalIp: '127.0.0.1',
+        ClientPublicIp: '127.0.0.1',
+        MacAddress: '00:00:00:00:00:00',
+        SourceId: 'WEB',
         vendorinfo: this.userId,
-        osname: "Windows",
-        osversion: "10.0",
-        devicemodel: "PC",
-        manufacturer: "Generic",
-        productname: "ViewMarket",
-        productversion: "1.0.0",
+        osname: 'Windows',
+        osversion: '10.0',
+        devicemodel: 'PC',
+        manufacturer: 'Generic',
+        productname: 'ViewMarket',
+        productversion: '1.0.0',
       };
 
       const response = await fetch(`${this.baseUrl}/login/v3/authdirectapi`, {
-        method: "POST",
+        method: 'POST',
         headers,
         body: JSON.stringify(payload),
       });
 
       const data = await response.json();
-      if (data.status !== "SUCCESS" || !data.AuthToken) {
+      if (data.status !== 'SUCCESS' || !data.AuthToken) {
         return {
           success: false,
-          message: data.message || "Authentication failed",
+          message: data.message || 'Authentication failed',
         };
       }
 
@@ -100,16 +100,16 @@ export class MotilalAdapter implements IBrokerAdapter {
   }
 
   async getProfile(): Promise<UserProfile> {
-    const data = await this.request("GET", "/user/v1/profile");
+    const data = await this.request('GET', '/user/v1/profile');
     return {
       id: this.userId,
-      name: data.ClientName || "Motilal User",
-      brokerName: "Motilal Oswal",
+      name: data.ClientName || 'Motilal User',
+      brokerName: 'Motilal Oswal',
     };
   }
 
   async getFunds(): Promise<FundsData> {
-    const data = await this.request("GET", "/user/v1/limits");
+    const data = await this.request('GET', '/user/v1/limits');
     return {
       availableCash: parseFloat(data.AvailableMargin || 0),
       utilizedMargin: parseFloat(data.UtilizedMargin || 0),
@@ -120,19 +120,19 @@ export class MotilalAdapter implements IBrokerAdapter {
   async placeOrder(order: OrderPayload): Promise<OrderResponse> {
     try {
       const payload = {
-        Exchange: order.exchange || "NSE",
+        Exchange: order.exchange || 'NSE',
         Symbol: order.symbol,
         TransactionType: order.transactionType,
         OrderType: order.orderType,
         Quantity: order.quantity,
         Price: order.price || 0,
-        ProductType: order.product === "CNC" ? "DELIVERY" : order.product,
-        OrderDuration: "DAY",
+        ProductType: order.product === 'CNC' ? 'DELIVERY' : order.product,
+        OrderDuration: 'DAY',
       };
 
-      const data = await this.request("POST", "/order/v1/placeorder", payload);
+      const data = await this.request('POST', '/order/v1/placeorder', payload);
       return {
-        success: data.status === "SUCCESS",
+        success: data.status === 'SUCCESS',
         orderId: data.OrderId,
         message: data.message,
       };
@@ -145,13 +145,13 @@ export class MotilalAdapter implements IBrokerAdapter {
   }
 
   private async request(method: string, endpoint: string, body?: unknown) {
-    if (!this.accessToken) throw new Error("No access token found.");
+    if (!this.accessToken) throw new Error('No access token found.');
 
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       AuthToken: this.accessToken,
       ApiKey: this.apiKey,
-      SourceId: "WEB",
+      SourceId: 'WEB',
     };
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
@@ -161,8 +161,8 @@ export class MotilalAdapter implements IBrokerAdapter {
     });
 
     const data = await response.json();
-    if (data.status !== "SUCCESS") {
-      throw new Error(data.message || "Request failed");
+    if (data.status !== 'SUCCESS') {
+      throw new Error(data.message || 'Request failed');
     }
     return data;
   }

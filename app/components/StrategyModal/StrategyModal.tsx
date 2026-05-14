@@ -1,67 +1,67 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import styles from "./StrategyModal.module.css";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import styles from './StrategyModal.module.css';
 
 interface StrategyModalProps {
   onClose: () => void;
 }
 
-const CATEGORIES = ["My Strategy", "Marketplace", "Saved Strategies"];
+const CATEGORIES = ['My Strategy', 'Marketplace', 'Saved Strategies'];
 
 const MOCK_STRATEGIES = [
   {
-    name: "Trend Follower Pro",
-    description: "Follows market trends using EMA and RSI",
-    category: "My Strategy",
+    name: 'Trend Follower Pro',
+    description: 'Follows market trends using EMA and RSI',
+    category: 'My Strategy',
   },
   {
-    name: "Mean Reversion Alpha",
-    description: "Identifies overbought/oversold levels",
-    category: "Marketplace",
+    name: 'Mean Reversion Alpha',
+    description: 'Identifies overbought/oversold levels',
+    category: 'Marketplace',
   },
   {
-    name: "Scalping Edge",
-    description: "High frequency trading on 1m timeframe",
-    category: "Saved Strategies",
+    name: 'Scalping Edge',
+    description: 'High frequency trading on 1m timeframe',
+    category: 'Saved Strategies',
   },
   {
-    name: "Breakout Master",
-    description: "Trades support and resistance breakouts",
-    category: "My Strategy",
+    name: 'Breakout Master',
+    description: 'Trades support and resistance breakouts',
+    category: 'My Strategy',
   },
   {
-    name: "MACD Momentum",
-    description: "Uses MACD crossovers for entry/exit",
-    category: "Marketplace",
+    name: 'MACD Momentum',
+    description: 'Uses MACD crossovers for entry/exit',
+    category: 'Marketplace',
   },
   {
-    name: "Bollinger Band Squeeze",
-    description: "Trades volatility contractions",
-    category: "Saved Strategies",
+    name: 'Bollinger Band Squeeze',
+    description: 'Trades volatility contractions',
+    category: 'Saved Strategies',
   },
   {
-    name: "Volume Profile Elite",
-    description: "Analyzes trading volume at specific price levels",
-    category: "Marketplace",
+    name: 'Volume Profile Elite',
+    description: 'Analyzes trading volume at specific price levels',
+    category: 'Marketplace',
   },
   {
-    name: "Arbitrage Opportunity",
-    description: "Exploits price differences across exchanges",
-    category: "My Strategy",
+    name: 'Arbitrage Opportunity',
+    description: 'Exploits price differences across exchanges',
+    category: 'My Strategy',
   },
 ];
 
 export default function StrategyModal({ onClose }: StrategyModalProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("My Strategy");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState('My Strategy');
   const [highlightIndex, setHighlightIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const strategyListRef = useRef<HTMLDivElement>(null);
 
   // Drag state
   const [position, setPosition] = useState<{ x: number; y: number } | null>(
-    null,
+    null
   );
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
@@ -86,9 +86,9 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
 
   useEffect(() => {
     inputRef.current?.focus();
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, []);
 
@@ -97,35 +97,35 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
     if (!list) return;
     const activeItem = list.children[highlightIndex] as HTMLElement | undefined;
     if (activeItem) {
-      activeItem.scrollIntoView({ block: "nearest" });
+      activeItem.scrollIntoView({ block: 'nearest' });
     }
   }, [highlightIndex]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       switch (e.key) {
-        case "Escape":
+        case 'Escape':
           onClose();
           break;
-        case "ArrowDown":
+        case 'ArrowDown':
           e.preventDefault();
           setHighlightIndex((prev) =>
-            prev < filteredStrategies.length - 1 ? prev + 1 : 0,
+            prev < filteredStrategies.length - 1 ? prev + 1 : 0
           );
           break;
-        case "ArrowUp":
+        case 'ArrowUp':
           e.preventDefault();
           setHighlightIndex((prev) =>
-            prev > 0 ? prev - 1 : filteredStrategies.length - 1,
+            prev > 0 ? prev - 1 : filteredStrategies.length - 1
           );
           break;
-        case "Enter":
+        case 'Enter':
           e.preventDefault();
           if (filteredStrategies[highlightIndex]) {
             onClose();
           }
           break;
-        case "Tab":
+        case 'Tab':
           e.preventDefault();
           setActiveCategory((prev) => {
             const idx = CATEGORIES.indexOf(prev);
@@ -134,7 +134,7 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
           break;
       }
     },
-    [filteredStrategies, highlightIndex, onClose],
+    [filteredStrategies, highlightIndex, onClose]
   );
 
   const handleDragStart = useCallback(
@@ -142,7 +142,7 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
       if (e.button !== 0) return;
       setIsDragging(true);
       const modal = (e.currentTarget as HTMLElement).closest(
-        `.${styles.modal}`,
+        `.${styles.modal}`
       ) as HTMLElement;
       if (!modal) return;
       const rect = modal.getBoundingClientRect();
@@ -152,7 +152,7 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
       };
       if (!position) setPosition({ x: rect.left, y: rect.top });
     },
-    [position],
+    [position]
   );
 
   useEffect(() => {
@@ -164,20 +164,20 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
       });
     };
     const handleMouseUp = () => setIsDragging(false);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging]);
 
   const modalStyle: React.CSSProperties = position
     ? {
-        position: "fixed",
+        position: 'fixed',
         left: position.x,
         top: position.y,
-        transform: "none",
+        transform: 'none',
       }
     : {};
 
@@ -189,7 +189,7 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`${styles.dragHandle} ${isDragging ? styles.dragging : ""}`}
+          className={`${styles.dragHandle} ${isDragging ? styles.dragging : ''}`}
           onMouseDown={handleDragStart}
         >
           <h2 className={styles.heading}>Strategies</h2>
@@ -213,7 +213,7 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
           {CATEGORIES.map((category) => (
             <button
               key={category}
-              className={`${styles.filterButton} ${activeCategory === category ? styles.active : ""}`}
+              className={`${styles.filterButton} ${activeCategory === category ? styles.active : ''}`}
               onClick={() => setActiveCategory(category)}
             >
               {category}
@@ -226,7 +226,7 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
             filteredStrategies.map((s, i) => (
               <div
                 key={s.name}
-                className={`${styles.strategyItem} ${i === highlightIndex ? styles.highlighted : ""}`}
+                className={`${styles.strategyItem} ${i === highlightIndex ? styles.highlighted : ''}`}
                 onClick={onClose}
                 onMouseEnter={() => setHighlightIndex(i)}
               >

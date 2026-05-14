@@ -1,9 +1,9 @@
-import { Metadata } from "next";
-import styles from "../UserDashboard.module.css";
+import { Metadata } from 'next';
+import styles from '../UserDashboard.module.css';
 
 export const metadata: Metadata = {
-  title: "Strategy Builder",
-  description: "Build and automate your trading strategies.",
+  title: 'Strategy Builder',
+  description: 'Build and automate your trading strategies.',
 };
 
 export default function StrategyBuilderPage() {

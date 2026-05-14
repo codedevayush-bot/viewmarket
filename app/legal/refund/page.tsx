@@ -1,9 +1,9 @@
-import LegalLayout from "../../components/LegalLayout";
-import styles from "../../components/LegalLayout.module.css";
+import LegalLayout from '../../components/LegalLayout';
+import styles from '../../components/LegalLayout.module.css';
 
 export const metadata = {
-  title: "Refund Policy",
-  description: "Refund Policy for ViewMarket algorithmic trading platform",
+  title: 'Refund Policy',
+  description: 'Refund Policy for ViewMarket algorithmic trading platform',
 };
 
 export default function RefundPage() {
@@ -14,7 +14,7 @@ export default function RefundPage() {
         <p className={styles.sectionText}>
           ViewMarket is a Software-as-a-Service (SaaS) platform providing
           algorithmic trading tools, charting capabilities, and broker
-          integration services. Due to the nature of our software-based service,{" "}
+          integration services. Due to the nature of our software-based service,{' '}
           <span className={styles.highlight}>
             all subscription payments are non-refundable
           </span>

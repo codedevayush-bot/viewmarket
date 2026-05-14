@@ -75,7 +75,7 @@
 }
 
 .timestamp {
-  font-family: "SF Mono", "Monaco", "Menlo", "Consolas", monospace;
+  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--text-secondary);

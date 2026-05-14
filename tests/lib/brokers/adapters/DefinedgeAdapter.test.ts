@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { DefinedgeAdapter } from "@/lib/brokers/adapters/DefinedgeAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { DefinedgeAdapter } from '@/lib/brokers/adapters/DefinedgeAdapter';
 
-describe("DefinedgeAdapter", () => {
+describe('DefinedgeAdapter', () => {
   const mockConfig = {
-    api_key: "DE123",
-    api_secret: "de_sec",
+    api_key: 'DE123',
+    api_secret: 'de_sec',
   };
 
   beforeEach(() => {
@@ -12,8 +12,8 @@ describe("DefinedgeAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should trigger OTP (Step 1)", async () => {
-    const mockOtpResponse = { otp_token: "de_otp_token" };
+  it('should trigger OTP (Step 1)', async () => {
+    const mockOtpResponse = { otp_token: 'de_otp_token' };
 
     vi.mocked(fetch).mockResolvedValue({
       ok: true,
@@ -25,14 +25,14 @@ describe("DefinedgeAdapter", () => {
 
     expect(result.success).toBe(true);
     expect(result.metadata?.requiresOtp).toBe(true);
-    expect(result.metadata?.otpToken).toBe("de_otp_token");
+    expect(result.metadata?.otpToken).toBe('de_otp_token');
   });
 
-  it("should verify OTP successfully (Step 2)", async () => {
+  it('should verify OTP successfully (Step 2)', async () => {
     const mockTokenResponse = {
-      stat: "Ok",
-      api_session_key: "de_sess",
-      susertoken: "de_user_token",
+      stat: 'Ok',
+      api_session_key: 'de_sess',
+      susertoken: 'de_user_token',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -42,19 +42,19 @@ describe("DefinedgeAdapter", () => {
 
     const adapter = new DefinedgeAdapter(mockConfig);
     const result = await adapter.authenticate({
-      otp: "1234",
-      otpToken: "de_otp_token",
+      otp: '1234',
+      otpToken: 'de_otp_token',
     });
 
     expect(result.success).toBe(true);
-    expect(result.accessToken).toContain("de_sess:::de_user_token");
+    expect(result.accessToken).toContain('de_sess:::de_user_token');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
-      stat: "Ok",
-      uid: "DE123",
-      uname: "Definedge Tester",
+      stat: 'Ok',
+      uid: 'DE123',
+      uname: 'Definedge Tester',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -64,18 +64,18 @@ describe("DefinedgeAdapter", () => {
 
     const adapter = new DefinedgeAdapter({
       ...mockConfig,
-      access_token: "sess:::token:::uid",
+      access_token: 'sess:::token:::uid',
     });
     const profile = await adapter.getProfile();
 
-    expect(profile.id).toBe("DE123");
-    expect(profile.name).toBe("Definedge Tester");
+    expect(profile.id).toBe('DE123');
+    expect(profile.name).toBe('Definedge Tester');
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      stat: "Ok",
-      norenordno: "DE_ORD_999",
+      stat: 'Ok',
+      norenordno: 'DE_ORD_999',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -85,18 +85,18 @@ describe("DefinedgeAdapter", () => {
 
     const adapter = new DefinedgeAdapter({
       ...mockConfig,
-      access_token: "sess:::token:::uid",
+      access_token: 'sess:::token:::uid',
     });
     const result = await adapter.placeOrder({
-      symbol: "TATASTEEL",
-      exchange: "NSE",
-      transactionType: "BUY",
-      orderType: "MARKET",
+      symbol: 'TATASTEEL',
+      exchange: 'NSE',
+      transactionType: 'BUY',
+      orderType: 'MARKET',
       quantity: 1,
-      product: "NRML",
+      product: 'NRML',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("DE_ORD_999");
+    expect(result.orderId).toBe('DE_ORD_999');
   });
 });

@@ -1,12 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { FivePaisaXtsAdapter } from "@/lib/brokers/adapters/FivePaisaXtsAdapter";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { FivePaisaXtsAdapter } from '@/lib/brokers/adapters/FivePaisaXtsAdapter';
 
-describe("FivePaisaXtsAdapter", () => {
+describe('FivePaisaXtsAdapter', () => {
   const mockConfig = {
-    interactive_api_key: "5p_int_key",
-    interactive_api_secret: "5p_int_sec",
-    market_data_api_key: "5p_mkt_key",
-    market_data_api_secret: "5p_mkt_sec",
+    interactive_api_key: '5p_int_key',
+    interactive_api_secret: '5p_int_sec',
+    market_data_api_key: '5p_mkt_key',
+    market_data_api_secret: '5p_mkt_sec',
   };
 
   beforeEach(() => {
@@ -14,15 +14,15 @@ describe("FivePaisaXtsAdapter", () => {
     global.fetch = vi.fn();
   });
 
-  it("should authenticate successfully", async () => {
+  it('should authenticate successfully', async () => {
     const mockInteractiveResponse = {
-      type: "success",
-      result: { token: "token_a" },
+      type: 'success',
+      result: { token: 'token_a' },
     };
 
     const mockMarketResponse = {
-      type: "success",
-      result: { token: "token_b" },
+      type: 'success',
+      result: { token: 'token_b' },
     };
 
     vi.mocked(fetch)
@@ -39,13 +39,13 @@ describe("FivePaisaXtsAdapter", () => {
     const result = await adapter.authenticate();
 
     expect(result.success).toBe(true);
-    expect(result.accessToken).toBe("token_a|token_b");
+    expect(result.accessToken).toBe('token_a|token_b');
   });
 
-  it("should fetch profile successfully", async () => {
+  it('should fetch profile successfully', async () => {
     const mockProfileResponse = {
-      type: "success",
-      result: { clientCode: "FP123", clientName: "FivePaisa User" },
+      type: 'success',
+      result: { clientCode: 'FP123', clientName: 'FivePaisa User' },
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -55,21 +55,21 @@ describe("FivePaisaXtsAdapter", () => {
 
     const adapter = new FivePaisaXtsAdapter({
       ...mockConfig,
-      access_token: "ta|tb",
+      access_token: 'ta|tb',
     });
     const profile = await adapter.getProfile();
 
-    expect(profile.id).toBe("FP123");
-    expect(profile.name).toBe("FivePaisa User");
+    expect(profile.id).toBe('FP123');
+    expect(profile.name).toBe('FivePaisa User');
   });
 
-  it("should place order successfully", async () => {
+  it('should place order successfully', async () => {
     const mockOrderResponse = {
-      type: "success",
+      type: 'success',
       result: {
-        AppOrderID: "FP_ORD_777",
+        AppOrderID: 'FP_ORD_777',
       },
-      description: "Order success",
+      description: 'Order success',
     };
 
     vi.mocked(fetch).mockResolvedValue({
@@ -79,19 +79,19 @@ describe("FivePaisaXtsAdapter", () => {
 
     const adapter = new FivePaisaXtsAdapter({
       ...mockConfig,
-      access_token: "ta|tb",
+      access_token: 'ta|tb',
     });
     const result = await adapter.placeOrder({
-      symbol: "999",
-      exchange: "NSECM",
-      transactionType: "SELL",
-      orderType: "LIMIT",
+      symbol: '999',
+      exchange: 'NSECM',
+      transactionType: 'SELL',
+      orderType: 'LIMIT',
       quantity: 10,
       price: 200,
-      product: "CNC",
+      product: 'CNC',
     });
 
     expect(result.success).toBe(true);
-    expect(result.orderId).toBe("FP_ORD_777");
+    expect(result.orderId).toBe('FP_ORD_777');
   });
 });

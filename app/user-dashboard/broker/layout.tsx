@@ -1,8 +1,8 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Brokers",
-  description: "Connect and manage your broker infrastructure.",
+  title: 'Brokers',
+  description: 'Connect and manage your broker infrastructure.',
 };
 
 export default function BrokerLayout({
