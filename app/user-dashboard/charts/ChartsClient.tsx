@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import ChartsHeader from '../../components/ChartsHeader/ChartsHeader';
 import ChartsFooter from '../../components/ChartsFooter/ChartsFooter';
 import ChartsRightPanel from '../../components/ChartsRightPanel/ChartsRightPanel';
+import ScriptDrawer from '../../components/ScriptDrawer/ScriptDrawer';
 import type { ChartType } from '../../components/ChartTypeDropdown/ChartTypeDropdown';
 import styles from './ChartsPage.module.css';
 
@@ -53,6 +54,7 @@ export default function ChartsClient() {
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
   const [chartType, setChartType] = React.useState<ChartType>('candlestick');
   const [timeframe, setTimeframe] = React.useState('1m');
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
   React.useEffect(() => {
     const handleGlobalKey = (e: KeyboardEvent) => {
@@ -72,6 +74,9 @@ export default function ChartsClient() {
           setIsSettingsOpen((prev) => !prev);
           setIsSearchOpen(false);
           setIsStrategyOpen(false);
+        } else if (e.key === 'b') {
+          e.preventDefault();
+          setIsDrawerOpen((prev) => !prev);
         }
       }
     };
@@ -106,10 +111,25 @@ export default function ChartsClient() {
         onTimeframeChange={setTimeframe}
       />
       <div className={styles.mainContent}>
-        <div className={styles.chartArea}>
+        <div
+          className={styles.chartArea}
+          onClick={isDrawerOpen ? () => setIsDrawerOpen(false) : undefined}
+        >
           <TradingViewChart chartType={chartType} />
         </div>
-        <ChartsRightPanel />
+        {isDrawerOpen && (
+          <ScriptDrawer
+            isOpen={isDrawerOpen}
+            onClose={() => setIsDrawerOpen(false)}
+            onRun={() => {
+              // TODO: Execute script logic
+              console.log('[ScriptDrawer] Run triggered via Ctrl+Enter');
+            }}
+          />
+        )}
+        <ChartsRightPanel
+          onScriptClick={() => setIsDrawerOpen((prev) => !prev)}
+        />
       </div>
       <ChartsFooter />
 

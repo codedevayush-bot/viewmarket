@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 4px solid var(--border-subtle);
   background-color: var(--bg-page);
   width: 100%;
 }

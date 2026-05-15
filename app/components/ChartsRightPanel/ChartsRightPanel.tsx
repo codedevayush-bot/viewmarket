@@ -3,7 +3,13 @@
 import React from 'react';
 import styles from './ChartsRightPanel.module.css';
 
-export default function ChartsRightPanel() {
+interface ChartsRightPanelProps {
+  onScriptClick?: () => void;
+}
+
+export default function ChartsRightPanel({
+  onScriptClick,
+}: ChartsRightPanelProps) {
   const [isTradeHovered, setIsTradeHovered] = React.useState(false);
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -40,6 +46,25 @@ export default function ChartsRightPanel() {
 
   return (
     <aside className={styles.panel}>
+      <div
+        className={styles.toolButton}
+        title="Script Editor (Ctrl+B)"
+        onClick={onScriptClick}
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+      </div>
       <div
         ref={wrapperRef}
         className={styles.toolButtonWrapper}
@@ -153,6 +178,23 @@ export default function ChartsRightPanel() {
         >
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </div>
+      <div className={styles.spacer} />
+      <div className={styles.toolButton} title="Help">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
         </svg>
       </div>
     </aside>

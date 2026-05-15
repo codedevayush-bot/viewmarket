@@ -23,7 +23,9 @@ const requiredEnvVars = [
 ] as const;
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
-    console.warn(`[AUTH] ${envVar} is not set. OAuth provider will not function.`);
+    console.warn(
+      `[AUTH] ${envVar} is not set. OAuth provider will not function.`
+    );
   }
 }
 
