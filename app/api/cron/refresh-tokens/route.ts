@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { BrokerFactory } from '@/lib/brokers/BrokerFactory';
 import { decrypt, encrypt } from '@/lib/encryption';
+import logger from '@/lib/logger';
 
 // Configures this route to be executed on a serverless edge or node environment
 export const dynamic = 'force-dynamic';
@@ -16,6 +17,8 @@ export async function GET(req: NextRequest) {
   ) {
     return new NextResponse('Unauthorized', { status: 401 });
   }
+
+  const log = logger.child({ action: 'cron-refresh-tokens' });
 
   try {
     // Fetch all active connections that have an access token
@@ -116,7 +119,10 @@ export async function GET(req: NextRequest) {
           results.skipped++;
         }
       } catch (err) {
-        console.error(`Failed to process connection ${connection.id}:`, err);
+        log.error(
+          { err, connectionId: connection.id },
+          'Failed to process connection'
+        );
         results.failed++;
       }
     }
@@ -127,7 +133,7 @@ export async function GET(req: NextRequest) {
       results,
     });
   } catch (error: unknown) {
-    console.error('Cron token refresh failed:', error);
+    log.error({ err: error }, 'Cron token refresh failed');
     return NextResponse.json(
       { error: error instanceof Error ? error.message : String(error) },
       { status: 500 }

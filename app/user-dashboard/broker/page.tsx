@@ -251,7 +251,8 @@ export default function BrokerPage() {
                                   fontSize: '0.75rem',
                                 }}
                                 onClick={() => {
-                                  const token = prompt(
+                                  // TODO: Replace prompt/alert with custom modal component
+                                  const token = window.prompt(
                                     'Please enter the generated Request Token / TOTP:'
                                   );
                                   if (token) {
@@ -266,10 +267,12 @@ export default function BrokerPage() {
                                       }),
                                     }).then((res) => {
                                       if (res.ok) {
-                                        alert('Successfully authenticated!');
+                                        window.alert(
+                                          'Successfully authenticated!'
+                                        );
                                         fetchBrokers();
                                       } else {
-                                        alert('Authentication failed.');
+                                        window.alert('Authentication failed.');
                                       }
                                     });
                                   }

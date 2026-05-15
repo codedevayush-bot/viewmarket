@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "Grep(*)",
+      "Glob(*)",
+      "Agent(*)",
+      "mcp__*",
+      "mcp__context7__*",
+      "mcp__neon__*",
+      "mcp__firecrawl-mcp__*"
+    ]
+  },
+  "allowBypassPermissionsMode": true,
+  "allowDangerouslySkipPermissions": true,
+  "enabledMcpjsonServers": ["context7", "neon", "firecrawl-mcp"]
+}

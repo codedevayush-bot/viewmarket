@@ -71,7 +71,8 @@ export default function AdminTicketDetailPage() {
       mutate();
     } catch (err) {
       console.error(err);
-      alert('Failed to update ticket status.');
+      // TODO: Replace alert with toast notification
+      window.alert('Failed to update ticket status.');
     }
   };
 

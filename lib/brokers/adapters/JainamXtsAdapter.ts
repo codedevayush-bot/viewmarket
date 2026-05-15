@@ -143,7 +143,7 @@ export class JainamXtsAdapter implements IBrokerAdapter {
 
   private async request(method: string, path: string, body?: unknown) {
     if (!this.accessToken) throw new Error('No access token found.');
-    const [interactiveToken] = this.accessToken.split('|');
+    const interactiveToken = this.accessToken.split('|')[0] ?? this.accessToken;
 
     const response = await fetch(`${this.baseUrl}${path}`, {
       method,

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import styles from './Sidebar.module.css';
@@ -365,10 +366,11 @@ export default function Sidebar() {
               <div className={styles.avatarSkeleton} />
             ) : session?.user?.image ? (
               <div className={styles.avatar}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={session.user.image}
                   alt={session.user.name || 'User'}
+                  fill
+                  sizes="22px"
                   className={styles.avatarImage}
                   referrerPolicy="no-referrer"
                 />

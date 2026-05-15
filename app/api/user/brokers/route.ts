@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { auth } from '@/auth';
+import { errorResponse } from '@/lib/api-error';
 
 export async function GET() {
   const session = await auth();
@@ -36,10 +37,6 @@ export async function GET() {
 
     return NextResponse.json({ connections: safeConnections });
   } catch (error) {
-    console.error('Failed to fetch user brokers:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch user brokers' },
-      { status: 500 }
-    );
+    return errorResponse(error, 'user-brokers');
   }
 }

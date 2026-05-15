@@ -45,20 +45,20 @@ _System Directive:_ Think step-by-step. Identify the domain -> Consult the relev
 
 ### 1. The Monochrome Layer System (Softer Redesign)
 
-#### Dark Theme (Premium Off-Black)
+#### Dark Theme (Material Design Standard)
 
-- **Darkest (Page Background):** `#1c1c1c`
-- **Surface Level 1 (Containers/Sections):** `#242424`
-- **Surface Level 2 (Cards/Active Rows):** `#2d2d2d`
-- **Hover/Interactive:** `#383838` or `rgba(255, 255, 255, 0.08)`
+- **Darkest (Page Background):** `#121212`
+- **Surface Level 1 (Containers/Sections):** `#1a1a1a`
+- **Surface Level 2 (Cards/Active Rows):** `#242424`
+- **Hover/Interactive:** `#2d2d2d` or `rgba(255, 255, 255, 0.08)`
 - **Borders:** `1px solid rgba(255, 255, 255, 0.08)` (subtle) or `0.15` (strong)
 
-#### Light Theme (Eye-Friendly Zinc)
+#### Light Theme (Industry Standard White)
 
-- **Page Background:** `#e4e4e7` (Zinc 200 - Distinctly gray base)
-- **Surface Level 1 (Containers/Sections):** `#fafafa` (Zinc 50 - Lighter cards to pop)
-- **Surface Level 2 (Cards/Active Rows):** `#d4d4d8` (Zinc 300 - Darker sidebars for depth)
-- **Hover/Interactive:** `#c0c0c4` (Zinc 400)
+- **Page Background:** `#ffffff`
+- **Surface Level 1 (Containers/Sections):** `#f5f5f7`
+- **Surface Level 2 (Cards/Active Rows):** `#e8e8ed`
+- **Hover/Interactive:** `#d4d4d8`
 - **Borders:** `1px solid rgba(24, 24, 27, 0.08)` (subtle)
 - **Primary Text:** `#18181b` (Zinc 950 - softer than black)
 

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './ProfileDropdown.module.css';
 
 export default function ProfileDropdown() {
@@ -102,10 +103,11 @@ export default function ProfileDropdown() {
         title={`${session.user?.name || 'User'} - Hover for menu`}
       >
         {session.user?.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={session.user.image}
             alt={session.user.name || 'User'}
+            fill
+            sizes="40px"
             className={styles.avatarImage}
             referrerPolicy="no-referrer"
           />
@@ -131,10 +133,11 @@ export default function ProfileDropdown() {
           <div className={styles.userInfo}>
             <div className={styles.userAvatar}>
               {session.user?.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={session.user.image}
                   alt=""
+                  fill
+                  sizes="44px"
                   className={styles.userAvatarImage}
                   referrerPolicy="no-referrer"
                 />

@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { auth } from '@/auth';
 import { encrypt } from '@/lib/encryption';
+import { validateRequest, schemas } from '@/lib/validate';
+import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
+import { errorResponse } from '@/lib/api-error';
+import logger from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -9,19 +13,38 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  // Rate limit financial operations
+  const rateLimitResponse = rateLimit(
+    `broker-connect:${session.user.id}`,
+    RATE_LIMITS.financial
+  );
+  if (rateLimitResponse) return rateLimitResponse;
+
+  const log = logger.child({
+    userId: session.user.id,
+    action: 'broker-connect',
+  });
+
   try {
-    const body = await req.json();
-    const { broker_id, account_id, credentials = {} } = body;
+    const validation = await validateRequest(req, schemas.brokerConnect);
+    if (!validation.success) return validation.response;
+
+    const {
+      broker_id,
+      account_id,
+      credentials = {},
+      api_key,
+      api_secret,
+    } = validation.data;
 
     // Backward compatibility: if api_key/api_secret are sent directly, add them to credentials
-    if (body.api_key && !credentials.api_key)
-      credentials.api_key = body.api_key;
-    if (body.api_secret && !credentials.api_secret)
-      credentials.api_secret = body.api_secret;
+    if (api_key && !credentials.api_key) credentials.api_key = api_key;
+    if (api_secret && !credentials.api_secret)
+      credentials.api_secret = api_secret;
 
-    if (!broker_id || !account_id || Object.keys(credentials).length === 0) {
+    if (Object.keys(credentials).length === 0) {
       return NextResponse.json(
-        { error: 'Missing broker_id, account_id, or credentials' },
+        { error: 'Missing credentials', code: 'MISSING_CREDENTIALS' },
         { status: 400 }
       );
     }
@@ -45,11 +68,11 @@ export async function POST(req: NextRequest) {
       `INSERT INTO broker_connections ("userId", "brokerId", account_id, api_key, api_secret, encrypted_credentials, is_valid)
        VALUES ($1, $2, $3, $4, $5, $6, true)
        ON CONFLICT ("userId", "brokerId", account_id)
-       DO UPDATE SET 
-         api_key = EXCLUDED.api_key, 
-         api_secret = EXCLUDED.api_secret, 
+       DO UPDATE SET
+         api_key = EXCLUDED.api_key,
+         api_secret = EXCLUDED.api_secret,
          encrypted_credentials = EXCLUDED.encrypted_credentials,
-         is_valid = true, 
+         is_valid = true,
          "updatedAt" = NOW()
        RETURNING id`,
       [
@@ -62,16 +85,17 @@ export async function POST(req: NextRequest) {
       ]
     );
 
+    log.info(
+      { brokerId: broker_id, connectionId: res.rows[0]?.id },
+      'Broker connected'
+    );
+
     return NextResponse.json({
       success: true,
-      connectionId: res.rows[0].id,
+      connectionId: res.rows[0]?.id,
       message: 'Broker credentials saved successfully.',
     });
   } catch (error) {
-    console.error('Failed to connect broker:', error);
-    return NextResponse.json(
-      { error: 'Failed to connect broker' },
-      { status: 500 }
-    );
+    return errorResponse(error, 'broker-connect');
   }
 }

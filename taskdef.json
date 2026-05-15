@@ -85,6 +85,22 @@
         {
           "name": "NEXTAUTH_URL",
           "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:NEXTAUTH_URL::"
+        },
+        {
+          "name": "ENCRYPTION_KEY",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:ENCRYPTION_KEY::"
+        },
+        {
+          "name": "CRON_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:CRON_SECRET::"
+        },
+        {
+          "name": "AUTH_TRUST_HOST",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AUTH_TRUST_HOST::"
+        },
+        {
+          "name": "NEXT_PUBLIC_APP_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:NEXT_PUBLIC_APP_URL::"
         }
       ]
     }

@@ -5,11 +5,21 @@ import dynamic from 'next/dynamic';
 import ChartsHeader from '../../components/ChartsHeader/ChartsHeader';
 import ChartsFooter from '../../components/ChartsFooter/ChartsFooter';
 import ChartsRightPanel from '../../components/ChartsRightPanel/ChartsRightPanel';
-import SymbolSearchModal from '../../components/SymbolSearchModal/SymbolSearchModal';
-import StrategyModal from '../../components/StrategyModal/StrategyModal';
-import SettingsModal from '../../components/SettingsModal/SettingsModal';
 import type { ChartType } from '../../components/ChartTypeDropdown/ChartTypeDropdown';
 import styles from './ChartsPage.module.css';
+
+const SymbolSearchModal = dynamic(
+  () => import('../../components/SymbolSearchModal/SymbolSearchModal'),
+  { ssr: false }
+);
+const StrategyModal = dynamic(
+  () => import('../../components/StrategyModal/StrategyModal'),
+  { ssr: false }
+);
+const SettingsModal = dynamic(
+  () => import('../../components/SettingsModal/SettingsModal'),
+  { ssr: false }
+);
 
 // Dynamic import with SSR disabled for Lightweight Charts compatibility
 const TradingViewChart = dynamic(

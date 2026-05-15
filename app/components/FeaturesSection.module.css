@@ -37,7 +37,7 @@
 }
 
 .featureCard {
-  background: var(--bg-surface);
+  background: var(--bg-surface-alt);
   border: 1px solid var(--border-medium);
   border-radius: 12px;
   padding: 32px 24px;
@@ -73,7 +73,7 @@
   justify-content: center;
   margin-bottom: 40px;
   position: relative;
-  background: var(--bg-overlay-md);
+  background: var(--bg-elevated);
   border-radius: 8px;
 }
 

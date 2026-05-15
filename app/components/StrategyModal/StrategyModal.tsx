@@ -129,7 +129,7 @@ export default function StrategyModal({ onClose }: StrategyModalProps) {
           e.preventDefault();
           setActiveCategory((prev) => {
             const idx = CATEGORIES.indexOf(prev);
-            return CATEGORIES[(idx + 1) % CATEGORIES.length];
+            return CATEGORIES[(idx + 1) % CATEGORIES.length] ?? prev;
           });
           break;
       }

@@ -3,6 +3,9 @@ import { query } from '@/lib/db';
 import { auth } from '@/auth';
 import { BrokerFactory } from '@/lib/brokers/BrokerFactory';
 import { decrypt, encrypt } from '@/lib/encryption';
+import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
+import { errorResponse } from '@/lib/api-error';
+import logger from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -10,18 +13,34 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  // Rate limit financial operations
+  const rateLimitResponse = rateLimit(
+    `token-exchange:${session.user.id}`,
+    RATE_LIMITS.financial
+  );
+  if (rateLimitResponse) return rateLimitResponse;
+
+  const log = logger.child({
+    userId: session.user.id,
+    action: 'token-exchange',
+  });
+
   try {
-    const { connectionId, requestToken } = await req.json();
+    const body = await req.json();
+    const { connectionId, requestToken } = body;
 
     if (!connectionId || !requestToken) {
       return NextResponse.json(
-        { error: 'Missing connectionId or requestToken' },
+        {
+          error: 'Missing connectionId or requestToken',
+          code: 'VALIDATION_ERROR',
+        },
         { status: 400 }
       );
     }
 
     const res = await query(
-      `SELECT bc.*, b.name as broker_name 
+      `SELECT bc.*, b.name as broker_name
        FROM broker_connections bc
        JOIN brokers b ON bc."brokerId" = b.id
        WHERE bc.id = $1 AND bc."userId" = $2`,
@@ -30,12 +49,12 @@ export async function POST(req: NextRequest) {
 
     if (res.rowCount === 0) {
       return NextResponse.json(
-        { error: 'Connection not found' },
+        { error: 'Connection not found', code: 'NOT_FOUND' },
         { status: 404 }
       );
     }
 
-    const connection = res.rows[0];
+    const connection = res.rows[0]!;
 
     // Decrypt API credentials
     const credentials = {
@@ -48,12 +67,15 @@ export async function POST(req: NextRequest) {
       credentials
     );
 
-    // Call authenticate with the requestToken
     const authResult = await adapter.authenticate({ requestToken });
 
     if (!authResult.success || !authResult.accessToken) {
       return NextResponse.json(
-        { error: 'Failed to exchange token', message: authResult.message },
+        {
+          error: 'Failed to exchange token',
+          code: 'TOKEN_EXCHANGE_FAILED',
+          message: authResult.message,
+        },
         { status: 400 }
       );
     }
@@ -61,31 +83,27 @@ export async function POST(req: NextRequest) {
     // Encrypt and save the accessToken
     const encryptedAccessToken = encrypt(authResult.accessToken);
 
-    // Default expiry is 24 hours for daily request tokens
     let expiresAt = new Date();
     expiresAt.setHours(expiresAt.getHours() + 24);
     if (authResult.expiresAt) expiresAt = authResult.expiresAt;
 
     await query(
-      `UPDATE broker_connections 
+      `UPDATE broker_connections
        SET access_token = $1, token_expires_at = $2, is_valid = true, "updatedAt" = NOW()
        WHERE id = $3`,
       [encryptedAccessToken, expiresAt.toISOString(), connection.id]
+    );
+
+    log.info(
+      { connectionId, broker: connection.broker_name },
+      'Token exchanged successfully'
     );
 
     return NextResponse.json({
       success: true,
       message: 'Token exchanged successfully',
     });
-  } catch (error: unknown) {
-    console.error('Token exchange failed:', error);
-    return NextResponse.json(
-      {
-        error:
-          (error instanceof Error ? error.message : String(error)) ||
-          'Token exchange failed',
-      },
-      { status: 500 }
-    );
+  } catch (error) {
+    return errorResponse(error, 'token-exchange');
   }
 }

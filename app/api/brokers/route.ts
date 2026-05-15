@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { auth } from '@/auth';
+import { errorResponse } from '@/lib/api-error';
 
 export async function GET() {
   const session = await auth();
@@ -12,10 +13,6 @@ export async function GET() {
     const res = await query('SELECT * FROM brokers WHERE is_active = true');
     return NextResponse.json({ brokers: res.rows });
   } catch (error) {
-    console.error('Failed to fetch brokers:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch brokers' },
-      { status: 500 }
-    );
+    return errorResponse(error, 'brokers-list');
   }
 }

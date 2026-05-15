@@ -1,4 +1,7 @@
 import { Pool } from '@neondatabase/serverless';
+import logger from './logger';
+
+const dbLogger = logger.child({ module: 'db' });
 
 /**
  * Enterprise-grade database connection management.
@@ -14,12 +17,17 @@ if (
   process.env.NODE_ENV === 'production' &&
   !process.env.NEXT_RUNTIME
 ) {
-  console.warn(
+  dbLogger.warn(
     'DATABASE_URL is missing. This is expected during build but will cause errors in production.'
   );
 }
 
 export const dbPool = new Pool({ connectionString });
+
+// Pool event listeners for monitoring
+dbPool.on('error', (err: Error) => {
+  dbLogger.error({ err }, 'Unexpected pool error');
+});
 
 // Helper to execute queries with automatic client release
 export async function query(text: string, params?: unknown[]) {
@@ -27,16 +35,17 @@ export async function query(text: string, params?: unknown[]) {
   try {
     const res = await dbPool.query(text, params);
     const duration = Date.now() - start;
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('[DB DEBUG] Executed query', {
-        text,
-        duration,
-        rows: res.rowCount,
-      });
+    if (duration > 1000) {
+      dbLogger.warn(
+        { text, duration, rows: res.rowCount },
+        'Slow query detected'
+      );
+    } else if (process.env.NODE_ENV !== 'production') {
+      dbLogger.debug({ text, duration, rows: res.rowCount }, 'Query executed');
     }
     return res;
   } catch (error) {
-    console.error('[DB ERROR] Query failed', { text, error });
+    dbLogger.error({ text, err: error }, 'Query failed');
     throw error;
   }
 }

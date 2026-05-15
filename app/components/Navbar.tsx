@@ -41,7 +41,7 @@ export default function Navbar() {
             aria-hidden="true"
           >
             {/* Diamond shape */}
-            <path d="M50 8 L92 50 L50 92 L8 50 Z" fill="white" />
+            <path d="M50 8 L92 50 L50 92 L8 50 Z" fill="var(--logo-diamond)" />
             {/* Inner cutout - creates prism effect */}
             <path d="M50 28 L72 50 L50 72 L28 50 Z" fill="var(--bg-page)" />
           </svg>

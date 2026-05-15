@@ -10,15 +10,32 @@ import { dbPool } from '@/lib/db';
 // - 1-hour session updateAge (refresh token every hour)
 // - Secure cookie settings
 // - CSRF protection
-// - Account linking prevention
+// - Account linking disabled (explicit user action required)
+
+// Validate required OAuth environment variables at startup
+const requiredEnvVars = [
+  'AUTH_GOOGLE_ID',
+  'AUTH_GOOGLE_SECRET',
+  'AUTH_GITHUB_ID',
+  'AUTH_GITHUB_SECRET',
+] as const;
+for (const envVar of requiredEnvVars) {
+  if (!process.env[envVar]) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(
+        `FATAL: ${envVar} is not set. Cannot start without OAuth configuration.`
+      );
+    }
+    console.warn(`[AUTH] ${envVar} is not set. OAuth will not work.`);
+  }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: NeonAdapter(dbPool),
   providers: [
     Google({
-      clientId: process.env.AUTH_GOOGLE_ID || 'dummy',
-      clientSecret: process.env.AUTH_GOOGLE_SECRET || 'dummy',
-      allowDangerousEmailAccountLinking: true,
+      clientId: process.env.AUTH_GOOGLE_ID ?? '',
+      clientSecret: process.env.AUTH_GOOGLE_SECRET ?? '',
       authorization: {
         params: {
           prompt: 'consent',
@@ -28,9 +45,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
     GitHub({
-      clientId: process.env.AUTH_GITHUB_ID || 'dummy',
-      clientSecret: process.env.AUTH_GITHUB_SECRET || 'dummy',
-      allowDangerousEmailAccountLinking: true,
+      clientId: process.env.AUTH_GITHUB_ID ?? '',
+      clientSecret: process.env.AUTH_GITHUB_SECRET ?? '',
     }),
   ],
   pages: {

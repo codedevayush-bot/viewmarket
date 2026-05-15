@@ -3,6 +3,8 @@ import { query } from '@/lib/db';
 import { auth } from '@/auth';
 import { BrokerFactory } from '@/lib/brokers/BrokerFactory';
 import { decrypt } from '@/lib/encryption';
+import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
+import { errorResponse } from '@/lib/api-error';
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -10,18 +12,26 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  // Rate limit financial operations
+  const rateLimitResponse = rateLimit(
+    `broker-test:${session.user.id}`,
+    RATE_LIMITS.financial
+  );
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
-    const { connectionId } = await req.json();
+    const body = await req.json();
+    const { connectionId } = body;
 
     if (!connectionId) {
       return NextResponse.json(
-        { error: 'Missing connectionId' },
+        { error: 'Missing connectionId', code: 'VALIDATION_ERROR' },
         { status: 400 }
       );
     }
 
     const res = await query(
-      `SELECT bc.*, b.name as broker_name 
+      `SELECT bc.*, b.name as broker_name
        FROM broker_connections bc
        JOIN brokers b ON bc."brokerId" = b.id
        WHERE bc.id = $1 AND bc."userId" = $2`,
@@ -30,12 +40,12 @@ export async function POST(req: NextRequest) {
 
     if (res.rowCount === 0) {
       return NextResponse.json(
-        { error: 'Connection not found' },
+        { error: 'Connection not found', code: 'NOT_FOUND' },
         { status: 404 }
       );
     }
 
-    const connection = res.rows[0];
+    const connection = res.rows[0]!;
 
     const encryptedCredentials = {
       api_key: connection.api_key ? decrypt(connection.api_key) : undefined,
@@ -58,21 +68,11 @@ export async function POST(req: NextRequest) {
       sessionData
     );
 
-    // For Zerodha, they might not have an accessToken yet if they only did login but not TOTP / session exchange
-    // But testing getProfile will just verify if the access token is valid.
     const profile = await adapter.getProfile();
     const funds = await adapter.getFunds();
 
     return NextResponse.json({ success: true, profile, funds });
-  } catch (error: unknown) {
-    console.error('Test connection failed:', error);
-    return NextResponse.json(
-      {
-        error:
-          (error instanceof Error ? error.message : String(error)) ||
-          'Test connection failed',
-      },
-      { status: 500 }
-    );
+  } catch (error) {
+    return errorResponse(error, 'broker-test');
   }
 }

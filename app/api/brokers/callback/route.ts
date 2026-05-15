@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { BrokerFactory } from '@/lib/brokers/BrokerFactory';
 import { decrypt } from '@/lib/encryption';
+import logger from '@/lib/logger';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -21,7 +22,7 @@ export async function GET(req: NextRequest) {
     connectionId = decrypt(state);
     if (!connectionId) throw new Error('Empty connectionId');
   } catch (error) {
-    console.error('Invalid state parameter:', error);
+    logger.warn({ err: error }, 'Invalid state parameter');
     return NextResponse.json(
       { error: 'Invalid state parameter' },
       { status: 400 }
@@ -114,7 +115,7 @@ export async function GET(req: NextRequest) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
     return NextResponse.redirect(`${appUrl}/user-dashboard`);
   } catch (error) {
-    console.error('Failed to process OAuth callback:', error);
+    logger.error({ err: error }, 'Failed to process OAuth callback');
     return NextResponse.json(
       { error: 'Failed to process OAuth callback' },
       { status: 500 }

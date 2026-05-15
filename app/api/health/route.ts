@@ -1,17 +1,15 @@
-import { Pool } from '@neondatabase/serverless';
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+import { dbPool } from '@/lib/db';
+import logger from '@/lib/logger';
 
 export async function GET() {
   try {
-    // Verify database connectivity
-    await pool.query('SELECT 1');
+    await dbPool.query('SELECT 1');
     return Response.json(
       { status: 'healthy', db: 'connected' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Health check failed:', error);
+    logger.error({ err: error }, 'Health check failed');
     return Response.json(
       {
         status: 'unhealthy',

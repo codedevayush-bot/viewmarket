@@ -1,7 +1,7 @@
 import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 
-export const proxy = auth((req) => {
+export const middleware = auth((req) => {
   const { nextUrl } = req;
   const host = req.headers.get('host');
 
@@ -29,7 +29,12 @@ export const proxy = auth((req) => {
     ) || pathname.startsWith('/legal');
 
   if (isApiRoute || isNextStatic || isStaticFile) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    // Add request ID for distributed tracing
+    if (isApiRoute) {
+      response.headers.set('X-Request-Id', crypto.randomUUID());
+    }
+    return response;
   }
 
   const isAuthRoute = pathname === '/sign-in';
@@ -62,7 +67,7 @@ export const proxy = auth((req) => {
   return NextResponse.next();
 });
 
-export const proxyConfig = {
+export const config = {
   matcher: [
     '/((?!api|_next/static|_next/image|favicon.ico|theme-init.js|.*\\.svg|.*\\.png|.*\\.jpg).*)',
   ],

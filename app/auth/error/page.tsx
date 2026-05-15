@@ -46,7 +46,7 @@ function ErrorMessage() {
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
         >
-          <path d="M50 8 L92 50 L50 92 L8 50 Z" fill="white" />
+          <path d="M50 8 L92 50 L50 92 L8 50 Z" fill="var(--logo-diamond)" />
           <path d="M50 28 L72 50 L50 72 L28 50 Z" fill="var(--bg-page)" />
         </svg>
         <span className={styles.logoText}>ViewMarket</span>

@@ -172,7 +172,7 @@ My Tickets - Light/Dark Theme Compatible
   outline: none;
   border-color: var(--border-emphasis);
   background: var(--bg-overlay-hover);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+  box-shadow: 0 0 0 4px var(--bg-overlay);
 }
 
 .searchIcon {

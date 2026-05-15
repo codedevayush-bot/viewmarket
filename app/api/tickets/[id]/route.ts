@@ -4,6 +4,8 @@ import { query } from '@/lib/db';
 import { s3Client } from '@/lib/s3';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import logger from '@/lib/logger';
+import { errorResponse } from '@/lib/api-error';
 
 export async function GET(
   req: Request,
@@ -76,7 +78,10 @@ export async function GET(
             }); // 1 hour
             return { ...att, file_url: signedUrl };
           } catch (s3Error) {
-            console.error(`Error signing URL for ${att.file_key}:`, s3Error);
+            logger.warn(
+              { err: s3Error, fileKey: att.file_key },
+              'Error signing URL'
+            );
             return att;
           }
         }
@@ -93,11 +98,7 @@ export async function GET(
 
     return NextResponse.json({ ticket, messages });
   } catch (error) {
-    console.error('Error fetching ticket details:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return errorResponse(error, 'ticket-detail');
   }
 }
 
@@ -137,10 +138,6 @@ export async function PATCH(
 
     return NextResponse.json(result.rows[0]);
   } catch (error) {
-    console.error('Error updating ticket status:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return errorResponse(error, 'ticket-update');
   }
 }

@@ -99,7 +99,7 @@ export default function ConsolePage() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
   const [isSearchSettingsOpen, setIsSearchSettingsOpen] = useState(false);
-  const [defaultAction, setDefaultAction] = useState(DEFAULT_ACTION_OPTIONS[0]);
+  const [defaultAction, setDefaultAction] = useState(DEFAULT_ACTION_OPTIONS[0]!);
   const notifRef = useRef<HTMLDivElement>(null);
   const searchSettingsRef = useRef<HTMLDivElement>(null);
 
