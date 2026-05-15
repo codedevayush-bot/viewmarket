@@ -12,7 +12,9 @@ import { dbPool } from '@/lib/db';
 // - CSRF protection
 // - Account linking disabled (explicit user action required)
 
-// Validate required OAuth environment variables at startup
+// Validate required OAuth environment variables at runtime (not module load).
+// During Docker build, NODE_ENV=production but env vars are only injected at
+// runtime by ECS. Throwing here would crash the build.
 const requiredEnvVars = [
   'AUTH_GOOGLE_ID',
   'AUTH_GOOGLE_SECRET',
@@ -21,12 +23,7 @@ const requiredEnvVars = [
 ] as const;
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error(
-        `FATAL: ${envVar} is not set. Cannot start without OAuth configuration.`
-      );
-    }
-    console.warn(`[AUTH] ${envVar} is not set. OAuth will not work.`);
+    console.warn(`[AUTH] ${envVar} is not set. OAuth provider will not function.`);
   }
 }
 
