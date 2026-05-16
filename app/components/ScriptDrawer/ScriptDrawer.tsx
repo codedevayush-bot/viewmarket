@@ -1,16 +1,68 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import styles from './ScriptDrawer.module.css';
+import type { LanguageId } from './editorExtensions';
+
+const CodeEditor = dynamic(() => import('./CodeEditor'), { ssr: false });
 
 interface ScriptDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onRun?: () => void;
+  onRun?: (code: string) => void;
 }
 
 const MIN_WIDTH = 300;
 const MAX_WIDTH_PERCENT = 80;
+
+const DEFAULT_CODE: Record<LanguageId, string> = {
+  javascript: `// Write your trading strategy here
+function onTick(candle) {
+  // Example: simple moving average crossover
+  const sma20 = sma(candles, 20);
+  const sma50 = sma(candles, 50);
+
+  if (sma20 > sma50) {
+    buy({ symbol: candle.symbol });
+  } else if (sma20 < sma50) {
+    sell({ symbol: candle.symbol });
+  }
+}
+`,
+  typescript: `// Write your trading strategy here
+interface Candle {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  symbol: string;
+}
+
+function onTick(candle: Candle): void {
+  const sma20: number = sma(candles, 20);
+  const sma50: number = sma(candles, 50);
+
+  if (sma20 > sma50) {
+    buy({ symbol: candle.symbol });
+  } else if (sma20 < sma50) {
+    sell({ symbol: candle.symbol });
+  }
+}
+`,
+  python: `# Write your trading strategy here
+def on_tick(candle):
+    """Execute strategy logic on each candle."""
+    sma_20 = sma(candles, 20)
+    sma_50 = sma(candles, 50)
+
+    if sma_20 > sma_50:
+        buy(symbol=candle.symbol)
+    elif sma_20 < sma_50:
+        sell(symbol=candle.symbol)
+`,
+};
 
 export default function ScriptDrawer({
   isOpen,
@@ -20,6 +72,8 @@ export default function ScriptDrawer({
   const [width, setWidth] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const [language, setLanguage] = useState<LanguageId>('javascript');
+  const [code, setCode] = useState(DEFAULT_CODE.javascript);
   const drawerRef = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(() => {
@@ -29,6 +83,22 @@ export default function ScriptDrawer({
       onClose();
     }, 200);
   }, [onClose]);
+
+  const handleLanguageChange = useCallback(
+    (lang: LanguageId) => {
+      setLanguage(lang);
+      // Switch to default template if code matches another language's default
+      const isDefault = Object.values(DEFAULT_CODE).some((tpl) => tpl === code);
+      if (isDefault) {
+        setCode(DEFAULT_CODE[lang]);
+      }
+    },
+    [code]
+  );
+
+  const handleRun = useCallback(() => {
+    onRun?.(code);
+  }, [code, onRun]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -40,12 +110,12 @@ export default function ScriptDrawer({
       }
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
         e.preventDefault();
-        onRun?.();
+        handleRun();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onRun, handleClose]);
+  }, [isOpen, handleRun, handleClose]);
 
   // Resize via drag
   const handleResizeStart = useCallback(
@@ -102,7 +172,7 @@ export default function ScriptDrawer({
         <div className={styles.headerActions}>
           <button
             className={styles.runButton}
-            onClick={onRun}
+            onClick={handleRun}
             title="Run Script (Ctrl+Enter)"
           >
             <svg
@@ -138,7 +208,14 @@ export default function ScriptDrawer({
           </button>
         </div>
       </div>
-      <div className={styles.body} />
+      <div className={styles.body}>
+        <CodeEditor
+          value={code}
+          onChange={setCode}
+          language={language}
+          onLanguageChange={handleLanguageChange}
+        />
+      </div>
     </div>
   );
 }

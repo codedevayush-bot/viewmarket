@@ -1,0 +1,190 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Toolbar ────────────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  min-height: 36px;
+  padding: 0 8px;
+  gap: 2px;
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+}
+
+.toolbarSpacer {
+  flex: 1;
+}
+
+.langSelector,
+.moreMenu {
+  position: relative;
+}
+
+.langButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.langButton:hover {
+  background-color: var(--bg-overlay-hover);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+.langLabel {
+  letter-spacing: 0.02em;
+}
+
+.toolButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: var(--text-faint);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toolButton:hover {
+  background-color: var(--bg-overlay-hover);
+  color: var(--text-primary);
+}
+
+/* ── Dropdown ───────────────────────────────────────────── */
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  min-width: 160px;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  padding: 4px;
+  animation: dropdownFadeIn 0.12s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 8px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-family: inherit;
+  text-align: left;
+  transition: all 0.1s ease;
+}
+
+.dropdownItem:hover {
+  background-color: var(--bg-overlay-hover);
+  color: var(--text-primary);
+}
+
+.dropdownItemActive {
+  color: var(--text-primary);
+  background-color: var(--bg-overlay-md);
+}
+
+.shortcutTag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.625rem;
+  color: var(--text-dim);
+  background-color: var(--bg-overlay-md);
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+}
+
+/* ── Editor ─────────────────────────────────────────────── */
+
+.editorWrap {
+  flex: 1;
+  overflow: hidden;
+}
+
+.editor {
+  height: 100%;
+}
+
+.editor :global(.cm-editor) {
+  height: 100%;
+}
+
+.editor :global(.cm-scroller) {
+  overflow: auto;
+  font-family: var(--font-mono), monospace;
+}
+
+/* ── Status Bar ─────────────────────────────────────────── */
+
+.statusBar {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  min-height: 24px;
+  padding: 0 12px;
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  gap: 0;
+}
+
+.statusItem {
+  font-size: 0.6875rem;
+  font-family: var(--font-mono), monospace;
+  color: var(--text-faint);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.statusDivider {
+  width: 1px;
+  height: 12px;
+  background-color: var(--border-subtle);
+  margin: 0 8px;
+}
+
+.statusSpacer {
+  flex: 1;
+}

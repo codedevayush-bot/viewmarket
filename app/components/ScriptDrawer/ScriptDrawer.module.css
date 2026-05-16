@@ -132,8 +132,8 @@
 
 .body {
   flex: 1;
-  overflow: auto;
-  padding: 16px;
+  overflow: hidden;
+  padding: 0;
 }
 
 /* Resize handle on the left edge */

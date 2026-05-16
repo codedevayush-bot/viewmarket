@@ -121,9 +121,10 @@ export default function ChartsClient() {
           <ScriptDrawer
             isOpen={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
-            onRun={() => {
+            onRun={(code) => {
               // TODO: Execute script logic
               console.log('[ScriptDrawer] Run triggered via Ctrl+Enter');
+              console.log('[ScriptDrawer] Code:', code);
             }}
           />
         )}
