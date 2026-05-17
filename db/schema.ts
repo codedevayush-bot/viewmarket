@@ -6,19 +6,24 @@ import {
   jsonb,
   uuid,
   bigint,
+  index,
 } from 'drizzle-orm/pg-core';
 
 // ─── Users ───────────────────────────────────────────────────────────
-export const users = pgTable('users', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name'),
-  email: text('email').notNull().unique(),
-  emailVerified: timestamp('emailVerified', { mode: 'date' }),
-  image: text('image'),
-  role: text('role').default('user').notNull(),
-  createdAt: timestamp('createdAt', { mode: 'date' }).defaultNow().notNull(),
-  updatedAt: timestamp('updatedAt', { mode: 'date' }).defaultNow(),
-});
+export const users = pgTable(
+  'users',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name'),
+    email: text('email').notNull().unique(),
+    emailVerified: timestamp('emailVerified', { mode: 'date' }),
+    image: text('image'),
+    role: text('role').default('user').notNull(),
+    createdAt: timestamp('createdAt', { mode: 'date' }).defaultNow().notNull(),
+    updatedAt: timestamp('updatedAt', { mode: 'date' }).defaultNow(),
+  },
+  (table) => [index('users_created_at_idx').on(table.createdAt)]
+);
 
 // ─── Accounts (OAuth) ───────────────────────────────────────────────
 export const accounts = pgTable('accounts', {

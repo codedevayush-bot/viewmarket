@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import { auth } from '@/auth';
 import { validateRequest } from '@/lib/validate';
 import { errorResponse, ApiError } from '@/lib/api-error';
-import { query } from '@/lib/db';
+import { query, dbPool } from '@/lib/db';
 
 const verifySchema = z.object({
   razorpay_order_id: z.string().min(1),
@@ -63,53 +63,68 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true, message: 'Already paid' });
     }
 
-    // Update order status
-    await query(`UPDATE orders SET status = 'paid' WHERE id = $1`, [order.id]);
+    // Get a dedicated client from the pool for a transaction
+    const client = await dbPool.connect();
+    try {
+      await client.query('BEGIN');
 
-    // Insert payment record
-    await query(
-      `INSERT INTO payments (order_id, user_id, razorpay_payment_id, razorpay_signature, amount, status)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-      [
+      // Update order status
+      await client.query(`UPDATE orders SET status = 'paid' WHERE id = $1`, [
         order.id,
-        session.user.id,
-        razorpay_payment_id,
-        razorpay_signature,
-        order.amount,
-        'captured',
-      ]
-    );
+      ]);
 
-    // Calculate subscription end date
-    const startDate = new Date();
-    const endDate = new Date(startDate);
-    if (order.billing_cycle === 'monthly') {
-      endDate.setMonth(endDate.getMonth() + 1);
-    } else {
-      endDate.setFullYear(endDate.getFullYear() + 1);
+      // Insert payment record
+      await client.query(
+        `INSERT INTO payments (order_id, user_id, razorpay_payment_id, razorpay_signature, amount, status)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [
+          order.id,
+          session.user.id,
+          razorpay_payment_id,
+          razorpay_signature,
+          order.amount,
+          'captured',
+        ]
+      );
+
+      // Calculate subscription end date
+      const startDate = new Date();
+      const endDate = new Date(startDate);
+      if (order.billing_cycle === 'monthly') {
+        endDate.setMonth(endDate.getMonth() + 1);
+      } else {
+        endDate.setFullYear(endDate.getFullYear() + 1);
+      }
+
+      // Upsert subscription
+      await client.query(
+        `INSERT INTO user_subscriptions (user_id, plan, billing_cycle, status, start_date, end_date, razorpay_order_id)
+         VALUES ($1, $2, $3, 'active', $4, $5, $6)
+         ON CONFLICT (user_id) DO UPDATE SET
+           plan = EXCLUDED.plan,
+           billing_cycle = EXCLUDED.billing_cycle,
+           status = 'active',
+           start_date = EXCLUDED.start_date,
+           end_date = EXCLUDED.end_date,
+           razorpay_order_id = EXCLUDED.razorpay_order_id,
+           updated_at = NOW()`,
+        [
+          session.user.id,
+          order.plan,
+          order.billing_cycle,
+          startDate,
+          endDate,
+          razorpay_order_id,
+        ]
+      );
+
+      await client.query('COMMIT');
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
     }
-
-    // Upsert subscription
-    await query(
-      `INSERT INTO user_subscriptions (user_id, plan, billing_cycle, status, start_date, end_date, razorpay_order_id)
-       VALUES ($1, $2, $3, 'active', $4, $5, $6)
-       ON CONFLICT (user_id) DO UPDATE SET
-         plan = EXCLUDED.plan,
-         billing_cycle = EXCLUDED.billing_cycle,
-         status = 'active',
-         start_date = EXCLUDED.start_date,
-         end_date = EXCLUDED.end_date,
-         razorpay_order_id = EXCLUDED.razorpay_order_id,
-         updated_at = NOW()`,
-      [
-        session.user.id,
-        order.plan,
-        order.billing_cycle,
-        startDate,
-        endDate,
-        razorpay_order_id,
-      ]
-    );
 
     return NextResponse.json({
       success: true,

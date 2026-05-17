@@ -68,7 +68,8 @@ export async function POST(req: Request) {
       orderId: razorpayOrder.id,
       amount: amountInPaise,
       currency: 'INR',
-      keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      keyId:
+        process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID,
     });
   } catch (error) {
     return errorResponse(error, 'create-order');

@@ -1,14 +1,7 @@
 import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 
-const publicPaths = [
-  '/',
-  '/sign-in',
-  '/auth/error',
-  '/contact',
-  '/pricing',
-  '/cart',
-];
+const publicPaths = ['/', '/sign-in', '/auth/error', '/contact', '/pricing'];
 
 export async function middleware(req: {
   nextUrl: URL;
