@@ -20,6 +20,7 @@ vi.mock('@/lib/db', () => {
         query: q,
         release: vi.fn(),
       }),
+      on: vi.fn(),
     },
   };
 });
