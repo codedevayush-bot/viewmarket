@@ -8,7 +8,7 @@
   "requiresCompatibilities": ["FARGATE"],
   "containerDefinitions": [
     {
-      "name": "viewmarket-container",
+      "name": "viewmarket-prod",
       "image": "387075079074.dkr.ecr.us-east-1.amazonaws.com/viewmarket-app:latest",
       "portMappings": [
         {
@@ -65,14 +65,6 @@
         {
           "name": "AWS_REGION",
           "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AWS_REGION::"
-        },
-        {
-          "name": "AWS_ACCESS_KEY_ID",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AWS_ACCESS_KEY_ID::"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:AWS_SECRET_ACCESS_KEY::"
         },
         {
           "name": "AWS_S3_TICKETS_BUCKET",

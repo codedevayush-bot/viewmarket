@@ -312,7 +312,7 @@ Resources:
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /ecs/${AppName}/${Environment}
+      LogGroupName: !Sub /ecs/${AppName}/${Environment}-v2
       RetentionInDays: 30
 
   TaskExecutionRole:

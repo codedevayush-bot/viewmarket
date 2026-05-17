@@ -7,11 +7,11 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: viewmarket-app
-  ECS_SERVICE: viewmarket-service-rolling
-  ECS_CLUSTER: viewmarket-cluster
+  ECR_REPOSITORY: viewmarket-prod
+  ECS_SERVICE: viewmarket-prod-service
+  ECS_CLUSTER: viewmarket-prod-cluster
   ECS_TASK_DEFINITION: taskdef.json
-  CONTAINER_NAME: viewmarket-container
+  CONTAINER_NAME: viewmarket-prod
 
 permissions:
   id-token: write
@@ -26,6 +26,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Linter
+        run: npm run lint
+
+      - name: Run Tests
+        run: npm run test
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
