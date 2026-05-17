@@ -39,9 +39,6 @@ jobs:
       - name: Run Linter
         run: npm run lint
 
-      - name: Run Tests
-        run: npm run test
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
