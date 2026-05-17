@@ -121,6 +121,7 @@ export async function POST(req: Request) {
       await client.query('COMMIT');
     } catch (err) {
       await client.query('ROLLBACK');
+      console.error('VERIFY_PAYMENT_ERROR:', err);
       throw err;
     } finally {
       client.release();

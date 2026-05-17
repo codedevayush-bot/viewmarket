@@ -6,6 +6,21 @@ import { query } from '@/lib/db';
 import crypto from 'crypto';
 
 vi.mock('@/auth');
+vi.mock('@/lib/logger', () => ({
+  default: {
+    child: () => ({
+      warn: vi.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
+      debug: vi.fn(),
+    }),
+    warn: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    debug: vi.fn(),
+  },
+}));
+
 vi.mock('@/lib/db', () => {
   const q = vi.fn();
   return {

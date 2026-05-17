@@ -1,6 +1,19 @@
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
 
+// Mock database globally
+vi.mock('@/lib/db', () => ({
+  query: vi.fn(),
+  dbPool: {
+    query: vi.fn(),
+    on: vi.fn(),
+    connect: vi.fn().mockResolvedValue({
+      query: vi.fn(),
+      release: vi.fn(),
+    }),
+  },
+}));
+
 // Mock next/navigation
 vi.mock('next/navigation', () => ({
   useRouter: () => ({

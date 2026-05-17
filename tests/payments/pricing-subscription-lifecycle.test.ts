@@ -8,6 +8,17 @@ import crypto from 'crypto';
  */
 
 vi.mock('@/auth');
+vi.mock('@neondatabase/serverless', () => ({
+  Pool: vi.fn(() => ({
+    query: vi.fn(),
+    on: vi.fn(),
+    connect: vi.fn().mockResolvedValue({
+      query: vi.fn(),
+      release: vi.fn(),
+    }),
+  })),
+}));
+
 vi.mock('@/lib/db', () => {
   const q = vi.fn();
   return {

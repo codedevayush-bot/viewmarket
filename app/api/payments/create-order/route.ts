@@ -72,6 +72,7 @@ export async function POST(req: Request) {
         process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID,
     });
   } catch (error) {
+    console.error('CREATE_ORDER_ERROR:', error);
     return errorResponse(error, 'create-order');
   }
 }
