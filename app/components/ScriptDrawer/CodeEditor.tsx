@@ -51,11 +51,14 @@ export default function CodeEditor({
   );
 
   const handleUpdate = useCallback((viewUpdate: ViewUpdate) => {
+    if (!viewUpdate.docChanged && !viewUpdate.selectionSet) return;
     const pos = viewUpdate.state.selection.main.head;
     const line = viewUpdate.state.doc.lineAt(pos);
-    setCursorPos({
-      line: line.number,
-      col: pos - line.from + 1,
+    setCursorPos((prev) => {
+      const newLine = line.number;
+      const newCol = pos - line.from + 1;
+      if (prev.line === newLine && prev.col === newCol) return prev;
+      return { line: newLine, col: newCol };
     });
     editorViewRef.current = viewUpdate.view;
   }, []);

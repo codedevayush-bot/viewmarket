@@ -151,3 +151,53 @@ export const trades = pgTable('trades', {
   executedAt: timestamp('executed_at', { mode: 'date' }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
+
+// ─── Orders (Razorpay) ──────────────────────────────────────────────
+export const orders = pgTable('orders', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  razorpayOrderId: text('razorpay_order_id').notNull().unique(),
+  plan: text('plan').notNull(),
+  billingCycle: text('billing_cycle').notNull(),
+  amount: bigint('amount', { mode: 'number' }).notNull(),
+  currency: text('currency').default('INR').notNull(),
+  status: text('status').default('created').notNull(),
+  receipt: text('receipt'),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
+// ─── Payments (Razorpay) ────────────────────────────────────────────
+export const payments = pgTable('payments', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  orderId: uuid('order_id')
+    .notNull()
+    .references(() => orders.id, { onDelete: 'cascade' }),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  razorpayPaymentId: text('razorpay_payment_id').notNull().unique(),
+  razorpaySignature: text('razorpay_signature').notNull(),
+  amount: bigint('amount', { mode: 'number' }).notNull(),
+  method: text('method'),
+  status: text('status').default('captured').notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
+// ─── User Subscriptions ─────────────────────────────────────────────
+export const userSubscriptions = pgTable('user_subscriptions', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' })
+    .unique(),
+  plan: text('plan').notNull(),
+  billingCycle: text('billing_cycle').notNull(),
+  status: text('status').default('active').notNull(),
+  startDate: timestamp('start_date', { mode: 'date' }).defaultNow().notNull(),
+  endDate: timestamp('end_date', { mode: 'date' }),
+  razorpayOrderId: text('razorpay_order_id'),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow(),
+});

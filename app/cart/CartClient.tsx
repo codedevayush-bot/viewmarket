@@ -1,9 +1,39 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './Cart.module.css';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
+
+interface RazorpayResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
+
+interface RazorpayInstance {
+  open: () => void;
+  on: (event: string, callback: (response: { error?: Error }) => void) => void;
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  handler: (response: RazorpayResponse) => void;
+  prefill?: { name?: string; email?: string };
+  theme?: { color?: string };
+  modal?: { ondismiss?: () => void };
+}
+
+declare global {
+  interface Window {
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
+  }
+}
 
 const PLANS = [
   {
@@ -45,8 +75,12 @@ const LockIcon = () => (
 
 function CartContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const planName = searchParams.get('plan');
   const billingCycle = searchParams.get('billingCycle') || 'monthly';
+
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const selectedPlan = PLANS.find((p) => p.name === planName);
 
@@ -78,6 +112,91 @@ function CartContent() {
       ? selectedPlan.priceMonthly
       : selectedPlan.priceYearly;
   const total = billingCycle === 'monthly' ? price : price * 12;
+
+  async function handlePayment() {
+    setIsProcessing(true);
+    setError(null);
+
+    try {
+      // 1. Create order on server
+      const orderRes = await fetch('/api/payments/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plan: selectedPlan!.name,
+          billingCycle,
+        }),
+      });
+
+      if (!orderRes.ok) {
+        const data = await orderRes.json();
+        throw new Error(data.error || 'Failed to create order');
+      }
+
+      const { orderId, amount, currency, keyId } = await orderRes.json();
+
+      // 2. Open Razorpay checkout
+      const razorpay = new window.Razorpay({
+        key: keyId,
+        amount,
+        currency,
+        name: 'ViewMarket',
+        description: `${selectedPlan!.name} — ${billingCycle}`,
+        order_id: orderId,
+        handler: async (response: RazorpayResponse) => {
+          try {
+            // 3. Verify payment on server
+            const verifyRes = await fetch('/api/payments/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(response),
+            });
+
+            if (!verifyRes.ok) {
+              const data = await verifyRes.json();
+              throw new Error(data.error || 'Payment verification failed');
+            }
+
+            // 4. Redirect to dashboard on success
+            router.push('/user-dashboard');
+          } catch (verifyError) {
+            setError(
+              verifyError instanceof Error
+                ? verifyError.message
+                : 'Payment verification failed. Contact support.'
+            );
+          }
+        },
+        prefill: {
+          email: undefined,
+        },
+        theme: {
+          color: '#18181b',
+        },
+        modal: {
+          ondismiss: () => {
+            setIsProcessing(false);
+          },
+        },
+      });
+
+      razorpay.on('modal', (e) => {
+        if (e.error) {
+          setError('Payment window closed unexpectedly.');
+          setIsProcessing(false);
+        }
+      });
+
+      razorpay.open();
+    } catch (fetchError) {
+      setError(
+        fetchError instanceof Error
+          ? fetchError.message
+          : 'Something went wrong. Please try again.'
+      );
+      setIsProcessing(false);
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -145,7 +264,27 @@ function CartContent() {
             </span>
           </div>
 
-          <button className={styles.payButton}>Pay Securely</button>
+          {error && (
+            <p
+              style={{
+                color: '#ef4444',
+                fontSize: '13px',
+                marginBottom: '16px',
+                textAlign: 'center',
+              }}
+            >
+              {error}
+            </p>
+          )}
+
+          <button
+            className={styles.payButton}
+            onClick={handlePayment}
+            disabled={isProcessing}
+            style={{ opacity: isProcessing ? 0.7 : 1 }}
+          >
+            {isProcessing ? 'Processing…' : 'Pay Securely'}
+          </button>
 
           <div className={styles.secureNote}>
             <LockIcon />

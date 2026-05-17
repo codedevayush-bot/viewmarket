@@ -112,10 +112,12 @@ export default function PricingClient() {
           </div>
 
           {/* Pricing Cards */}
-          <PricingCards billingCycle={billingCycle} />
+          <div className={styles.cardsContainer}>
+            <PricingCards billingCycle={billingCycle} />
+          </div>
 
           {/* Pricing Comparator */}
-          <div className={styles.comparatorSection}>
+          <div id="compare" className={styles.comparatorSection}>
             <div className={styles.comparatorHeader}>
               <h2 className={styles.comparatorTitle}>Compare Features</h2>
               <p className={styles.comparatorDesc}>
@@ -136,7 +138,12 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const handlePlanSelection = (plan: string) => {
+  const handlePlanSelection = (plan: string, contact?: boolean) => {
+    if (contact) {
+      router.push('/contact');
+      return;
+    }
+
     if (plan === 'Free') {
       if (session) {
         router.push('/user-dashboard');
@@ -166,6 +173,12 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
         'Standard Backtesting',
         'Community Support',
         'Basic Charting',
+        'Daily Market Summary',
+        'Email Notifications',
+        'Paper Trading Mode',
+        'Basic Watchlists',
+        'Public Indicators',
+        'Knowledge Base Access',
       ],
       cta: 'Start Free',
       highlight: false,
@@ -181,6 +194,11 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
         'Email Support',
         'Custom Indicators',
         'Webhooks',
+        'Portfolio Analytics',
+        'Risk Management Tools',
+        'Multi-timeframe Analysis',
+        'Alert Notifications',
+        'CSV Data Export',
       ],
       cta: 'Get Starter',
       highlight: false,
@@ -197,6 +215,11 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
         'Multiple Brokers',
         'API Access',
         'Ultra-low Latency',
+        'Advanced Backtesting Engine',
+        'Custom Scripting (Python)',
+        'Real-time Data Feeds',
+        'Strategy Scheduler',
+        'Performance Attribution',
       ],
       cta: 'Upgrade to Pro',
       highlight: true,
@@ -213,9 +236,36 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
         'Colocation Options',
         'White-labeling',
         'Custom Dev',
+        'Institutional Data Feeds',
+        'FIX Protocol Support',
+        'Compliance Reporting',
+        'Multi-asset Coverage',
+        'Custom SLA (99.99%)',
+      ],
+      cta: 'Upgrade to Premium',
+      highlight: false,
+    },
+    {
+      name: 'Enterprise',
+      priceMonthly: 0,
+      priceYearly: 0,
+      description:
+        'Tailored infrastructure and dedicated support for large-scale operations.',
+      features: [
+        'Everything in Premium',
+        'Custom SLAs',
+        'Dedicated Infrastructure',
+        'On-prem Deployment',
+        'Regulatory Compliance',
+        'SOC 2 Certification',
+        'Dedicated Support Team',
+        'Custom Integrations',
+        'Disaster Recovery',
+        'Training & Onboarding',
       ],
       cta: 'Contact Sales',
       highlight: false,
+      contact: true,
     },
   ];
 
@@ -230,23 +280,37 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
             <div className={styles.popularBadge}>Most Popular</div>
           )}
 
-          <div className={styles.cardHeader}>
-            <h3 className={styles.cardName}>{plan.name}</h3>
-            <p className={styles.cardDesc}>{plan.description}</p>
-          </div>
+          <h3 className={styles.cardName}>{plan.name}</h3>
+          <p className={styles.cardDesc}>{plan.description}</p>
+          <hr className={styles.cardDivider} />
 
-          <div className={styles.cardPriceBox}>
-            <span className={styles.cardPrice}>
-              ₹
-              {(billingCycle === 'monthly'
-                ? plan.priceMonthly
-                : plan.priceYearly
-              ).toLocaleString()}
-            </span>
-            {plan.priceMonthly > 0 && (
-              <span className={styles.cardPriceLabel}>/mo</span>
+          <div
+            className={`${styles.cardPriceBox} ${plan.contact ? styles.cardPriceBoxCenter : ''}`}
+          >
+            {plan.contact ? (
+              <span className={styles.cardPrice}>Custom</span>
+            ) : (
+              <>
+                <span className={styles.cardPrice}>
+                  <span className={styles.rupeeSymbol}>₹</span>
+                  {(billingCycle === 'monthly'
+                    ? plan.priceMonthly
+                    : plan.priceYearly
+                  ).toLocaleString()}
+                </span>
+                {plan.priceMonthly > 0 && (
+                  <span className={styles.cardPriceLabel}>/mo</span>
+                )}
+              </>
             )}
           </div>
+
+          <button
+            onClick={() => handlePlanSelection(plan.name, plan.contact)}
+            className={`${styles.ctaBtn} ${plan.highlight ? styles.ctaBtnHighlight : ''}`}
+          >
+            {plan.cta}
+          </button>
 
           <ul className={styles.cardFeatures}>
             {plan.features.map((feature, fIdx) => (
@@ -257,12 +321,18 @@ function PricingCards({ billingCycle }: { billingCycle: BillingCycle }) {
             ))}
           </ul>
 
-          <button
-            onClick={() => handlePlanSelection(plan.name)}
-            className={`${styles.ctaBtn} ${plan.highlight ? styles.ctaBtnHighlight : ''}`}
+          <a
+            href="#compare"
+            className={styles.viewMore}
+            onClick={(e) => {
+              e.preventDefault();
+              document
+                .getElementById('compare')
+                ?.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
-            {plan.cta}
-          </button>
+            View more
+          </a>
         </div>
       ))}
     </div>
@@ -274,14 +344,17 @@ function PricingComparator() {
     {
       name: 'Core Features',
       features: [
-        { name: 'Live Strategies', values: ['1', '10', '50', 'Unlimited'] },
+        {
+          name: 'Live Strategies',
+          values: ['1', '10', '50', 'Unlimited', 'Unlimited'],
+        },
         {
           name: 'Backtesting',
-          values: ['Daily', 'Unlimited', 'Unlimited', 'Unlimited'],
+          values: ['Daily', 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited'],
         },
-        { name: 'Custom Indicators', values: ['✗', '✓', '✓', '✓'] },
-        { name: 'Multiple Brokers', values: ['✗', '✗', '✓', '✓'] },
-        { name: 'Webhooks', values: ['✗', '✓', '✓', '✓'] },
+        { name: 'Custom Indicators', values: ['✗', '✓', '✓', '✓', '✓'] },
+        { name: 'Multiple Brokers', values: ['✗', '✗', '✓', '✓', '✓'] },
+        { name: 'Webhooks', values: ['✗', '✓', '✓', '✓', '✓'] },
       ],
     },
     {
@@ -289,12 +362,18 @@ function PricingComparator() {
       features: [
         {
           name: 'Execution Speed',
-          values: ['Standard', 'Fast', 'Ultra-low Latency', 'Colocated'],
+          values: [
+            'Standard',
+            'Fast',
+            'Ultra-low Latency',
+            'Colocated',
+            'Dedicated',
+          ],
         },
-        { name: 'API Access', values: ['✗', '✗', '✓', '✓'] },
+        { name: 'API Access', values: ['✗', '✗', '✓', '✓', '✓'] },
         {
           name: 'Rate Limits',
-          values: ['60/min', '300/min', '1000/min', 'Unlimited'],
+          values: ['60/min', '300/min', '1000/min', 'Unlimited', 'Unlimited'],
         },
       ],
     },
@@ -303,16 +382,25 @@ function PricingComparator() {
       features: [
         {
           name: 'Support Level',
-          values: ['Community', 'Email', 'Priority', 'Dedicated 24/7'],
+          values: [
+            'Community',
+            'Email',
+            'Priority',
+            'Dedicated 24/7',
+            'White-glove',
+          ],
         },
-        { name: 'SLA Guarantee', values: ['✗', '✗', '99.9%', '99.99%'] },
-        { name: 'Account Manager', values: ['✗', '✗', '✗', '✓'] },
-        { name: 'Onboarding Session', values: ['✗', '✗', '✓', '✓'] },
+        {
+          name: 'SLA Guarantee',
+          values: ['✗', '✗', '99.9%', '99.99%', 'Custom SLA'],
+        },
+        { name: 'Account Manager', values: ['✗', '✗', '✗', '✓', '✓'] },
+        { name: 'Onboarding Session', values: ['✗', '✗', '✓', '✓', '✓'] },
       ],
     },
   ];
 
-  const plans = ['Free', 'Starter', 'Pro', 'Premium'];
+  const plans = ['Free', 'Starter', 'Pro', 'Premium', 'Enterprise'];
 
   return (
     <div className={styles.tableWrapper}>
@@ -334,7 +422,7 @@ function PricingComparator() {
           {categories.map((cat) => (
             <Fragment key={cat.name}>
               <tr className={styles.compareCategoryRow}>
-                <td colSpan={5} className={styles.compareCategoryCell}>
+                <td colSpan={6} className={styles.compareCategoryCell}>
                   {cat.name}
                 </td>
               </tr>
