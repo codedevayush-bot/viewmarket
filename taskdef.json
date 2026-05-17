@@ -101,6 +101,22 @@
         {
           "name": "NEXT_PUBLIC_APP_URL",
           "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:NEXT_PUBLIC_APP_URL::"
+        },
+        {
+          "name": "RAZORPAY_KEY_ID",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:RAZORPAY_KEY_ID::"
+        },
+        {
+          "name": "RAZORPAY_KEY_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:RAZORPAY_KEY_SECRET::"
+        },
+        {
+          "name": "NEXT_PUBLIC_RAZORPAY_KEY_ID",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:NEXT_PUBLIC_RAZORPAY_KEY_ID::"
+        },
+        {
+          "name": "RAZORPAY_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:387075079074:secret:viewmarket/prod/secrets-nkk62k:RAZORPAY_WEBHOOK_SECRET::"
         }
       ]
     }
