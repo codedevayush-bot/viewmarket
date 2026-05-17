@@ -41,11 +41,15 @@ export function errorResponse(error: unknown, context?: string): NextResponse {
     message = error;
   } else if (typeof error === 'object' && error !== null) {
     const obj = error as Record<string, unknown>;
-    message = (obj.message as string) || (obj.error as string) || JSON.stringify(error);
+    message =
+      (obj.message as string) || (obj.error as string) || JSON.stringify(error);
     stack = obj.stack as string | undefined;
   }
 
-  logger.error({ error: message, stack, context }, 'Unhandled error in API route');
+  logger.error(
+    { error: message, stack, context },
+    'Unhandled error in API route'
+  );
 
   return NextResponse.json(
     { error: 'Internal server error', code: 'INTERNAL' },

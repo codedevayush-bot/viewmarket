@@ -1,55 +1,55 @@
 import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 
-export const middleware = auth((req) => {
+const publicPaths = [
+  '/',
+  '/sign-in',
+  '/auth/error',
+  '/contact',
+  '/pricing',
+  '/cart',
+];
+
+export async function middleware(req: {
+  nextUrl: URL;
+  headers: Headers;
+  url: string;
+}) {
   const { nextUrl } = req;
   const host = req.headers.get('host');
+  const pathname = nextUrl.pathname;
 
-  // 1. WWW Redirection
+  // 1. WWW Redirection (always runs, no auth needed)
   if (host === 'www.viewmarket.in') {
     const redirectUrl = new URL(req.url);
     redirectUrl.host = 'viewmarket.in';
     return NextResponse.redirect(redirectUrl, 308);
   }
 
-  const isLoggedIn = !!req.auth;
-  const userRole = req.auth?.user?.role;
-  const pathname = nextUrl.pathname;
-
-  // 2. Static Assets & APIs
-  const isApiRoute = pathname.startsWith('/api');
-  const isNextStatic =
-    pathname.startsWith('/_next') || pathname.startsWith('/static');
-  const isStaticFile =
-    /\.(ico|png|jpg|jpeg|svg|js|css|json|txt|webp|woff|woff2)$/.test(pathname);
-
   const isPublicPage =
-    ['/', '/sign-in', '/auth/error', '/contact', '/pricing', '/cart'].includes(
-      pathname
-    ) || pathname.startsWith('/legal');
+    publicPaths.includes(pathname) || pathname.startsWith('/legal');
 
-  if (isApiRoute || isNextStatic || isStaticFile) {
-    const response = NextResponse.next();
-    // Add request ID for distributed tracing
-    if (isApiRoute) {
-      response.headers.set('X-Request-Id', crypto.randomUUID());
-    }
-    return response;
+  // 2. Skip auth entirely for public pages — zero database hit
+  if (isPublicPage) {
+    return NextResponse.next();
   }
 
-  const isAuthRoute = pathname === '/sign-in';
+  // 3. Only call auth() for protected routes
+  const session = await auth();
+  const isLoggedIn = !!session;
+  const userRole = session?.user?.role;
+
   const isAdminRoute = pathname.startsWith('/admin');
   const isDashboardRoute = pathname.startsWith('/user-dashboard');
+  const isAuthRoute = pathname === '/sign-in';
 
-  // 3. Post-Login Redirection Logic
+  // 4. Post-Login Redirection Logic
   if (isLoggedIn) {
-    // If admin is landing on root or user-dashboard, force them to /admin
     if (userRole === 'admin') {
       if (pathname === '/' || isDashboardRoute || isAuthRoute) {
         return NextResponse.redirect(new URL('/admin', nextUrl));
       }
     } else {
-      // Normal users shouldn't be on /admin or /sign-in
       if (isAdminRoute || isAuthRoute) {
         return NextResponse.redirect(new URL('/user-dashboard', nextUrl));
       }
@@ -57,7 +57,7 @@ export const middleware = auth((req) => {
     return NextResponse.next();
   }
 
-  // 4. Protection Logic for Unauthenticated Users
+  // 5. Protection Logic for Unauthenticated Users
   if (!isLoggedIn && !isPublicPage) {
     const loginUrl = new URL('/sign-in', nextUrl);
     loginUrl.searchParams.set('callbackUrl', pathname);
@@ -65,7 +65,7 @@ export const middleware = auth((req) => {
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [

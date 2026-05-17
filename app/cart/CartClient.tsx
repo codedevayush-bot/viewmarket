@@ -2,8 +2,9 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Script from 'next/script';
 import styles from './Cart.module.css';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 
 interface RazorpayResponse {
   razorpay_order_id: string;
@@ -81,6 +82,32 @@ function CartContent() {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(
+    typeof window !== 'undefined' && !!window.Razorpay
+  );
+
+  useEffect(() => {
+    if (window.Razorpay) return;
+
+    const checkLoaded = setInterval(() => {
+      if (window.Razorpay) {
+        setIsRazorpayLoaded(true);
+        clearInterval(checkLoaded);
+      }
+    }, 100);
+
+    const timeout = setTimeout(() => {
+      clearInterval(checkLoaded);
+      if (!window.Razorpay) {
+        setError('Payment system not available. Please refresh the page.');
+      }
+    }, 10000);
+
+    return () => {
+      clearInterval(checkLoaded);
+      clearTimeout(timeout);
+    };
+  }, []);
 
   const selectedPlan = PLANS.find((p) => p.name === planName);
 
@@ -116,6 +143,12 @@ function CartContent() {
   async function handlePayment() {
     setIsProcessing(true);
     setError(null);
+
+    if (!window.Razorpay) {
+      setError('Payment system not ready. Please refresh the page.');
+      setIsProcessing(false);
+      return;
+    }
 
     try {
       // 1. Create order on server
@@ -199,104 +232,115 @@ function CartContent() {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.checkoutCard}>
-        {/* Left Side */}
-        <div className={styles.infoSection}>
-          <div className={styles.brand}>
-            <div className={styles.logo} />
-            <span className={styles.brandName}>ViewMarket</span>
-          </div>
-
-          <div className={styles.header}>
-            <h1 className={styles.title}>Complete Subscription</h1>
-            <p className={styles.subtitle}>
-              Review your plan details and secure your access.
-            </p>
-          </div>
-
-          <div className={styles.planDisplay}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '8px',
-              }}
-            >
-              <h2 className={styles.planName}>{selectedPlan.name}</h2>
-              <span className={styles.billingBadge}>{billingCycle}</span>
+    <>
+      <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="afterInteractive"
+        onLoad={() => setIsRazorpayLoaded(true)}
+      />
+      <div className={styles.container}>
+        <div className={styles.checkoutCard}>
+          {/* Left Side */}
+          <div className={styles.infoSection}>
+            <div className={styles.brand}>
+              <div className={styles.logo} />
+              <span className={styles.brandName}>ViewMarket</span>
             </div>
-            <p className={styles.planDesc}>{selectedPlan.description}</p>
-          </div>
-        </div>
 
-        {/* Right Side */}
-        <div className={styles.paymentSection}>
-          <h2 className={styles.summaryTitle}>Payment Summary</h2>
-
-          <div className={styles.summaryItem}>
-            <span className={styles.label}>Subscription</span>
-            <span>{selectedPlan.name}</span>
-          </div>
-
-          <div className={styles.summaryItem}>
-            <span className={styles.label}>Rate</span>
-            <span>₹{price.toLocaleString()} / mo</span>
-          </div>
-
-          {billingCycle === 'yearly' && (
-            <div
-              className={styles.summaryItem}
-              style={{ color: 'var(--text-primary)' }}
-            >
-              <span className={styles.label}>Annual Discount</span>
-              <span>-20% included</span>
+            <div className={styles.header}>
+              <h1 className={styles.title}>Complete Subscription</h1>
+              <p className={styles.subtitle}>
+                Review your plan details and secure your access.
+              </p>
             </div>
-          )}
 
-          <div className={styles.divider} />
-
-          <div className={styles.totalRow}>
-            <span className={styles.totalLabel}>Total</span>
-            <span className={styles.totalAmount}>
-              ₹{total.toLocaleString()}
-            </span>
+            <div className={styles.planDisplay}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '8px',
+                }}
+              >
+                <h2 className={styles.planName}>{selectedPlan.name}</h2>
+                <span className={styles.billingBadge}>{billingCycle}</span>
+              </div>
+              <p className={styles.planDesc}>{selectedPlan.description}</p>
+            </div>
           </div>
 
-          {error && (
-            <p
-              style={{
-                color: '#ef4444',
-                fontSize: '13px',
-                marginBottom: '16px',
-                textAlign: 'center',
-              }}
+          {/* Right Side */}
+          <div className={styles.paymentSection}>
+            <h2 className={styles.summaryTitle}>Payment Summary</h2>
+
+            <div className={styles.summaryItem}>
+              <span className={styles.label}>Subscription</span>
+              <span>{selectedPlan.name}</span>
+            </div>
+
+            <div className={styles.summaryItem}>
+              <span className={styles.label}>Rate</span>
+              <span>₹{price.toLocaleString()} / mo</span>
+            </div>
+
+            {billingCycle === 'yearly' && (
+              <div
+                className={styles.summaryItem}
+                style={{ color: 'var(--text-primary)' }}
+              >
+                <span className={styles.label}>Annual Discount</span>
+                <span>-20% included</span>
+              </div>
+            )}
+
+            <div className={styles.divider} />
+
+            <div className={styles.totalRow}>
+              <span className={styles.totalLabel}>Total</span>
+              <span className={styles.totalAmount}>
+                ₹{total.toLocaleString()}
+              </span>
+            </div>
+
+            {error && (
+              <p
+                style={{
+                  color: '#ef4444',
+                  fontSize: '13px',
+                  marginBottom: '16px',
+                  textAlign: 'center',
+                }}
+              >
+                {error}
+              </p>
+            )}
+
+            <button
+              className={styles.payButton}
+              onClick={handlePayment}
+              disabled={isProcessing || !isRazorpayLoaded}
+              style={{ opacity: isProcessing || !isRazorpayLoaded ? 0.7 : 1 }}
             >
-              {error}
-            </p>
-          )}
+              {!isRazorpayLoaded
+                ? 'Loading Payment System...'
+                : isProcessing
+                  ? 'Processing…'
+                  : 'Pay Securely'}
+            </button>
 
-          <button
-            className={styles.payButton}
-            onClick={handlePayment}
-            disabled={isProcessing}
-            style={{ opacity: isProcessing ? 0.7 : 1 }}
-          >
-            {isProcessing ? 'Processing…' : 'Pay Securely'}
-          </button>
+            <div className={styles.secureNote}>
+              <LockIcon />
+              <span>Bank-level 256-bit encryption</span>
+            </div>
 
-          <div className={styles.secureNote}>
-            <LockIcon />
-            <span>Bank-level 256-bit encryption</span>
+            <Link href="/pricing" className={styles.backLink}>
+              ← Change Plan
+            </Link>
           </div>
-
-          <Link href="/pricing" className={styles.backLink}>
-            ← Change Plan
-          </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

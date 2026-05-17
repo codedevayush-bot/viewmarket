@@ -12,7 +12,9 @@ describe('Razorpay Singleton', () => {
   });
 
   it('creates a Razorpay instance with correct credentials', async () => {
-    const MockRazorpay = vi.fn(function (this: { orders: { create: ReturnType<typeof vi.fn> } }) {
+    const MockRazorpay = vi.fn(function (this: {
+      orders: { create: ReturnType<typeof vi.fn> };
+    }) {
       this.orders = { create: vi.fn() };
     });
     vi.doMock('razorpay', () => ({
@@ -31,7 +33,9 @@ describe('Razorpay Singleton', () => {
   });
 
   it('returns the same instance on subsequent calls (singleton)', async () => {
-    const MockRazorpay = vi.fn(function (this: { orders: { create: ReturnType<typeof vi.fn> } }) {
+    const MockRazorpay = vi.fn(function (this: {
+      orders: { create: ReturnType<typeof vi.fn> };
+    }) {
       this.orders = { create: vi.fn() };
     });
     vi.doMock('razorpay', () => ({
