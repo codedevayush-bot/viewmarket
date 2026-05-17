@@ -31,8 +31,21 @@ export function errorResponse(error: unknown, context?: string): NextResponse {
     );
   }
 
-  const message = error instanceof Error ? error.message : 'Unknown error';
-  logger.error({ error: message, context }, 'Unhandled error in API route');
+  let message = 'Unknown error';
+  let stack: string | undefined;
+
+  if (error instanceof Error) {
+    message = error.message;
+    stack = error.stack;
+  } else if (typeof error === 'string') {
+    message = error;
+  } else if (typeof error === 'object' && error !== null) {
+    const obj = error as Record<string, unknown>;
+    message = (obj.message as string) || (obj.error as string) || JSON.stringify(error);
+    stack = obj.stack as string | undefined;
+  }
+
+  logger.error({ error: message, stack, context }, 'Unhandled error in API route');
 
   return NextResponse.json(
     { error: 'Internal server error', code: 'INTERNAL' },
