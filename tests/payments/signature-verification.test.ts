@@ -13,6 +13,7 @@ vi.mock('@/lib/db', () => {
   return {
     query: q,
     dbPool: {
+      query: q,
       connect: vi.fn().mockResolvedValue({
         query: q,
         release: vi.fn(),
