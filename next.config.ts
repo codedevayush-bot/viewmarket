@@ -77,7 +77,7 @@ const nextConfig: NextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.viewmarket.in https://api.razorpay.com https://lumberjack.razorpay.com https://cdn.razorpay.com wss:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.viewmarket.in https://api.razorpay.com https://lumberjack.razorpay.com https://cdn.razorpay.com wss:; frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://razorpay.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
           },
         ],
       },
