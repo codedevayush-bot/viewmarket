@@ -132,6 +132,7 @@ export async function POST(req: Request) {
       billingCycle: order.billing_cycle,
     });
   } catch (error) {
+    console.error(error);
     return errorResponse(error, 'verify-payment');
   }
 }

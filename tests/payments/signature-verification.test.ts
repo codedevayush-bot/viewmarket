@@ -8,7 +8,18 @@ import crypto from 'crypto';
  */
 
 vi.mock('@/auth');
-vi.mock('@/lib/db');
+vi.mock('@/lib/db', () => {
+  const q = vi.fn();
+  return {
+    query: q,
+    dbPool: {
+      connect: vi.fn().mockResolvedValue({
+        query: q,
+        release: vi.fn(),
+      }),
+    },
+  };
+});
 vi.mock('@/lib/logger', () => ({
   default: {
     child: () => ({
@@ -52,11 +63,9 @@ describe('Signature Verification', () => {
   const mockPaymentId = 'pay_sig_456';
 
   beforeEach(() => {
-    vi.resetAllMocks();
-    vi.mocked(auth).mockResolvedValue({
-      user: { id: mockUserId },
-    } as any);
-    vi.mocked(query).mockResolvedValue({ rowCount: 1, rows: [] } as any);
+    vi.clearAllMocks();
+    vi.mocked(auth).mockResolvedValue({ user: { id: mockUserId } } as any);
+    process.env.RAZORPAY_KEY_ID = 'rzp_test_key_id';
     process.env.RAZORPAY_KEY_SECRET = mockSecret;
     process.env.RAZORPAY_WEBHOOK_SECRET = mockWebhookSecret;
   });
