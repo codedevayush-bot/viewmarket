@@ -24,6 +24,14 @@ These files can work alongside the agent's built-in task tracker when available:
 - Files track project phases and high-level progress
 - The task tracker manages individual action items within each phase
 
+### Delegation Protocol
+
+- For **all ViewMarket project work**, the top-level/main agent acts as an **orchestration layer only**.
+- Route any **coding, implementation, refactoring, or debugging** task to the **coding-agent** rather than doing the code work directly in the main agent.
+- Route any **research, investigation, discovery, comparison, or information-gathering** task to the **research-agent**.
+- The **coding-agent** and **research-agent** are the working specialists and may orchestrate their own subtasks when needed.
+- If a specialist needs clarification, the top-level agent should ask the user, relay the answer back to the specialist, and continue through that specialist instead of taking over the task directly.
+
 ### When to Use
 
 Use planning-with-files for:

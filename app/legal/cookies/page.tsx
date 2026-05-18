@@ -6,10 +6,26 @@ export const metadata = {
   description: 'Cookie Policy for ViewMarket algorithmic trading platform',
 };
 
+const sections = [
+  { id: 'what-are-cookies', label: 'What Are Cookies' },
+  { id: 'how-we-use-cookies', label: 'How We Use Cookies' },
+  { id: 'specific-cookies', label: 'Specific Cookies We Use' },
+  { id: 'broker-integration-cookies', label: 'Broker Integration Cookies' },
+  { id: 'managing-cookies', label: 'Managing Cookies' },
+  { id: 'do-not-track', label: 'Do Not Track' },
+  { id: 'updates-to-policy', label: 'Updates to This Policy' },
+  { id: 'contact-us', label: 'Contact Us' },
+];
+
 export default function CookiesPage() {
   return (
-    <LegalLayout title="Cookie Policy" lastUpdated="April 24, 2026">
-      <section className={styles.section}>
+    <LegalLayout
+      title="Cookie Policy"
+      description="How ViewMarket uses cookies and similar tracking technologies."
+      lastUpdated="April 24, 2026"
+      sections={sections}
+    >
+      <section className={styles.section} id="what-are-cookies">
         <h2 className={styles.sectionHeading}>1. What Are Cookies</h2>
         <p className={styles.sectionText}>
           Cookies are small text files placed on your device when you visit a
@@ -20,7 +36,7 @@ export default function CookiesPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="how-we-use-cookies">
         <h2 className={styles.sectionHeading}>2. How We Use Cookies</h2>
         <p className={styles.sectionText}>
           ViewMarket uses cookies and similar tracking technologies for the
@@ -50,7 +66,7 @@ export default function CookiesPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="specific-cookies">
         <h2 className={styles.sectionHeading}>3. Specific Cookies We Use</h2>
         <p className={styles.sectionText}>
           The following categories of cookies are used on the ViewMarket
@@ -82,7 +98,7 @@ export default function CookiesPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="broker-integration-cookies">
         <h2 className={styles.sectionHeading}>4. Broker Integration Cookies</h2>
         <p className={styles.sectionText}>
           When you connect to one of our 30+ broker integrations, the
@@ -93,7 +109,7 @@ export default function CookiesPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="managing-cookies">
         <h2 className={styles.sectionHeading}>5. Managing Cookies</h2>
         <p className={styles.sectionText}>
           You can manage or delete cookies through your browser settings. Most
@@ -122,7 +138,7 @@ export default function CookiesPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="do-not-track">
         <h2 className={styles.sectionHeading}>6. Do Not Track</h2>
         <p className={styles.sectionText}>
           Some browsers offer a &quot;Do Not Track&quot; (DNT) feature. There is
@@ -133,7 +149,7 @@ export default function CookiesPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="updates-to-policy">
         <h2 className={styles.sectionHeading}>7. Updates to This Policy</h2>
         <p className={styles.sectionText}>
           We may update this Cookie Policy from time to time. Changes will be
@@ -142,7 +158,7 @@ export default function CookiesPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="contact-us">
         <h2 className={styles.sectionHeading}>8. Contact Us</h2>
         <p className={styles.sectionText}>
           If you have any questions about our use of cookies, please contact us

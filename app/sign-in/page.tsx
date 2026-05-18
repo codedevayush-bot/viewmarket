@@ -5,6 +5,7 @@ import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import styles from './SignIn.module.css';
+import ComplianceBanner from '../components/ComplianceBanner';
 
 function SignInContent() {
   const searchParams = useSearchParams();
@@ -38,6 +39,7 @@ function SignInContent() {
 
   return (
     <div className={styles.signinPage}>
+      <ComplianceBanner />
       {/* Logo */}
       <Link href="/" className={styles.logo}>
         <svg

@@ -10,7 +10,15 @@
 
 - **NEVER** run the development server (`npm run dev`) or build process (`npm run build`) unless the user explicitly instructs you to do so.
 
-## 3. MCP Server Usage Protocol
+## 3. Project Work Delegation Protocol
+
+- For **all ViewMarket project work**, the top-level/main agent must act as an **orchestration layer only**.
+- Any task that requires **writing, modifying, refactoring, or debugging code** MUST be routed to the **coding-agent**. The main agent must not implement code changes directly.
+- Any task that requires **research, investigation, discovery, comparison, or fact-finding** MUST be routed to the **research-agent**.
+- The **coding-agent** and **research-agent** are the working specialists and may themselves orchestrate their own subtasks as needed.
+- If a specialist agent needs clarification, the top-level agent should obtain that clarification from the user, pass it back to the specialist, and continue the task through that agent rather than taking over the work directly.
+
+## 4. MCP Server Usage Protocol
 
 You must leverage the installed MCP servers for their respective domains:
 
@@ -19,7 +27,7 @@ You must leverage the installed MCP servers for their respective domains:
 - **Database Operations:** ALWAYS use **Neon MCP** for any database-related tasks (querying, schema updates, migrations).
   - _Approval Rule:_ You may execute non-destructive database commands autonomously. You MUST ask for user approval BEFORE executing any destructive commands (e.g., DROP, DELETE, TRUNCATE).
 
-## 4. Mandatory Skill Utilization
+## 5. Mandatory Skill Utilization
 
 You are equipped with specialized Agent Skills located in the `.agents/skills` directory. You MUST use the relevant skill for _each and every task_ you perform.
 
@@ -36,18 +44,18 @@ Before starting a task, identify the applicable skill(s) and follow their specif
 
 _System Directive:_ Think step-by-step. Identify the domain -> Consult the relevant skill -> Execute the task strictly following the skill's documented best practices.
 
-## 5. Reference Code Adaptation (OpenAlgo)
+## 6. Reference Code Adaptation (OpenAlgo)
 
 - **Multi-Tenant Planning:** The local `_reference/openalgo` repository is built for a single user. Since this project is a **public, multi-user platform**, you MUST NOT blindly copy its logic.
 - **Mandatory Planning:** Whenever instructed to take reference from OpenAlgo, you must first execute a deep planning phase (e.g., using the `battle-plan` skill) to adapt its code for a multi-tenant, enterprise-grade architecture with strict user isolation, scalability, and security.
 
-## 6. UI & Typography Standards
+## 7. UI & Typography Standards
 
 - **Strict Monochrome Theme:** The entire platform uses a highly professional, clean, monochrome aesthetic (strictly black `#000000`, white `#ffffff`, and varying alpha opacities `rgba(255, 255, 255, X)`). NEVER introduce arbitrary colors, gradients, or non-standard brand colors.
 - **Global Typography:** The standard font family is `Inter`. All pages must adhere strictly to the established text styling (e.g., titles with `-0.03em` to `-0.01em` letter spacing, `font-weight: 500`, and secondary text using white opacity such as `0.45` or `0.6`).
 - **Component Consistency:** Card components must maintain a `16px` border-radius, `1px solid rgba(255, 255, 255, 0.08)` borders, and consistent hover states (`rgba(255, 255, 255, 0.04)` background). The global max-width for containers is `1400px`.
 
-## 7. ViewMarket Component Philosophy
+## 8. ViewMarket Component Philosophy
 
 - **Clean & Essentialist:** Only show absolutely necessary elements. Avoid clutter. Hide advanced settings in modals.
 - **Compact Density:** Maintain high information density using small, legible text (primary: `0.875rem`, badges: `0.625rem`). Use tight spacing balanced by clear section dividers.

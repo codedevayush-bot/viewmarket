@@ -6,10 +6,30 @@ export const metadata = {
   description: 'Privacy Policy for ViewMarket algorithmic trading platform',
 };
 
+const sections = [
+  { id: 'introduction', label: 'Introduction' },
+  { id: 'legal-disclaimer', label: 'Legal Disclaimer' },
+  { id: 'information-we-collect', label: 'Information We Collect' },
+  { id: 'how-we-use-information', label: 'How We Use Your Information' },
+  { id: 'data-sharing-disclosure', label: 'Data Sharing & Disclosure' },
+  { id: 'data-security', label: 'Data Security' },
+  { id: 'data-retention', label: 'Data Retention' },
+  { id: 'your-rights', label: 'Your Rights' },
+  { id: 'international-data-transfers', label: 'International Data Transfers' },
+  { id: 'childrens-privacy', label: "Children's Privacy" },
+  { id: 'changes-to-policy', label: 'Changes to This Policy' },
+  { id: 'contact-us', label: 'Contact Us' },
+];
+
 export default function PrivacyPage() {
   return (
-    <LegalLayout title="Privacy Policy" lastUpdated="April 24, 2026">
-      <section className={styles.section}>
+    <LegalLayout
+      title="Privacy Policy"
+      description="How ViewMarket collects, uses, and protects your personal information."
+      lastUpdated="April 24, 2026"
+      sections={sections}
+    >
+      <section className={styles.section} id="introduction">
         <h2 className={styles.sectionHeading}>1. Introduction</h2>
         <p className={styles.sectionText}>
           ViewMarket (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is
@@ -23,7 +43,18 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="legal-disclaimer">
+        <h2 className={styles.sectionHeading}>0. Legal Disclaimer</h2>
+        <p className={styles.sectionText}>
+          ViewMarket is a technology platform only. We are NOT a SEBI‑registered
+          broker, investment adviser, research analyst, or market‑data vendor.
+          All market data, brokerage services, and trading execution are
+          provided solely by the user&apos;s chosen broker. The platform does not
+          offer financial advice, recommendations, or portfolio management.
+        </p>
+      </section>
+
+      <section className={styles.section} id="information-we-collect">
         <h2 className={styles.sectionHeading}>2. Information We Collect</h2>
         <p className={styles.sectionText}>
           We collect the following categories of information:
@@ -57,7 +88,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="how-we-use-information">
         <h2 className={styles.sectionHeading}>
           3. How We Use Your Information
         </h2>
@@ -91,7 +122,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="data-sharing-disclosure">
         <h2 className={styles.sectionHeading}>4. Data Sharing & Disclosure</h2>
         <p className={styles.sectionText}>
           We do not sell your personal information. We may share your data only
@@ -121,7 +152,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="data-security">
         <h2 className={styles.sectionHeading}>5. Data Security</h2>
         <p className={styles.sectionText}>
           We implement industry-standard security measures including encryption
@@ -132,7 +163,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="data-retention">
         <h2 className={styles.sectionHeading}>6. Data Retention</h2>
         <p className={styles.sectionText}>
           We retain your personal information for as long as your account is
@@ -143,7 +174,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="your-rights">
         <h2 className={styles.sectionHeading}>7. Your Rights</h2>
         <p className={styles.sectionText}>
           Depending on your jurisdiction, you may have the right to:
@@ -169,7 +200,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="international-data-transfers">
         <h2 className={styles.sectionHeading}>
           8. International Data Transfers
         </h2>
@@ -181,7 +212,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="childrens-privacy">
         <h2 className={styles.sectionHeading}>9. Children&apos;s Privacy</h2>
         <p className={styles.sectionText}>
           ViewMarket is not intended for use by individuals under the age of 18.
@@ -189,7 +220,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="changes-to-policy">
         <h2 className={styles.sectionHeading}>10. Changes to This Policy</h2>
         <p className={styles.sectionText}>
           We may update this Privacy Policy from time to time. We will notify
@@ -199,7 +230,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="contact-us">
         <h2 className={styles.sectionHeading}>11. Contact Us</h2>
         <p className={styles.sectionText}>
           If you have any questions about this Privacy Policy, please contact us

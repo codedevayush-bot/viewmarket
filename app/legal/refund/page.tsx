@@ -6,10 +6,27 @@ export const metadata = {
   description: 'Refund Policy for ViewMarket algorithmic trading platform',
 };
 
+const sections = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'no-refund-policy', label: 'No Refund Policy' },
+  { id: 'why-no-refunds', label: 'Why No Refunds' },
+  { id: 'free-trial', label: 'Free Trial & Evaluation' },
+  { id: 'subscription-cancellation', label: 'Subscription Cancellation' },
+  { id: 'billing-errors', label: 'Billing Errors' },
+  { id: 'trading-losses', label: 'Trading Losses' },
+  { id: 'changes-to-policy', label: 'Changes to This Policy' },
+  { id: 'contact-us', label: 'Contact Us' },
+];
+
 export default function RefundPage() {
   return (
-    <LegalLayout title="Refund Policy" lastUpdated="April 24, 2026">
-      <section className={styles.section}>
+    <LegalLayout
+      title="Refund Policy"
+      description="Information about subscription payments, cancellations, and our no-refund policy."
+      lastUpdated="April 24, 2026"
+      sections={sections}
+    >
+      <section className={styles.section} id="overview">
         <h2 className={styles.sectionHeading}>1. Overview</h2>
         <p className={styles.sectionText}>
           ViewMarket is a Software-as-a-Service (SaaS) platform providing
@@ -23,7 +40,7 @@ export default function RefundPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="no-refund-policy">
         <h2 className={styles.sectionHeading}>2. No Refund Policy</h2>
         <p className={styles.sectionText}>
           As ViewMarket provides digital software services that are immediately
@@ -52,7 +69,7 @@ export default function RefundPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="why-no-refunds">
         <h2 className={styles.sectionHeading}>3. Why No Refunds</h2>
         <p className={styles.sectionText}>
           Our no-refund policy exists because:
@@ -78,7 +95,7 @@ export default function RefundPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="free-trial">
         <h2 className={styles.sectionHeading}>4. Free Trial & Evaluation</h2>
         <p className={styles.sectionText}>
           Where available, ViewMarket may offer a free trial period so you can
@@ -89,7 +106,7 @@ export default function RefundPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="subscription-cancellation">
         <h2 className={styles.sectionHeading}>5. Subscription Cancellation</h2>
         <p className={styles.sectionText}>
           You may cancel your subscription at any time through your account
@@ -114,7 +131,7 @@ export default function RefundPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="billing-errors">
         <h2 className={styles.sectionHeading}>6. Billing Errors</h2>
         <p className={styles.sectionText}>
           If you identify a billing error — such as being charged incorrectly or
@@ -126,7 +143,7 @@ export default function RefundPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="trading-losses">
         <h2 className={styles.sectionHeading}>7. Trading Losses</h2>
         <p className={styles.sectionText}>
           ViewMarket is a software tool provider and does not provide trading
@@ -137,7 +154,7 @@ export default function RefundPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="changes-to-policy">
         <h2 className={styles.sectionHeading}>8. Changes to This Policy</h2>
         <p className={styles.sectionText}>
           We reserve the right to update this Refund Policy at any time. Changes
@@ -147,7 +164,7 @@ export default function RefundPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="contact-us">
         <h2 className={styles.sectionHeading}>9. Contact Us</h2>
         <p className={styles.sectionText}>
           If you have any questions about this Refund Policy or need to report a

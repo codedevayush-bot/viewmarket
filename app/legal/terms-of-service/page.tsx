@@ -6,10 +6,34 @@ export const metadata = {
   description: 'Terms of Service for ViewMarket algorithmic trading platform',
 };
 
+const sections = [
+  { id: 'acceptance-of-terms', label: 'Acceptance of Terms' },
+  { id: 'legal-disclaimer', label: 'Legal Disclaimer' },
+  { id: 'description-of-service', label: 'Description of Service' },
+  { id: 'account-registration', label: 'Account Registration' },
+  { id: 'subscription-payments', label: 'Subscription & Payments' },
+  { id: 'broker-integrations', label: 'Broker Integrations' },
+  { id: 'acceptable-use', label: 'Acceptable Use' },
+  { id: 'intellectual-property', label: 'Intellectual Property' },
+  { id: 'user-generated-content', label: 'User-Generated Content' },
+  { id: 'service-availability', label: 'Service Availability' },
+  { id: 'termination', label: 'Termination' },
+  { id: 'limitation-liability', label: 'Limitation of Liability' },
+  { id: 'indemnification', label: 'Indemnification' },
+  { id: 'governing-law', label: 'Governing Law' },
+  { id: 'changes-to-terms', label: 'Changes to These Terms' },
+  { id: 'contact-us', label: 'Contact Us' },
+];
+
 export default function TermsOfServicePage() {
   return (
-    <LegalLayout title="Terms of Service" lastUpdated="April 24, 2026">
-      <section className={styles.section}>
+    <LegalLayout
+      title="Terms of Service"
+      description="The legal agreement governing your use of the ViewMarket platform."
+      lastUpdated="April 24, 2026"
+      sections={sections}
+    >
+      <section className={styles.section} id="acceptance-of-terms">
         <h2 className={styles.sectionHeading}>1. Acceptance of Terms</h2>
         <p className={styles.sectionText}>
           By accessing or using the ViewMarket platform, you agree to be bound
@@ -21,7 +45,18 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="legal-disclaimer">
+        <h2 className={styles.sectionHeading}>0. Legal Disclaimer</h2>
+        <p className={styles.sectionText}>
+          ViewMarket is a technology platform only. We are NOT a SEBI‑registered
+          broker, investment adviser, research analyst, or market‑data vendor.
+          All market data, brokerage services, and trading execution are
+          provided solely by the user&apos;s chosen broker. The platform does not
+          offer financial advice, recommendations, or portfolio management.
+        </p>
+      </section>
+
+      <section className={styles.section} id="description-of-service">
         <h2 className={styles.sectionHeading}>2. Description of Service</h2>
         <p className={styles.sectionText}>
           ViewMarket provides users with software tools for algorithmic trading,
@@ -50,7 +85,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="account-registration">
         <h2 className={styles.sectionHeading}>3. Account Registration</h2>
         <p className={styles.sectionText}>
           To use ViewMarket, you must create an account and provide accurate,
@@ -61,7 +96,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="subscription-payments">
         <h2 className={styles.sectionHeading}>4. Subscription & Payments</h2>
         <p className={styles.sectionText}>
           ViewMarket operates on a subscription-based pricing model. By
@@ -73,7 +108,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="broker-integrations">
         <h2 className={styles.sectionHeading}>5. Broker Integrations</h2>
         <p className={styles.sectionText}>
           ViewMarket allows you to connect your broker account via API to
@@ -100,7 +135,7 @@ export default function TermsOfServicePage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="acceptable-use">
         <h2 className={styles.sectionHeading}>6. Acceptable Use</h2>
         <p className={styles.sectionText}>You agree not to:</p>
         <ul className={styles.sectionList}>
@@ -131,7 +166,7 @@ export default function TermsOfServicePage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="intellectual-property">
         <h2 className={styles.sectionHeading}>7. Intellectual Property</h2>
         <p className={styles.sectionText}>
           All content, features, and functionality of the ViewMarket platform,
@@ -142,7 +177,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="user-generated-content">
         <h2 className={styles.sectionHeading}>8. User-Generated Content</h2>
         <p className={styles.sectionText}>
           You retain ownership of any trading strategies, scripts, or
@@ -152,7 +187,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="service-availability">
         <h2 className={styles.sectionHeading}>9. Service Availability</h2>
         <p className={styles.sectionText}>
           We strive to maintain high availability of the platform but do not
@@ -162,7 +197,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="termination">
         <h2 className={styles.sectionHeading}>10. Termination</h2>
         <p className={styles.sectionText}>
           Either party may terminate this agreement at any time. You may cancel
@@ -174,7 +209,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="limitation-liability">
         <h2 className={styles.sectionHeading}>11. Limitation of Liability</h2>
         <p className={styles.sectionText}>
           To the fullest extent permitted by law, ViewMarket shall not be liable
@@ -186,7 +221,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="indemnification">
         <h2 className={styles.sectionHeading}>12. Indemnification</h2>
         <p className={styles.sectionText}>
           You agree to indemnify and hold harmless ViewMarket, its directors,
@@ -196,7 +231,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="governing-law">
         <h2 className={styles.sectionHeading}>13. Governing Law</h2>
         <p className={styles.sectionText}>
           These Terms shall be governed by and construed in accordance with
@@ -206,7 +241,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="changes-to-terms">
         <h2 className={styles.sectionHeading}>14. Changes to These Terms</h2>
         <p className={styles.sectionText}>
           We may update these Terms from time to time. We will notify you of
@@ -216,7 +251,7 @@ export default function TermsOfServicePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="contact-us">
         <h2 className={styles.sectionHeading}>15. Contact Us</h2>
         <p className={styles.sectionText}>
           If you have any questions about these Terms of Service, please contact

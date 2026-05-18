@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ViewMarket — an enterprise-grade algorithmic trading platform integrating 30+ brokers, built with Next.js 16 App Router, React 19, and Neon Postgres.
 
+## Delegation Protocol
+
+- For **all ViewMarket project work**, the top-level/main agent must act only as an **orchestration layer**.
+- Any task involving **writing, editing, refactoring, implementing, or debugging code** MUST be routed to the **coding-agent** instead of being completed directly by the main agent.
+- Any task involving **research, investigation, discovery, comparison, or information gathering** MUST be routed to the **research-agent**.
+- The **coding-agent** and **research-agent** are the working specialists and may orchestrate their own subtasks as needed.
+- If either specialist agent needs clarification, the top-level agent should ask the user, relay the answer back to that specialist, and continue execution through the specialist rather than taking over the work directly.
+
 ## Commands
 
 ```bash
@@ -116,17 +124,18 @@ npm run e2e:ui       # Run Playwright with UI
 ## Critical Rules
 
 1. **NEVER** run `npm run dev` or `npm run build` unless explicitly instructed
-2. **Server components by default** — only add `'use client'` when the component needs interactivity
-3. **Dynamic imports** for heavy modals/charts — use `next/dynamic` with `{ ssr: false }` for browser-only components
-4. **Use `next/image`** for all images — never raw `<img>` tags (configure `remotePatterns` in `next.config.ts` for external hosts)
-5. **CSS tokens only** — all colors must reference `var(--bg-*)`, `var(--text-*)`, `var(--border-*)` custom properties, never hardcoded hex
-6. **Shared DB pool** — import `dbPool` from `@/lib/db`, never instantiate `new Pool()`
-7. **MCP servers**: Context7 for library docs, Firecrawl for web research, Neon for database operations (ask before destructive DB commands)
-8. **Enterprise security** — no `allowDangerousEmailAccountLinking`, CSP headers configured, session token entropy via `crypto.randomUUID()`, ENCRYPTION_KEY required in production
-9. **Use skills** — consult the relevant skill in `.agents/skills/` before performing tasks in its domain (see Skills section below)
-10. **Input validation** — all API POST/PUT handlers must use zod schemas from `lib/validate.ts`
-11. **Rate limiting** — financial endpoints must use `rateLimit()` from `lib/rate-limit.ts`
-12. **Structured logging** — use `import logger from '@/lib/logger'` instead of console.log/console.error
+2. **Main agent is orchestration-only** — for ViewMarket work, route coding tasks to `coding-agent` and research/investigation tasks to `research-agent` instead of doing that work directly
+3. **Server components by default** — only add `'use client'` when the component needs interactivity
+4. **Dynamic imports** for heavy modals/charts — use `next/dynamic` with `{ ssr: false }` for browser-only components
+5. **Use `next/image`** for all images — never raw `<img>` tags (configure `remotePatterns` in `next.config.ts` for external hosts)
+6. **CSS tokens only** — all colors must reference `var(--bg-*)`, `var(--text-*)`, `var(--border-*)` custom properties, never hardcoded hex
+7. **Shared DB pool** — import `dbPool` from `@/lib/db`, never instantiate `new Pool()`
+8. **MCP servers**: Context7 for library docs, Firecrawl for web research, Neon for database operations (ask before destructive DB commands)
+9. **Enterprise security** — no `allowDangerousEmailAccountLinking`, CSP headers configured, session token entropy via `crypto.randomUUID()`, ENCRYPTION_KEY required in production
+10. **Use skills** — consult the relevant skill in `.agents/skills/` before performing tasks in its domain (see Skills section below)
+11. **Input validation** — all API POST/PUT handlers must use zod schemas from `lib/validate.ts`
+12. **Rate limiting** — financial endpoints must use `rateLimit()` from `lib/rate-limit.ts`
+13. **Structured logging** — use `import logger from '@/lib/logger'` instead of console.log/console.error
 
 ## Skills (`.agents/skills/`)
 

@@ -10,7 +10,15 @@
 
 - **NEVER** run the development server (`npm run dev`) or build process (`npm run build`) unless the user explicitly instructs you to do so.
 
-## 3. MCP Server Usage Protocol
+## 3. Project Work Delegation Protocol
+
+- For **all ViewMarket project work**, the top-level/main agent must act as an **orchestration layer only**.
+- Any task that requires **writing, modifying, refactoring, or debugging code** MUST be routed to the **coding-agent**. The main agent must not implement code changes directly.
+- Any task that requires **research, investigation, discovery, comparison, or fact-finding** MUST be routed to the **research-agent**.
+- The **coding-agent** and **research-agent** are the working specialists and may themselves orchestrate their own subtasks as needed.
+- If a specialist agent needs clarification, the top-level agent should obtain that clarification from the user, pass it back to the specialist, and continue the task through that agent rather than taking over the work directly.
+
+## 4. MCP Server Usage Protocol
 
 You must leverage the installed MCP servers for their respective domains:
 
@@ -19,7 +27,7 @@ You must leverage the installed MCP servers for their respective domains:
 - **Database Operations:** ALWAYS use **Neon MCP** for any database-related tasks (querying, schema updates, migrations).
   - _Approval Rule:_ You may execute non-destructive database commands autonomously. You MUST ask for user approval BEFORE executing any destructive commands (e.g., DROP, DELETE, TRUNCATE).
 
-## 4. Mandatory Skill Utilization
+## 5. Mandatory Skill Utilization
 
 You are equipped with specialized Agent Skills located in the `.agents/skills` directory. You MUST use the relevant skill for _each and every task_ you perform.
 
@@ -36,12 +44,12 @@ Before starting a task, identify the applicable skill(s) and follow their specif
 
 _System Directive:_ Think step-by-step. Identify the domain -> Consult the relevant skill -> Execute the task strictly following the skill's documented best practices.
 
-## 5. Reference Code Adaptation (OpenAlgo)
+## 6. Reference Code Adaptation (OpenAlgo)
 
 - **Multi-Tenant Planning:** The local `_reference/openalgo` repository is built for a single user. Since this project is a **public, multi-user platform**, you MUST NOT blindly copy its logic.
 - **Mandatory Planning:** Whenever instructed to take reference from OpenAlgo, you must first execute a deep planning phase (e.g., using the `battle-plan` skill) to adapt its code for a multi-tenant, enterprise-grade architecture with strict user isolation, scalability, and security.
 
-## 6. UI & Typography Standards
+## 7. UI & Typography Standards
 
 ### 1. The Monochrome Layer System (Softer Redesign)
 
@@ -62,7 +70,7 @@ _System Directive:_ Think step-by-step. Identify the domain -> Consult the relev
 - **Borders:** `1px solid rgba(24, 24, 27, 0.08)` (subtle)
 - **Primary Text:** `#18181b` (Zinc 950 - softer than black)
 
-## 7. ViewMarket Component Philosophy
+## 8. ViewMarket Component Philosophy
 
 - **Clean & Essentialist:** Only show absolutely necessary elements. Avoid clutter. Hide advanced settings in modals.
 - **Compact Density:** Maintain high information density using small, legible text (primary: `0.875rem`, badges: `0.625rem`). Use tight spacing balanced by clear section dividers.
@@ -70,6 +78,6 @@ _System Directive:_ Think step-by-step. Identify the domain -> Consult the relev
 - **Full-Width Lists:** For dashboard lists (like Brokers), use edge-to-edge horizontal separators (`border-top`/`border-bottom`) instead of floating "island" containers.
 - **Interactive Precision:** Implement high-precision hover states (subtle vertical lift, background brightness shift) for all interactive rows and buttons.
 
-## 8. Planning Methodology
+## 9. Planning Methodology
 
 For complex tasks requiring >5 tool calls, I must use the planning-setup skill to maintain persistent planning files (`planning/task_plan.md`, `planning/findings.md`, `planning/progress.md`) and adhere to `planning/planning-rules.md`.

@@ -6,10 +6,29 @@ export const metadata = {
   description: 'Disclaimer for ViewMarket algorithmic trading platform',
 };
 
+const sections = [
+  { id: 'general-disclaimer', label: 'General Disclaimer' },
+  { id: 'no-financial-advice', label: 'No Financial Advice' },
+  { id: 'no-guarantee-results', label: 'No Guarantee of Results' },
+  { id: 'broker-integrations', label: 'Broker Integrations' },
+  { id: 'technical-limitations', label: 'Technical Limitations' },
+  { id: 'third-party-data', label: 'Third-Party Data & Tools' },
+  { id: 'user-responsibility', label: 'User Responsibility' },
+  { id: 'limitation-liability', label: 'Limitation of Liability' },
+  { id: 'regulatory-compliance', label: 'Regulatory Compliance' },
+  { id: 'changes-disclaimer', label: 'Changes to This Disclaimer' },
+  { id: 'contact-us', label: 'Contact Us' },
+];
+
 export default function DisclaimerPage() {
   return (
-    <LegalLayout title="Disclaimer" lastUpdated="April 24, 2026">
-      <section className={styles.section}>
+    <LegalLayout
+      title="Disclaimer"
+      description="Important information about the nature of the ViewMarket platform and its limitations."
+      lastUpdated="April 24, 2026"
+      sections={sections}
+    >
+      <section className={styles.section} id="general-disclaimer">
         <h2 className={styles.sectionHeading}>1. General Disclaimer</h2>
         <p className={styles.sectionText}>
           ViewMarket is a Software-as-a-Service (SaaS) platform that provides
@@ -22,7 +41,7 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="no-financial-advice">
         <h2 className={styles.sectionHeading}>2. No Financial Advice</h2>
         <p className={styles.sectionText}>
           Nothing on the ViewMarket platform, including charts, indicators,
@@ -33,7 +52,7 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="no-guarantee-results">
         <h2 className={styles.sectionHeading}>3. No Guarantee of Results</h2>
         <p className={styles.sectionText}>
           ViewMarket does not guarantee any specific trading outcomes,
@@ -45,20 +64,20 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="broker-integrations">
         <h2 className={styles.sectionHeading}>4. Broker Integrations</h2>
         <p className={styles.sectionText}>
           ViewMarket integrates with 30+ brokers globally to facilitate trade
           execution. These integrations are provided as a convenience and do not
           imply endorsement, partnership, or guarantee of any broker&apos;s
-          services. Each broker operates under its own regulatory framework,
+          services. Each broker operate under its own regulatory framework,
           terms, and conditions. Users are solely responsible for evaluating and
           choosing their broker and for complying with the broker&apos;s terms
           of service.
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="technical-limitations">
         <h2 className={styles.sectionHeading}>5. Technical Limitations</h2>
         <p className={styles.sectionText}>
           The ViewMarket platform is provided on an &quot;as is&quot; and
@@ -71,7 +90,7 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="third-party-data">
         <h2 className={styles.sectionHeading}>6. Third-Party Data & Tools</h2>
         <p className={styles.sectionText}>
           ViewMarket may incorporate or display data, charts, indicators, and
@@ -81,7 +100,7 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="user-responsibility">
         <h2 className={styles.sectionHeading}>7. User Responsibility</h2>
         <p className={styles.sectionText}>Users are solely responsible for:</p>
         <ul className={styles.sectionList}>
@@ -107,7 +126,7 @@ export default function DisclaimerPage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="limitation-liability">
         <h2 className={styles.sectionHeading}>8. Limitation of Liability</h2>
         <p className={styles.sectionText}>
           To the maximum extent permitted by law, ViewMarket, its directors,
@@ -119,7 +138,7 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="regulatory-compliance">
         <h2 className={styles.sectionHeading}>9. Regulatory Compliance</h2>
         <p className={styles.sectionText}>
           ViewMarket is a software provider and is not registered as a
@@ -130,7 +149,7 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="changes-disclaimer">
         <h2 className={styles.sectionHeading}>
           10. Changes to This Disclaimer
         </h2>
@@ -142,7 +161,7 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="contact-us">
         <h2 className={styles.sectionHeading}>11. Contact Us</h2>
         <p className={styles.sectionText}>
           If you have any questions about this Disclaimer, please contact us at

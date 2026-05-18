@@ -6,10 +6,28 @@ export const metadata = {
   description: 'Risk Disclosure for ViewMarket algorithmic trading platform',
 };
 
+const sections = [
+  { id: 'important-notice', label: 'Important Notice' },
+  { id: 'trading-risk', label: 'Trading Risk' },
+  { id: 'algorithmic-trading-risks', label: 'Algorithmic Trading Risks' },
+  { id: 'broker-integration-risks', label: 'Broker Integration Risks' },
+  { id: 'market-risks', label: 'Market Risks' },
+  { id: 'technology-risks', label: 'Technology Risks' },
+  { id: 'no-risk-elimination', label: 'No Risk Elimination' },
+  { id: 'acknowledgment', label: 'Acknowledgment' },
+  { id: 'changes-to-disclosure', label: 'Changes to This Disclosure' },
+  { id: 'contact-us', label: 'Contact Us' },
+];
+
 export default function RiskDisclosurePage() {
   return (
-    <LegalLayout title="Risk Disclosure" lastUpdated="April 24, 2026">
-      <section className={styles.section}>
+    <LegalLayout
+      title="Risk Disclosure"
+      description="Important information about the risks associated with algorithmic trading and using the ViewMarket platform."
+      lastUpdated="April 24, 2026"
+      sections={sections}
+    >
+      <section className={styles.section} id="important-notice">
         <h2 className={styles.sectionHeading}>1. Important Notice</h2>
         <p className={styles.sectionText}>
           This Risk Disclosure is provided to inform you of the significant
@@ -26,7 +44,7 @@ export default function RiskDisclosurePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="trading-risk">
         <h2 className={styles.sectionHeading}>2. Trading Risk</h2>
         <p className={styles.sectionText}>
           Trading in financial instruments, including but not limited to stocks,
@@ -39,7 +57,7 @@ export default function RiskDisclosurePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="algorithmic-trading-risks">
         <h2 className={styles.sectionHeading}>3. Algorithmic Trading Risks</h2>
         <p className={styles.sectionText}>
           The use of algorithmic trading tools on the ViewMarket platform
@@ -74,7 +92,7 @@ export default function RiskDisclosurePage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="broker-integration-risks">
         <h2 className={styles.sectionHeading}>4. Broker Integration Risks</h2>
         <p className={styles.sectionText}>
           ViewMarket integrates with 30+ brokers globally. Users should be aware
@@ -105,7 +123,7 @@ export default function RiskDisclosurePage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="market-risks">
         <h2 className={styles.sectionHeading}>5. Market Risks</h2>
         <p className={styles.sectionText}>
           Financial markets are inherently volatile and unpredictable. Specific
@@ -134,7 +152,7 @@ export default function RiskDisclosurePage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="technology-risks">
         <h2 className={styles.sectionHeading}>6. Technology Risks</h2>
         <p className={styles.sectionText}>
           The ViewMarket platform relies on complex technology infrastructure.
@@ -164,7 +182,7 @@ export default function RiskDisclosurePage() {
         </ul>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="no-risk-elimination">
         <h2 className={styles.sectionHeading}>7. No Risk Elimination</h2>
         <p className={styles.sectionText}>
           The use of the ViewMarket platform does not eliminate, reduce, or
@@ -176,7 +194,7 @@ export default function RiskDisclosurePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="acknowledgment">
         <h2 className={styles.sectionHeading}>8. Acknowledgment</h2>
         <p className={styles.sectionText}>
           By using the ViewMarket platform, you acknowledge that you have read
@@ -186,7 +204,7 @@ export default function RiskDisclosurePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="changes-to-disclosure">
         <h2 className={styles.sectionHeading}>9. Changes to This Disclosure</h2>
         <p className={styles.sectionText}>
           We may update this Risk Disclosure from time to time to reflect
@@ -195,7 +213,7 @@ export default function RiskDisclosurePage() {
         </p>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} id="contact-us">
         <h2 className={styles.sectionHeading}>10. Contact Us</h2>
         <p className={styles.sectionText}>
           If you have any questions about this Risk Disclosure, please contact
